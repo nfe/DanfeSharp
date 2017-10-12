@@ -56,7 +56,7 @@ namespace DanfeSharp.Modelo
                     nfe = (ProcNFe)serializer.Deserialize(reader);
                 }
 
-                return CreateFromXml(nfe);
+                return CreateFromProcNFe(nfe);
             }
             catch (System.InvalidOperationException e)
             {
@@ -114,7 +114,7 @@ namespace DanfeSharp.Modelo
             try
             {
                 nfe = (ProcNFe)serializer.Deserialize(reader);
-                return CreateFromXml(nfe);
+                return CreateFromProcNFe(nfe);
             }
             catch (System.InvalidOperationException e)
             {
@@ -180,7 +180,7 @@ namespace DanfeSharp.Modelo
             };
         }
 
-        public static DanfeViewModel CreateFromXml(ProcNFe procNfe)
+        public static DanfeViewModel CreateFromProcNFe(ProcNFe procNfe)
         {
             DanfeViewModel model = new DanfeViewModel();
 

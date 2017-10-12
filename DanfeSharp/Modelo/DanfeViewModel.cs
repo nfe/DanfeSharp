@@ -22,7 +22,7 @@ namespace DanfeSharp.Modelo
                 if (value >= 0 && value <= 2)
                     _QuantidadeCanhoto = value;
                 else
-                    throw new ArgumentOutOfRangeException("A quantidade de canhotos deve de 0 a 2.");
+                    throw new ArgumentOutOfRangeException("A quantidade de canhotos deve ser de 0 a 2.");
             }
         }
 
