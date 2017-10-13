@@ -31,10 +31,8 @@ namespace DanfeSharp
 
         private org.pdfclown.documents.contents.xObjects.XObject _LogoObject = null;
 
-        public Danfe(DanfeViewModel viewModel)
+        public Danfe()
         {
-            ViewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
-
             _Blocos = new List<BlocoBase>();
             File = new File();
             PdfDocument = File.Document;
@@ -48,25 +46,32 @@ namespace DanfeSharp
             EstiloPadrao = CriarEstilo();
 
             Paginas = new List<DanfePagina>();
-            Canhoto = CriarBloco<BlocoCanhoto>();
             IdentificacaoEmitente = AdicionarBloco<BlocoIdentificacaoEmitente>();  
             AdicionarBloco<BlocoDestinatarioRemetente>();
+           
 
-            if(ViewModel.Duplicatas.Count > 0)
+            _FoiGerado = false;
+        }
+        
+        public void Create(DanfeViewModel viewModel)
+        {
+            ViewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
+
+            if (ViewModel.Duplicatas.Count > 0)
                 AdicionarBloco<BlocoDuplicataFatura>();
 
             AdicionarBloco<BlocoCalculoImposto>(ViewModel.Orientacao == Orientacao.Paisagem ? EstiloPadrao : CriarEstilo(4.75F));
             AdicionarBloco<BlocoTransportador>();
             AdicionarBloco<BlocoDadosAdicionais>(CriarEstilo(tFonteCampoConteudo: 8));
 
-            if(ViewModel.CalculoIssqn.Mostrar)
+            if (ViewModel.CalculoIssqn.Mostrar)
                 AdicionarBloco<BlocoCalculoIssqn>();
 
-            AdicionarMetadata();
+            Canhoto = CriarBloco<BlocoCanhoto>();
 
-            _FoiGerado = false;
+            AdicionarMetadata();
         }
-        
+
         public void AdicionarLogoImagem(System.IO.Stream stream)
         {
             if (stream == null) throw new ArgumentNullException(nameof(stream));
@@ -105,6 +110,8 @@ namespace DanfeSharp
                 AdicionarLogoPdf(fs);
             }
         }
+
+        private static org.pdfclown.objects.PdfName pdfName = new org.pdfclown.objects.PdfName("ChaveAcesso");
 
         private void AdicionarMetadata()
         {
