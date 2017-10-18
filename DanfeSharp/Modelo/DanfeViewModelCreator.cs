@@ -193,11 +193,10 @@ namespace DanfeSharp.Modelo
                 throw new Exception("Somente o mod==55 está implementado.");
             }
 
-            if (ide.tpEmis != FormaEmissao.Normal)
+            if (ide.tpEmis != FormaEmissao.Normal && ide.tpEmis != FormaEmissao.ContingenciaDPEC)
             {
                 throw new Exception("Somente o tpEmis==1 está implementado.");
             }
-
 
             model.Orientacao = ide.tpImp == 1 ? Orientacao.Retrato : Orientacao.Paisagem;
 
@@ -211,6 +210,10 @@ namespace DanfeSharp.Modelo
             model.NaturezaOperacao = ide.natOp;
             model.ChaveAcesso = procNfe.NFe.infNFe.Id.Substring(3);
             model.TipoNF = (int)ide.tpNF;
+
+            model.TipoEmissao = (int)ide.tpEmis;
+            model.DataHoraContingencia = ide.dhCont;
+            model.MotivoContingencia = ide.xJust;
 
             model.Emitente = CreateEmpresaFrom(infNfe.emit);
             model.Destinatario = CreateEmpresaFrom(infNfe.dest);
@@ -237,7 +240,7 @@ namespace DanfeSharp.Modelo
                 produto.ValorUnitario = det.prod.vUnCom;
                 produto.ValorTotal = det.prod.vProd;
                 produto.InformacoesAdicionais = det.infAdProd;
-
+                
                 var imposto = det.imposto;
 
                 if (imposto != null)
@@ -332,7 +335,6 @@ namespace DanfeSharp.Modelo
                 transportadoraModel.PesoBruto = vol.pesoB;
                 transportadoraModel.PesoLiquido = vol.pesoL;
             }
-
 
             var infAdic = infNfe.infAdic;
             if (infAdic != null)
