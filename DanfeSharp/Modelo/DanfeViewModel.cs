@@ -283,7 +283,7 @@ namespace DanfeSharp.Modelo
             {
                 sb.Append("CONTINGÊNCIA DPEC");
 
-                sb.AppendChaveValor("Entrada em contingência", DataHoraContingencia.Value.ToString("yyyy-mm-ddThh:mm:sszzz")); // data hora
+                sb.AppendChaveValor("Entrada em contingência", DataHoraContingencia.Value.ToString("yyyy-MM-ddThh:mm:sszzz")); // data hora
 
                 sb.AppendChaveValor("Justificativa", MotivoContingencia); // just
             }
