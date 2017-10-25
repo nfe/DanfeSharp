@@ -25,6 +25,7 @@ namespace DanfeSharp.Modelo
             {
                 model.EnderecoLogadrouro = end.xLgr;
                 model.EnderecoNumero = end.nro;
+                model.EnderecoComplemento = end.xCpl;
                 model.EnderecoBairro = end.xBairro;
                 model.Municipio = end.xMun;
                 model.EnderecoUf = end.UF;

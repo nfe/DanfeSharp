@@ -2,6 +2,8 @@
 using System;
 using org.pdfclown.documents.contents.xObjects;
 using org.pdfclown.documents.contents.composition;
+using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace DanfeSharp.Graphics
 {
@@ -44,8 +46,19 @@ namespace DanfeSharp.Graphics
             PrimitiveComposer.SetFont(fonte.FonteInterna, fonte.Tamanho);
         }
 
+        // NFe.io!
+        public String ClearNonPrintableCharacters(String text)
+        {
+            var result = new string(text.Where(c =>
+                !((int)c < 31 || ((int)c >= 127 && (int)c <= 160))
+            ).ToArray());
+
+            return result;
+        }
+
         public void ShowText(String text, PointF point)
         {
+            text = ClearNonPrintableCharacters(text);
             CheckPoint(point);
             PrimitiveComposer.ShowText(text, point.ToPointMeasure());
         }
