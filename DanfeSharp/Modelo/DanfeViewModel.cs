@@ -128,12 +128,12 @@ namespace DanfeSharp.Modelo
         /// <summary>
         /// <para>Data e Hora da entrada em contingência - dhCont
         /// </summary>
-        public DateTimeOffset? DataHoraContingencia { get;set; }
+        public DateTimeOffset? DataHoraContingencia { get; set; }
 
         /// <summary>
         /// <para> Justificativa da entrada em contingência - xJust
         /// </summary>
-        public String MotivoContingencia { get;set; }
+        public String MotivoContingencia { get; set; }
 
         /// <summary>
         /// <para>Tipo Emissao
@@ -282,6 +282,24 @@ namespace DanfeSharp.Modelo
             if (TipoEmissao == 4)
             {
                 sb.Append("CONTINGÊNCIA DPEC");
+
+                sb.AppendChaveValor("Entrada em contingência", DataHoraContingencia.Value.ToString("yyyy-MM-ddThh:mm:sszzz")); // data hora
+
+                sb.AppendChaveValor("Justificativa", MotivoContingencia); // just
+            }
+            // 6 = Contingência SVC-AN
+            else if (TipoEmissao == 6)
+            {
+                sb.Append("CONTINGÊNCIA SVC-AN");
+
+                sb.AppendChaveValor("Entrada em contingência", DataHoraContingencia.Value.ToString("yyyy-MM-ddThh:mm:sszzz")); // data hora
+
+                sb.AppendChaveValor("Justificativa", MotivoContingencia); // just
+            }
+            // 7 = Contingência SVC-RS
+            else if (TipoEmissao == 7)
+            {
+                sb.Append("CONTINGÊNCIA SVC-RS");
 
                 sb.AppendChaveValor("Entrada em contingência", DataHoraContingencia.Value.ToString("yyyy-MM-ddThh:mm:sszzz")); // data hora
 
