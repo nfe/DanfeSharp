@@ -106,7 +106,6 @@ namespace DanfeSharp.Modelo
             }
         }
 
-
         private static DanfeViewModel CriarDeArquivoXmlInternal(TextReader reader)
         {
             ProcNFe nfe = null;
@@ -152,7 +151,6 @@ namespace DanfeSharp.Modelo
                 {
                     model.HoraSaidaEntrada = TimeSpan.Parse(ide.hSaiEnt);
                 }
-
             }
         }
 
@@ -194,7 +192,7 @@ namespace DanfeSharp.Modelo
                 throw new Exception("Somente o mod==55 está implementado.");
             }
 
-            if (ide.tpEmis != FormaEmissao.Normal && ide.tpEmis != FormaEmissao.ContingenciaDPEC && ide.tpEmis != FormaEmissao.ContingenciaSVCAN && ide.tpEmis != FormaEmissao.ContingenciaSVCRS)
+            if (ide.tpEmis != FormaEmissao.Normal && ide.tpEmis != FormaEmissao.ContingenciaDPEC && ide.tpEmis != FormaEmissao.ContingenciaFSDA && ide.tpEmis != FormaEmissao.ContingenciaSVCAN && ide.tpEmis != FormaEmissao.ContingenciaSVCRS)
             {
                 throw new Exception("Somente o tpEmis==1 está implementado.");
             }
@@ -352,6 +350,5 @@ namespace DanfeSharp.Modelo
 
             return model;
         }
-
     }
 }

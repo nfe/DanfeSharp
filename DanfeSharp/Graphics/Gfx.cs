@@ -138,7 +138,5 @@ namespace DanfeSharp.Graphics
         public void Flush() => PrimitiveComposer.Flush();
         public void Fill() => PrimitiveComposer.Fill();
         public void DrawRectangle(float x, float y, float w, float h) => DrawRectangle(new RectangleF(x, y, w, h));
-
-
     }
 }

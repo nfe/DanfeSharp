@@ -63,7 +63,6 @@ namespace DanfeSharp.Modelo
         /// </summary>
         public String ChaveAcesso { get; set; }
 
-
         /// <summary>
         /// <para>Descrição da Natureza da Operação</para>
         /// <para>Tag natOp</para>
@@ -171,7 +170,6 @@ namespace DanfeSharp.Modelo
         /// </summary>
         public CalculoIssqnViewModel CalculoIssqn { get; set; }
 
-
         /// <summary>
         /// Tipo de Ambiente
         /// </summary>
@@ -211,7 +209,6 @@ namespace DanfeSharp.Modelo
 
         #endregion
 
-
         #region Opções de exibição
 
         /// <summary>
@@ -244,9 +241,7 @@ namespace DanfeSharp.Modelo
             ExibirPisConfins = true;
         }
 
-
         public Boolean MostrarCalculoIssqn { get; set; }
-
 
         /// <summary>
         /// Substitui o ponto e vírgula (;) por uma quebra de linha.
@@ -282,30 +277,30 @@ namespace DanfeSharp.Modelo
             if (TipoEmissao == 4)
             {
                 sb.Append("CONTINGÊNCIA DPEC");
-
                 sb.AppendChaveValor("Entrada em contingência", DataHoraContingencia.Value.ToString("yyyy-MM-ddThh:mm:sszzz")); // data hora
-
+                sb.AppendChaveValor("Justificativa", MotivoContingencia); // just
+            }
+            // 5 = Contingência FSDA
+            if (TipoEmissao == 5)
+            {
+                sb.Append("CONTINGÊNCIA FSDA");
+                sb.AppendChaveValor("Entrada em contingência", DataHoraContingencia.Value.ToString("yyyy-MM-ddThh:mm:sszzz")); // data hora
                 sb.AppendChaveValor("Justificativa", MotivoContingencia); // just
             }
             // 6 = Contingência SVC-AN
             else if (TipoEmissao == 6)
             {
                 sb.Append("CONTINGÊNCIA SVC-AN");
-
                 sb.AppendChaveValor("Entrada em contingência", DataHoraContingencia.Value.ToString("yyyy-MM-ddThh:mm:sszzz")); // data hora
-
                 sb.AppendChaveValor("Justificativa", MotivoContingencia); // just
             }
             // 7 = Contingência SVC-RS
             else if (TipoEmissao == 7)
             {
                 sb.Append("CONTINGÊNCIA SVC-RS");
-
                 sb.AppendChaveValor("Entrada em contingência", DataHoraContingencia.Value.ToString("yyyy-MM-ddThh:mm:sszzz")); // data hora
-
                 sb.AppendChaveValor("Justificativa", MotivoContingencia); // just
             }
-
             return sb.ToString();
         }
 
@@ -335,13 +330,11 @@ namespace DanfeSharp.Modelo
             if (!String.IsNullOrEmpty(NotaEmpenho))
                 sb.AppendChaveValor("Nota de Empenho", NotaEmpenho);
 
-
             foreach (var nfref in NotasFiscaisReferenciadas)
             {
                 if (sb.Length > 0) sb.Append(" ");
                 sb.Append(nfref);
             }
-
 
             #region NT 2013.003 Lei da Transparência
 
@@ -355,12 +348,10 @@ namespace DanfeSharp.Modelo
 
             #endregion
 
-
             return sb.ToString();
         }
 
         public Boolean IsRetrato => Orientacao == Orientacao.Retrato;
         public Boolean IsPaisagem => Orientacao == Orientacao.Paisagem;
-
     }
 }
