@@ -85,7 +85,7 @@ namespace DanfeSharp.Modelo
         /// <returns>Modelo</returns>
         public static DanfeViewModel CriarDeArquivoXml(Stream stream)
         {
-            if (stream == null) throw new ArgumentNullException(nameof(stream));     
+            if (stream == null) throw new ArgumentNullException(nameof(stream));
 
             using (StreamReader sr = new StreamReader(stream, true))
             {
@@ -105,7 +105,6 @@ namespace DanfeSharp.Modelo
                 return CriarDeArquivoXmlInternal(sr);
             }
         }
-
 
         private static DanfeViewModel CriarDeArquivoXmlInternal(TextReader reader)
         {
@@ -152,7 +151,6 @@ namespace DanfeSharp.Modelo
                 {
                     model.HoraSaidaEntrada = TimeSpan.Parse(ide.hSaiEnt);
                 }
-
             }
         }
 
@@ -194,7 +192,7 @@ namespace DanfeSharp.Modelo
                 throw new Exception("Somente o mod==55 está implementado.");
             }
 
-            if (ide.tpEmis != FormaEmissao.Normal && ide.tpEmis != FormaEmissao.ContingenciaDPEC)
+            if (ide.tpEmis != FormaEmissao.Normal && ide.tpEmis != FormaEmissao.ContingenciaDPEC && ide.tpEmis != FormaEmissao.ContingenciaFSDA && ide.tpEmis != FormaEmissao.ContingenciaSVCAN && ide.tpEmis != FormaEmissao.ContingenciaSVCRS)
             {
                 throw new Exception("Somente o tpEmis==1 está implementado.");
             }
@@ -241,7 +239,7 @@ namespace DanfeSharp.Modelo
                 produto.ValorUnitario = det.prod.vUnCom;
                 produto.ValorTotal = det.prod.vProd;
                 produto.InformacoesAdicionais = det.infAdProd;
-                
+
                 var imposto = det.imposto;
 
                 if (imposto != null)
@@ -352,6 +350,5 @@ namespace DanfeSharp.Modelo
 
             return model;
         }
-
     }
 }
