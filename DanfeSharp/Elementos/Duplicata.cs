@@ -37,8 +37,10 @@ namespace DanfeSharp
 
         }
 
-        public override float Height {
+        public override float Height 
+        {
             get => 3*FonteB.AlturaLinha + Estilo.PaddingSuperior + Estilo.PaddingInferior;
-            set => throw new NotSupportedException(); }
+            set => throw new NotSupportedException();
+        }
     }
 }
