@@ -19,7 +19,6 @@
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="PdfClown.NetStandard" Version="0.2.0-beta" />
   </ItemGroup>

@@ -15,14 +15,15 @@ namespace DanfeSharp.Modelo
         /// <summary>
         /// Quantidade de canhotos a serem impressos.
         /// </summary>
-        public int QuantidadeCanhotos {
+        public int QuantidadeCanhotos
+        {
             get => _QuantidadeCanhoto;
             set
             {
                 if (value >= 0 && value <= 2)
                     _QuantidadeCanhoto = value;
                 else
-                    throw new ArgumentOutOfRangeException("A quantidade de canhotos deve de 0 a 2.");
+                    throw new ArgumentOutOfRangeException("A quantidade de canhotos deve ser de 0 a 2.");
             }
         }
 
@@ -61,7 +62,6 @@ namespace DanfeSharp.Modelo
         /// Chave de Acesso
         /// </summary>
         public String ChaveAcesso { get; set; }
-                    
 
         /// <summary>
         /// <para>Descrição da Natureza da Operação</para>
@@ -108,9 +108,34 @@ namespace DanfeSharp.Modelo
         /// Dados do Destinatário
         /// </summary>
         public EmpresaViewModel Destinatario { get; set; }
-        
+
         /// <summary>
-        /// <para>Tipo de Operação - 0-entrada / 1-saída</para>
+        /// <para>Tipo de Emissão da NF-e
+        /// 1=Emissão normal (não em contingência);
+        /// 2=Contingência FS-IA, com impressão do DANFE em formulário de segurança;
+        /// 3=Contingência SCAN(Sistema de Contingência do Ambiente Nacional);
+        /// 4=Contingência DPEC(Declaração Prévia da Emissão em Contingência);
+        /// 5=Contingência FS-DA, com impressão do DANFE em formulário de segurança;
+        /// 6=Contingência SVC-AN(SEFAZ Virtual de Contingência do AN);
+        /// 7=Contingência SVC-RS(SEFAZ Virtual de Contingência do RS);
+        /// 9=Contingência off-line da NFC-e (as demais opções de contingência são válidas também para a NFC-e).
+        // Para a NFC-e somente estão disponíveis e são válidas as opções de contingência 5 e 9.
+        /// <para>Tag tpNF</para>
+        /// </summary>
+        public int TipoEmissao { get; set; }
+
+        /// <summary>
+        /// <para>Data e Hora da entrada em contingência - dhCont
+        /// </summary>
+        public DateTimeOffset? DataHoraContingencia { get; set; }
+
+        /// <summary>
+        /// <para> Justificativa da entrada em contingência - xJust
+        /// </summary>
+        public String MotivoContingencia { get; set; }
+
+        /// <summary>
+        /// <para>Tipo Emissao
         /// <para>Tag tpNF</para>
         /// </summary>
         public int TipoNF { get; set; }
@@ -123,7 +148,7 @@ namespace DanfeSharp.Modelo
         /// <summary>
         /// Faturas da Nota Fiscal
         /// </summary>
-        public List<DuplicataViewModel> Duplicatas { get; set; }        
+        public List<DuplicataViewModel> Duplicatas { get; set; }
 
         /// <summary>
         /// Dados da Transportadora
@@ -184,7 +209,6 @@ namespace DanfeSharp.Modelo
 
         #endregion
 
-
         #region Opções de exibição
 
         /// <summary>
@@ -199,8 +223,8 @@ namespace DanfeSharp.Modelo
 
         #endregion
 
-        public DanfeViewModel ()
-	    {
+        public DanfeViewModel()
+        {
             QuantidadeCanhotos = 1;
             Margem = 4;
             Orientacao = Orientacao.Retrato;
@@ -217,18 +241,16 @@ namespace DanfeSharp.Modelo
             ExibirPisConfins = true;
         }
 
-        
         public Boolean MostrarCalculoIssqn { get; set; }
-    
-                
+
         /// <summary>
         /// Substitui o ponto e vírgula (;) por uma quebra de linha.
         /// </summary>
         private String BreakLines(String str)
         {
             return str == null ? String.Empty : str.Replace(';', '\n');
-        }   
-       
+        }
+
         public static DanfeViewModel CreateFromXmlFile(String path)
         {
             return DanfeViewModelCreator.CriarDeArquivoXml(path);
@@ -243,27 +265,62 @@ namespace DanfeSharp.Modelo
         {
             get
             {
-                return $"Recebemos de {Emitente.RazaoSocial} os produtos e/ou serviços constantes na Nota Fiscal Eletrônica indicada {(Orientacao == Orientacao.Retrato ? "abaixo" : "ao lado" )}. Emissão: {DataHoraEmissao.Formatar()} Valor Total: R$ {CalculoImposto.ValorTotalNota.Formatar()} Destinatário: {Destinatario.RazaoSocial}";
+                return $"Recebemos de {Emitente.RazaoSocial} os produtos e/ou serviços constantes na Nota Fiscal Eletrônica indicada {(Orientacao == Orientacao.Retrato ? "abaixo" : "ao lado")}. Emissão: {DataHoraEmissao.Formatar()} Valor Total: R$ {CalculoImposto.ValorTotalNota.Formatar()} Destinatário: {Destinatario.RazaoSocial}";
             }
+        }
+
+        public virtual String TextoReservadoFisco()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            // 4 = Contingência DPEC
+            if (TipoEmissao == 4)
+            {
+                sb.Append("CONTINGÊNCIA DPEC");
+                sb.AppendChaveValor("Entrada em contingência", DataHoraContingencia.Value.ToString("yyyy-MM-ddThh:mm:sszzz")); // data hora
+                sb.AppendChaveValor("Justificativa", MotivoContingencia); // just
+            }
+            // 5 = Contingência FSDA
+            if (TipoEmissao == 5)
+            {
+                sb.Append("CONTINGÊNCIA FSDA");
+                sb.AppendChaveValor("Entrada em contingência", DataHoraContingencia.Value.ToString("yyyy-MM-ddThh:mm:sszzz")); // data hora
+                sb.AppendChaveValor("Justificativa", MotivoContingencia); // just
+            }
+            // 6 = Contingência SVC-AN
+            else if (TipoEmissao == 6)
+            {
+                sb.Append("CONTINGÊNCIA SVC-AN");
+                sb.AppendChaveValor("Entrada em contingência", DataHoraContingencia.Value.ToString("yyyy-MM-ddThh:mm:sszzz")); // data hora
+                sb.AppendChaveValor("Justificativa", MotivoContingencia); // just
+            }
+            // 7 = Contingência SVC-RS
+            else if (TipoEmissao == 7)
+            {
+                sb.Append("CONTINGÊNCIA SVC-RS");
+                sb.AppendChaveValor("Entrada em contingência", DataHoraContingencia.Value.ToString("yyyy-MM-ddThh:mm:sszzz")); // data hora
+                sb.AppendChaveValor("Justificativa", MotivoContingencia); // just
+            }
+            return sb.ToString();
         }
 
         public virtual String TextoAdicional()
         {
             StringBuilder sb = new StringBuilder();
-           
+
             if (!String.IsNullOrEmpty(InformacoesComplementares))
                 sb.AppendChaveValor("Inf. Contribuinte", InformacoesComplementares).Replace(";", "\r\n");
 
             if (!String.IsNullOrEmpty(Destinatario.Email))
             {
                 // Adiciona um espaço após a virgula caso necessário, isso facilita a quebra de linha.
-                var destEmail = Regex.Replace(Destinatario.Email, @"(?<=\S)([,;])(?=\S)", "$1 ").Trim(new char[] {' ', ',', ';'});
+                var destEmail = Regex.Replace(Destinatario.Email, @"(?<=\S)([,;])(?=\S)", "$1 ").Trim(new char[] { ' ', ',', ';' });
                 sb.AppendChaveValor("Email do Destinatário", destEmail);
             }
 
             if (!String.IsNullOrEmpty(InformacoesAdicionaisFisco))
                 sb.AppendChaveValor("Inf. fisco", InformacoesAdicionaisFisco);
-            
+
             if (!String.IsNullOrEmpty(Pedido) && !Utils.StringContemChaveValor(InformacoesComplementares, "Pedido", Pedido))
                 sb.AppendChaveValor("Pedido", Pedido);
 
@@ -273,13 +330,11 @@ namespace DanfeSharp.Modelo
             if (!String.IsNullOrEmpty(NotaEmpenho))
                 sb.AppendChaveValor("Nota de Empenho", NotaEmpenho);
 
-
             foreach (var nfref in NotasFiscaisReferenciadas)
             {
                 if (sb.Length > 0) sb.Append(" ");
                 sb.Append(nfref);
             }
-
 
             #region NT 2013.003 Lei da Transparência
 
@@ -293,12 +348,10 @@ namespace DanfeSharp.Modelo
 
             #endregion
 
-
             return sb.ToString();
         }
 
         public Boolean IsRetrato => Orientacao == Orientacao.Retrato;
         public Boolean IsPaisagem => Orientacao == Orientacao.Paisagem;
-
     }
 }

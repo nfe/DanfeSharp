@@ -25,6 +25,7 @@ namespace DanfeSharp.Modelo
             {
                 model.EnderecoLogadrouro = end.xLgr;
                 model.EnderecoNumero = end.nro;
+                model.EnderecoComplemento = end.xCpl;
                 model.EnderecoBairro = end.xBairro;
                 model.Municipio = end.xMun;
                 model.EnderecoUf = end.UF;
@@ -56,7 +57,7 @@ namespace DanfeSharp.Modelo
                     nfe = (ProcNFe)serializer.Deserialize(reader);
                 }
 
-                return CreateFromXml(nfe);
+                return CreateFromProcNFe(nfe);
             }
             catch (System.InvalidOperationException e)
             {
@@ -84,7 +85,7 @@ namespace DanfeSharp.Modelo
         /// <returns>Modelo</returns>
         public static DanfeViewModel CriarDeArquivoXml(Stream stream)
         {
-            if (stream == null) throw new ArgumentNullException(nameof(stream));     
+            if (stream == null) throw new ArgumentNullException(nameof(stream));
 
             using (StreamReader sr = new StreamReader(stream, true))
             {
@@ -105,7 +106,6 @@ namespace DanfeSharp.Modelo
             }
         }
 
-
         private static DanfeViewModel CriarDeArquivoXmlInternal(TextReader reader)
         {
             ProcNFe nfe = null;
@@ -114,7 +114,7 @@ namespace DanfeSharp.Modelo
             try
             {
                 nfe = (ProcNFe)serializer.Deserialize(reader);
-                return CreateFromXml(nfe);
+                return CreateFromProcNFe(nfe);
             }
             catch (System.InvalidOperationException e)
             {
@@ -151,7 +151,6 @@ namespace DanfeSharp.Modelo
                 {
                     model.HoraSaidaEntrada = TimeSpan.Parse(ide.hSaiEnt);
                 }
-
             }
         }
 
@@ -180,7 +179,7 @@ namespace DanfeSharp.Modelo
             };
         }
 
-        public static DanfeViewModel CreateFromXml(ProcNFe procNfe)
+        public static DanfeViewModel CreateFromProcNFe(ProcNFe procNfe)
         {
             DanfeViewModel model = new DanfeViewModel();
 
@@ -193,11 +192,10 @@ namespace DanfeSharp.Modelo
                 throw new Exception("Somente o mod==55 está implementado.");
             }
 
-            if (ide.tpEmis != FormaEmissao.Normal)
+            if (ide.tpEmis != FormaEmissao.Normal && ide.tpEmis != FormaEmissao.ContingenciaDPEC && ide.tpEmis != FormaEmissao.ContingenciaFSDA && ide.tpEmis != FormaEmissao.ContingenciaSVCAN && ide.tpEmis != FormaEmissao.ContingenciaSVCRS)
             {
                 throw new Exception("Somente o tpEmis==1 está implementado.");
             }
-
 
             model.Orientacao = ide.tpImp == 1 ? Orientacao.Retrato : Orientacao.Paisagem;
 
@@ -211,6 +209,10 @@ namespace DanfeSharp.Modelo
             model.NaturezaOperacao = ide.natOp;
             model.ChaveAcesso = procNfe.NFe.infNFe.Id.Substring(3);
             model.TipoNF = (int)ide.tpNF;
+
+            model.TipoEmissao = (int)ide.tpEmis;
+            model.DataHoraContingencia = ide.dhCont;
+            model.MotivoContingencia = ide.xJust;
 
             model.Emitente = CreateEmpresaFrom(infNfe.emit);
             model.Destinatario = CreateEmpresaFrom(infNfe.dest);
@@ -333,7 +335,6 @@ namespace DanfeSharp.Modelo
                 transportadoraModel.PesoLiquido = vol.pesoL;
             }
 
-
             var infAdic = infNfe.infAdic;
             if (infAdic != null)
             {
@@ -349,6 +350,5 @@ namespace DanfeSharp.Modelo
 
             return model;
         }
-
     }
 }

@@ -1,4 +1,5 @@
-﻿using DanfeSharp.Modelo;
+﻿using DanfeSharp.Esquemas.NFe;
+using DanfeSharp.Modelo;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Drawing;
 using System.IO;

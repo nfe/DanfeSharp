@@ -760,6 +760,10 @@ namespace DanfeSharp.Esquemas.NFe
 
         public TAmb tpAmb { get; set; }
 
+        public DateTime? dhCont { get; set; }
+
+        public String xJust { get; set; }
+
         /// <summary>
         /// Grupo de informação das NF/NF-e referenciadas
         /// </summary>

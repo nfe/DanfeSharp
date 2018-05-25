@@ -145,7 +145,6 @@ namespace DanfeSharp
 
             PreencherNumeroFolhas();
             _FoiGerado = true;
-
         }
 
         private DanfePagina CriarPagina()
