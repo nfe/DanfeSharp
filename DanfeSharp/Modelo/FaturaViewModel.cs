@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DanfeSharp
 {
-    public class DuplicataViewModel
+    public class FaturaViewModel
     {
         /// <summary>
         /// <para>Número da Duplicata</para>
