@@ -39,9 +39,9 @@ namespace DanfeSharp
             PdfPage.Size = new SizeF(Retangulo.Width.ToPoint(), Retangulo.Height.ToPoint());    
         }
 
-        public void DesenharCreditos()
+        public void DesenharCreditos(string creditos)
         {
-            Gfx.DrawString("Gerado por NFE.io (http://nfe.io)", RetanguloCreditos, Danfe.EstiloPadrao.CriarFonteItalico(6), AlinhamentoHorizontal.Direita);
+            Gfx.DrawString(creditos, RetanguloCreditos, Danfe.EstiloPadrao.CriarFonteItalico(6), AlinhamentoHorizontal.Direita);
         }
 
         private void DesenharCanhoto()

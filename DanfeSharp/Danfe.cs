@@ -28,11 +28,16 @@ namespace DanfeSharp
         private StandardType1Font.FamilyEnum _FonteFamilia;
 
         private Boolean _FoiGerado;
+        private string _creditos;
+        private string _metadataCriador;
 
         private org.pdfclown.documents.contents.xObjects.XObject _LogoObject = null;
 
-        public Danfe(DanfeViewModel viewModel)
+        public Danfe(DanfeViewModel viewModel, string creditos = null, string metadataCriador = null)
         {
+            _creditos = creditos ?? "Impresso com DanfeSharp";
+            _metadataCriador = metadataCriador ?? String.Format("{0} {1} - {2}", "DanfeSharp", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version, "https://github.com/SilverCard/DanfeSharp");
+
             ViewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
 
             _Blocos = new List<BlocoBase>();
@@ -52,8 +57,10 @@ namespace DanfeSharp
             IdentificacaoEmitente = AdicionarBloco<BlocoIdentificacaoEmitente>();  
             AdicionarBloco<BlocoDestinatarioRemetente>();
 
-            if(ViewModel.Duplicatas.Count > 0)
-                AdicionarBloco<BlocoDuplicataFatura>();
+            if (ViewModel.Duplicatas.Count > 0)
+            {
+                AdicionarBloco<BlocoDuplicataFatura>();   
+            }
 
             AdicionarBloco<BlocoCalculoImposto>(ViewModel.Orientacao == Orientacao.Paisagem ? EstiloPadrao : CriarEstilo(4.75F));
             AdicionarBloco<BlocoTransportador>();
@@ -112,8 +119,8 @@ namespace DanfeSharp
             info[new org.pdfclown.objects.PdfName("ChaveAcesso")] = ViewModel.ChaveAcesso;
             info[new org.pdfclown.objects.PdfName("TipoDocumento")] = "DANFE";
             info.CreationDate = DateTime.Now;
-            info.Creator = String.Format("{0} {1} - {2}", "DanfeSharp", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version, "https://github.com/SilverCard/DanfeSharp");
             info.Title = "DANFE (Documento auxiliar da NFe)";
+            info.Creator = _metadataCriador;
         }
 
         private Estilo CriarEstilo(float tFonteCampoCabecalho = 6, float tFonteCampoConteudo = 10)
@@ -139,8 +146,8 @@ namespace DanfeSharp
                 p.Gfx.Stroke();
                 p.Gfx.Flush();
 
-                if (tabela.CompletamenteDesenhada) break;            
-
+                if (tabela.CompletamenteDesenhada) 
+                    break;            
             }
 
             PreencherNumeroFolhas();
@@ -150,16 +157,24 @@ namespace DanfeSharp
         private DanfePagina CriarPagina()
         {
             DanfePagina p = new DanfePagina(this);
+
             Paginas.Add(p);
+            
             p.DesenharBlocos(Paginas.Count == 1);
-            p.DesenharCreditos();
+
+            if (string.IsNullOrWhiteSpace(_creditos) == false)
+            {
+                p.DesenharCreditos(_creditos);
+            } 
 
             // Ambiente de homologação
             // 7. O DANFE emitido para representar NF-e cujo uso foi autorizado em ambiente de
             // homologação sempre deverá conter a frase “SEM VALOR FISCAL” no quadro “Informações
             // Complementares” ou em marca d’água destacada.
             if (ViewModel.TipoAmbiente == 2)
+            {
                 p.DesenharAvisoHomologacao();
+            }
 
             return p;
         }
