@@ -121,7 +121,7 @@ namespace DanfeSharp.Modelo
                 if (e.InnerException is XmlException)
                 {
                     XmlException ex = (XmlException)e.InnerException;
-                    throw new Exception(String.Format("Não foi possível interpretar o Xml. Linha {0} Posição {1}.", ex.LineNumber, ex.LinePosition));
+                    throw new XmlException(String.Format("Não foi possível interpretar o Xml. Linha {0} Posição {1}.", ex.LineNumber, ex.LinePosition), ex, ex.LineNumber, ex.LinePosition);
                 }
 
                 throw new XmlException("O Xml não parece ser uma NF-e processada.", e);
