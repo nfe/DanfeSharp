@@ -16,6 +16,7 @@ namespace DanfeSharp
         /// Cultura pt-BR
         /// </summary>
         public static readonly CultureInfo Cultura = new CultureInfo(1046);
+        private static TimeZoneInfo TimeZoneBrasilia = TimeZoneInfo.FindSystemTimeZoneById("E. South America Standard Time");
 
         static Formatador()
         {
@@ -217,12 +218,14 @@ namespace DanfeSharp
 
         public static String Formatar(this DateTime? dateTime)
         {
-            return dateTime.HasValue ? dateTime.Value.ToShortDateString() : String.Empty;
+            return dateTime.HasValue ? dateTime.Value.ToString("dd/MM/yyyy")/*  ToShortDateString()*/ : String.Empty;
         }
 
         public static String Formatar(this TimeSpan? timeSpan)
         {
-            return timeSpan.HasValue ? timeSpan.Value.ToString() : String.Empty;
+            return timeSpan.HasValue ? 
+                     timeSpan.Value.Add(TimeSpan.FromHours(TimeZoneBrasilia.BaseUtcOffset.Hours)).ToString()
+                    : String.Empty;
         }
     }
 }
