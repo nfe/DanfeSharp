@@ -636,7 +636,8 @@ namespace DanfeSharp.Esquemas.NFe
         }
 
         [XmlIgnore]
-        public Versao Versao
+        [SoapIgnore]
+        internal Versao Versao
         {
             get
             {
