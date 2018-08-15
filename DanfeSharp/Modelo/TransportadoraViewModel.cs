@@ -10,6 +10,8 @@ namespace DanfeSharp.Modelo
             {0, "Emitente"},
             {1, "Dest/Rem"},
             {2, "Terceiros"},
+            {3, "Prop/Rem"},
+            {4, "Prop/Dest"},
             {9, "Sem frete"}
         };
 

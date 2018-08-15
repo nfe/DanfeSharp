@@ -528,6 +528,12 @@ namespace DanfeSharp.Esquemas.NFe
         [XmlEnum("2")]
         PorContaTerceiros = 2,
 
+        [XmlEnum("3")]
+        PorProprioRemetente = 3,
+
+        [XmlEnum("4")]
+        PorProprioDestinatario = 4,
+
         [XmlEnum("9")]
         SemFrete = 9,
     }
