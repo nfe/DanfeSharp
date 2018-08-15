@@ -2,26 +2,18 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DanfeSharp</RootNamespace>
     <AssemblyName>DanfeSharp</AssemblyName>
-    <PackageId>DanfeSharp</PackageId>
-    <Description>Generate DANFE in PDF</Description>
-    <Description>DanfeSharp is a library to generate DANFE in PDF format using PDF Clown</Description>
-
-    <Version>3.0.0</Version>
-
-    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/SilverCard/DanfeSharp</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/SilverCard/DanfeSharp</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <PackageTags>danfe nfe</PackageTags>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <FileAlignment>512</FileAlignment>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <PackageReference Include="PdfClown.NetStandard" Version="0.2.0-beta" />
   </ItemGroup>
-
+  
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
 </Project>

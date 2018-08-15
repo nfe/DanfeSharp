@@ -10,6 +10,8 @@ namespace DanfeSharp.Modelo
 {
     public static class DanfeViewModelCreator
     {
+        private static XmlSerializer ProcNFeSerializer = new XmlSerializer(typeof(ProcNFe));
+        
         private static EmpresaViewModel CreateEmpresaFrom(Empresa empresa)
         {
             EmpresaViewModel model = new EmpresaViewModel();
@@ -48,18 +50,17 @@ namespace DanfeSharp.Modelo
         internal static DanfeViewModel CreateFromXmlString(String xml)
         {
             ProcNFe nfe = null;
-            XmlSerializer serializer = new XmlSerializer(typeof(ProcNFe));
 
             try
             {
-                using (TextReader reader = new StringReader(xml))
+                using (var reader = new StringReader(xml))
                 {
-                    nfe = (ProcNFe)serializer.Deserialize(reader);
+                    nfe = (ProcNFe)ProcNFeSerializer.Deserialize(reader);
                 }
 
                 return CreateFromProcNFe(nfe);
             }
-            catch (System.InvalidOperationException e)
+            catch (InvalidOperationException e)
             {
                 throw new Exception("Não foi possível interpretar o texto Xml.", e);
             }
@@ -72,7 +73,7 @@ namespace DanfeSharp.Modelo
         /// <returns></returns>
         public static DanfeViewModel CriarDeArquivoXml(String caminho)
         {
-            using (StreamReader sr = new StreamReader(caminho, true))
+            using (var sr = new StreamReader(caminho, true))
             {
                 return CriarDeArquivoXmlInternal(sr);
             }
@@ -87,7 +88,7 @@ namespace DanfeSharp.Modelo
         {
             if (stream == null) throw new ArgumentNullException(nameof(stream));
 
-            using (StreamReader sr = new StreamReader(stream, true))
+            using (var sr = new StreamReader(stream, true))
             {
                 return CriarDeArquivoXmlInternal(sr);
             }
@@ -109,19 +110,17 @@ namespace DanfeSharp.Modelo
         private static DanfeViewModel CriarDeArquivoXmlInternal(TextReader reader)
         {
             ProcNFe nfe = null;
-            XmlSerializer serializer = new XmlSerializer(typeof(ProcNFe));
 
             try
             {
-                nfe = (ProcNFe)serializer.Deserialize(reader);
+                nfe = (ProcNFe)ProcNFeSerializer.Deserialize(reader);
                 return CreateFromProcNFe(nfe);
             }
-            catch (System.InvalidOperationException e)
+            catch (InvalidOperationException e)
             {
-                if (e.InnerException is XmlException)
+                if (e.InnerException is XmlException ex)
                 {
-                    XmlException ex = (XmlException)e.InnerException;
-                    throw new XmlException(String.Format("Não foi possível interpretar o Xml. Linha {0} Posição {1}.", ex.LineNumber, ex.LinePosition), ex, ex.LineNumber, ex.LinePosition);
+                    throw new XmlException(String.Format("Não foi possível interpretar o Xml. Linha {0} Posição {1}.", ex.LineNumber, ex.LinePosition), e.InnerException, ex.LineNumber, ex.LinePosition);
                 }
 
                 throw new XmlException("O Xml não parece ser uma NF-e processada.", e);

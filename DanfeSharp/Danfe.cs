@@ -22,14 +22,14 @@ namespace DanfeSharp
 
         internal List<DanfePagina> Paginas { get; private set; }
 
-        private StandardType1Font _FonteRegular;
-        private StandardType1Font _FonteNegrito;
-        private StandardType1Font _FonteItalico;
-        private StandardType1Font.FamilyEnum _FonteFamilia;
+        private readonly StandardType1Font _FonteRegular;
+        private readonly StandardType1Font _FonteNegrito;
+        private readonly StandardType1Font _FonteItalico;
+        private readonly StandardType1Font.FamilyEnum _FonteFamilia;
 
         private Boolean _FoiGerado;
-        private string _creditos;
-        private string _metadataCriador;
+        private readonly string _creditos;
+        private readonly string _metadataCriador;
 
         private org.pdfclown.documents.contents.xObjects.XObject _LogoObject = null;
 
@@ -137,7 +137,7 @@ namespace DanfeSharp
                     
             while (true)
             {
-                DanfePagina p = CriarPagina();                   
+                DanfePagina p = CriarPagina();
                
                 tabela.SetPosition(p.RetanguloCorpo.Location);
                 tabela.SetSize(p.RetanguloCorpo.Size);
@@ -146,8 +146,8 @@ namespace DanfeSharp
                 p.Gfx.Stroke();
                 p.Gfx.Flush();
 
-                if (tabela.CompletamenteDesenhada) 
-                    break;            
+                if (tabela.CompletamenteDesenhada)
+                    break;
             }
 
             PreencherNumeroFolhas();
