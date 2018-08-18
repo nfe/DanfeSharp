@@ -16,7 +16,9 @@ namespace DanfeSharp
         /// Cultura pt-BR
         /// </summary>
         public static readonly CultureInfo Cultura = new CultureInfo(1046);
-        private static TimeZoneInfo TimeZoneBrasilia = TimeZoneInfo.FindSystemTimeZoneById("E. South America Standard Time");
+        private static TimeZoneInfo TimeZoneBrasilia = TimeZoneInfo.GetSystemTimeZones().Any(x => x.Id == "Eastern Standard Time") 
+                                                        ? TimeZoneInfo.FindSystemTimeZoneById("E. South America Standard Time")
+                                                        : TimeZoneInfo.FindSystemTimeZoneById("America/Sao_Paulo");
 
         static Formatador()
         {
