@@ -8,12 +8,12 @@
     <AssemblyName>DanfeSharp</AssemblyName>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="PdfClown.NetStandard" Version="0.2.0-beta" />
-  </ItemGroup>
   
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="PdfClown.NetStandard" Version="0.2.0-beta" />
   </ItemGroup>
 </Project>
