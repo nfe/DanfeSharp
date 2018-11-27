@@ -60,11 +60,6 @@ namespace DanfeSharp.Modelo
         public string EndConsulta { get; set; }
 
         /// <summary>
-        /// Identificação da Danfe NFC-e
-        /// </summary>
-        public string DanfeIdentificacao { get; set; }
-
-        /// <summary>
         /// <para>Número do Documento Fiscal</para>
         /// <para>Tag nNF</para>
         /// </summary>
