@@ -192,6 +192,11 @@ namespace DanfeSharp
             return number.ToString(formato, Cultura);
         }
 
+        public static String Formatar(this decimal number, String formato = FormatoMoeda)
+        {
+            return number.ToString(formato, Cultura);
+        }
+
         public static String Formatar(this int number, String formato = FormatoMoeda)
         {
             return number.ToString(formato, Cultura);
