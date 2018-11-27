@@ -15,5 +15,6 @@
   
   <ItemGroup>
     <PackageReference Include="PdfClown.NetStandard" Version="0.2.0-beta" />
+    <PackageReference Include="QRCoder" Version="1.3.5" />
   </ItemGroup>
 </Project>
