@@ -1,5 +1,6 @@
 ﻿using org.pdfclown.documents.contents.composition;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 
@@ -8,6 +9,24 @@ namespace DanfeSharp
     internal static class Extentions
     {
         private const float PointFactor = 72F / 25.4F;
+
+        private static Dictionary<string, string> forma = new Dictionary<string, string>
+        {
+            {"fpDinheiro", "Dinheiro" },
+            {"fpCheque", "Cheque" },
+            {"fpCartaoCredito", "Cartão de Crédito" },
+            {"fpCartaoDebito", "Cartão de Débito" },
+            {"fpCreditoLoja", "Crédito Loja" },
+            {"fpValeAlimentacao", "Vale Alimentação" },
+            {"fpValeRefeicao", "Vale Refeição" },
+            {"fpValePresente", "Vale Presente" },
+            {"fpValeCombustivel", "Vale Combustível" },
+            {"fpDuplicataMercantil", "Duplicata Mercantil" },
+            {"fpBoletoBancario", "Boleto Bancário" },
+            {"fpSemPagamento", "Sem pagamento" },
+            {"fpOutro", "Outros" },
+        };
+
 
         /// <summary>
         /// Converts Millimeters to Point
@@ -83,7 +102,7 @@ namespace DanfeSharp
         public static RectangleF CutLeft(this RectangleF r, float width) => new RectangleF(r.X + width, r.Y, r.Width - width, r.Height);
 
         public static PointF ToPointMeasure(this PointF r) => new PointF(r.X.ToPoint(), r.Y.ToPoint());
-        
+
         public static StringBuilder AppendChaveValor(this StringBuilder sb, String chave, String valor)
         {
             if (sb.Length > 0) sb.Append(' ');
@@ -120,7 +139,12 @@ namespace DanfeSharp
             throw new InvalidOperationException();
         }
 
+        public static string FormaPagamentoToString(this FormaPagamento value)
+        {
+            if (forma.TryGetValue(value.ToString(), out string result))
+                return result;
 
-
+            throw new InvalidOperationException();
+        }
     }
 }
