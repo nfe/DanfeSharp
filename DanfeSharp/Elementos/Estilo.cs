@@ -21,6 +21,7 @@ namespace DanfeSharp
         public Fonte FonteCampoCabecalho { get; private set; }
         public Fonte FonteCampoConteudo { get; private set; }
         public Fonte FonteCampoConteudoNegrito { get; private set; }
+        public Fonte FonteCampoTituloNegrito { get; private set; }
         public Fonte FonteBlocoCabecalho { get; private set; }
         public Fonte FonteNumeroFolhas { get; private set; }
 
@@ -37,6 +38,7 @@ namespace DanfeSharp
             FonteCampoCabecalho = CriarFonteRegular(tamanhoFonteCampoCabecalho);
             FonteCampoConteudo = CriarFonteRegular(tamanhoFonteConteudo);
             FonteCampoConteudoNegrito = CriarFonteNegrito(tamanhoFonteConteudo);
+            FonteCampoTituloNegrito = CriarFonteNegrito(11F);
             FonteBlocoCabecalho = CriarFonteRegular(7);
             FonteNumeroFolhas = CriarFonteNegrito(10F);
             FonteTamanhoMinimo = 5.75F;

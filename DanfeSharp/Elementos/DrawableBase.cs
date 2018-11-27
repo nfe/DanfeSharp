@@ -11,6 +11,7 @@ namespace DanfeSharp
     {
         public virtual float X { get; set; }
         public virtual float Y { get; set; }
+        public virtual float Y_NFC { get; set; }
 
         public virtual float Width { get; set; }
         public virtual float Height { get; set; }
@@ -37,12 +38,12 @@ namespace DanfeSharp
             Y = y;
         }
 
-        public virtual void SetPosition(PointF p) => SetPosition(p.X, p.Y); 
+        public virtual void SetPosition(PointF p) => SetPosition(p.X, p.Y);
 
         public virtual void SetSize(float w, float h)
         {
             Width = w;
-            if(Height != h)
+            if (Height != h)
                 Height = h;
         }
         public virtual void SetSize(SizeF s) => SetSize(s.Width, s.Height);
