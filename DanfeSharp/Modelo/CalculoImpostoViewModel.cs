@@ -104,5 +104,10 @@
         /// <para>Tag vTotTrib</para>
         /// </summary>
         public double? ValorAproximadoTributos { get; set; }
+
+        /// <summary>
+        /// <para>Quantidade total de produtos distintos</para>
+        /// </summary>
+        public decimal QuantidadeTotal { get; set; }
     }
 }

@@ -45,6 +45,26 @@ namespace DanfeSharp.Modelo
         }
 
         /// <summary>
+        ///  Grupo de Formas de Pagamento (pag)
+        /// </summary>
+        public List<PagamentoViewModel> Pagamento { get; set; }
+
+        /// <summary>
+        /// QrCode NFC-e
+        /// </summary>
+        public string QrCode { get; set; }
+
+        /// <summary>
+        /// Identificação da Danfe NFC-e
+        /// </summary>
+        public string EndConsulta { get; set; }
+
+        /// <summary>
+        /// Identificação da Danfe NFC-e
+        /// </summary>
+        public string DanfeIdentificacao { get; set; }
+
+        /// <summary>
         /// <para>Número do Documento Fiscal</para>
         /// <para>Tag nNF</para>
         /// </summary>
@@ -235,6 +255,7 @@ namespace DanfeSharp.Modelo
             Produtos = new List<ProdutoViewModel>();
             Transportadora = new TransportadoraViewModel();
             CalculoIssqn = new CalculoIssqnViewModel();
+            Pagamento = new List<PagamentoViewModel>();
             NotasFiscaisReferenciadas = new List<string>();
 
             ExibirIcmsInterestadual = true;
@@ -249,11 +270,6 @@ namespace DanfeSharp.Modelo
         private String BreakLines(String str)
         {
             return str == null ? String.Empty : str.Replace(';', '\n');
-        }
-
-        public static DanfeViewModel CreateFromXmlFile(String path)
-        {
-            return DanfeViewModelCreator.CriarDeArquivoXml(path);
         }
 
         public static DanfeViewModel CreateFromXmlString(String xml)
