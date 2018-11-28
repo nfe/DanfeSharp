@@ -29,9 +29,6 @@ namespace DanfeSharp.Blocos.NFC
                 primitiveComposer.SetFont(estilo.FonteCampoTituloNegrito.FonteInterna, estilo.FonteCampoTituloNegrito.Tamanho);
                 primitiveComposer.ShowText($"Valor Aproximado dos tributos: {viewModel.CalculoImposto.ValorAproximadoTributos.Formatar()}", new PointF(140, y + 180), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
             }
-
-            primitiveComposer.SetFont(estilo.FonteCampoTituloNegrito.FonteInterna, estilo.FonteCampoTituloNegrito.Tamanho);
-            primitiveComposer.ShowText($"Valor Aproximado dos tributos: {"10.000,00"}", new PointF(140, y + 180), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
         }
     }
 }
