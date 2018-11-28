@@ -99,6 +99,21 @@ namespace DanfeSharp.Modelo
         }
 
         /// <summary>
+        /// Cria o modelo a partir de um arquivo xml contido num stream.
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <returns>Modelo</returns>
+        public static DanfeViewModel CriarModeloNFCeDeArquivoXml(Stream stream)
+        {
+            if (stream == null) throw new ArgumentNullException(nameof(stream));
+
+            using (var sr = new StreamReader(stream, true))
+            {
+                return CriarDeArquivoXmlInternal(sr);
+            }
+        }
+
+        /// <summary>
         /// Cria o modelo a partir de um arquivo xml.
         /// </summary>
         /// <param name="caminho"></param>
@@ -241,7 +256,7 @@ namespace DanfeSharp.Modelo
 
             if (ide.mod != 65)
             {
-                throw new Exception("Somente o mod==55 está implementado.");
+                throw new Exception("Modelo da nota difere de 65");
             }
 
             if (ide.tpEmis != FormaEmissao.Normal && ide.tpEmis != FormaEmissao.ContingenciaDPEC && ide.tpEmis != FormaEmissao.ContingenciaFSDA && ide.tpEmis != FormaEmissao.ContingenciaSVCAN && ide.tpEmis != FormaEmissao.ContingenciaSVCRS)
@@ -291,12 +306,6 @@ namespace DanfeSharp.Modelo
                 OutrasDespesas = infNfe.total.ICMSTot.vOutro,
                 Desconto = infNfe.total.ICMSTot.vDesc,
                 ValorTotalNota = infNfe.total.ICMSTot.vNF,
-
-                // Formas de pagamentos
-                /// dinheiro, cheque etc
-                // Valor do pagamento
-                /// valor pago
-
             };
 
             foreach (var pag in infNfe.pag)
@@ -321,13 +330,18 @@ namespace DanfeSharp.Modelo
             // Divisão 5 - Área de Mensagem Fiscal (BlocoInformacaoFiscal)
             model.TipoAmbiente = (int)ide.tpAmb;
 
-
             // Divisão 6 - Informações de Identificação da NFC-e e do Protocolo de Autorização
             model.NfNumero = ide.nNF;
             model.NfSerie = ide.serie;
             model.DataHoraEmissao = ide.dhEmi.GetValueOrDefault().DateTimeOffsetValue.DateTime;
+
             // consultar os sites para consultar nfce --> http://nfce.encat.org/consulte-sua-nota-qr-code-versao-2-0/ 
-            model.EndConsulta = "www.consulta.nfce";
+            if (ide.tpAmb == TAmb.Producao)
+                model.EndConsulta = infNfe?.emit?.Endereco?.UF.UrlNFCeProduction();
+            else if (ide.tpAmb == TAmb.Homologacao)
+            {
+                model.EndConsulta = infNfe?.emit?.Endereco?.UF.UrlNFCeTest();
+            }
 
             // dividir a chave de acesso em 11 blocos com espaço em cada bloco 999 999 999 999 999 999 999 999 999 999 999
             model.ChaveAcesso = procNfe.NFe.infNFe.Id.Substring(3);
