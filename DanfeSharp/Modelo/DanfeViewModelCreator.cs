@@ -344,7 +344,7 @@ namespace DanfeSharp.Modelo
             }
 
             // dividir a chave de acesso em 11 blocos com espaço em cada bloco 999 999 999 999 999 999 999 999 999 999 999
-            model.ChaveAcesso = procNfe.NFe.infNFe.Id.Substring(3);
+            model.ChaveAcesso = procNfe.NFe.infNFe.Id.Substring(3).SpaceOnAccessKey();
 
             model.ProtocoloAutorizacao = String.Format(Formatador.Cultura, "{0}  {1}", procNfe.protNFe.infProt.nProt, procNfe.protNFe.infProt.dhRecbto.DateTimeOffsetValue.DateTime);
 

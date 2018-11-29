@@ -147,6 +147,24 @@ namespace DanfeSharp
             throw new InvalidOperationException();
         }
 
+        public static string SpaceOnAccessKey(this string current)
+        {
+            if (!string.IsNullOrWhiteSpace(current))
+            {
+                var modified = string.Empty;
+                for (int i = 0; i < current.Length; i++)
+                {
+                    if (i != 0 && i % 4 == 0)
+                        modified += " ";
+
+                    modified += current[i];
+                }
+                return modified;
+            }
+
+            return null;
+        }
+
         public static string UrlNFCeProduction(this string state)
         {
             var stateDictionary = new Dictionary<string, string>
