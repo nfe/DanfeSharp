@@ -109,7 +109,7 @@ namespace DanfeSharp.Modelo
 
             using (var sr = new StreamReader(stream, true))
             {
-                return CriarDeArquivoXmlInternal(sr);
+                return CriarModeloNFCeDeArquivoXmlInternal(sr);
             }
         }
 
