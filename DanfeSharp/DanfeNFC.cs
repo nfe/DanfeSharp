@@ -40,11 +40,11 @@ namespace DanfeSharp
             PdfDocument = File.Document;
 
             if (viewModel.Produtos.Count <= 20)
-                _size = new SizeF(280, viewModel.Produtos.Count * 15 + 600);
+                _size = new SizeF(280, viewModel.Produtos.Count * 17 + 600);
             else if (viewModel.Produtos.Count <= 40)
-                _size = new SizeF(280, viewModel.Produtos.Count * 13.5F + 600);
+                _size = new SizeF(280, viewModel.Produtos.Count * 14 + 600);
             else if (viewModel.Produtos.Count <= 75)
-                _size = new SizeF(280, viewModel.Produtos.Count * 11.5F + 600);
+                _size = new SizeF(280, viewModel.Produtos.Count * 12 + 600);
             else if (viewModel.Produtos.Count <= 150)
                 _size = new SizeF(280, viewModel.Produtos.Count * 11 + 600);
             else if (viewModel.Produtos.Count <= 250)
