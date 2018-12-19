@@ -98,7 +98,6 @@
         /// </summary>
         public double ValorTotalNota { get; set; }
 
-
         /// <summary>
         /// <para>Valor aproximado total de tributos federais, estaduais e municipais (NT 2013.003)</para>
         /// <para>Tag vTotTrib</para>

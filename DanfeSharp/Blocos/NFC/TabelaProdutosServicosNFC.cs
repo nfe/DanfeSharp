@@ -10,7 +10,7 @@ namespace DanfeSharp.Blocos.NFC
         {
             if (y == 40)
                 Y_NFC = 100;
-            if(y == 50)
+            if (y == 50)
                 Y_NFC = 100 + 10;
 
             primitiveComposer.BeginLocalState();
@@ -40,7 +40,12 @@ namespace DanfeSharp.Blocos.NFC
                 Y_NFC = Y_NFC + 10;
                 primitiveComposer.SetFont(estilo.FonteCampoConteudo.FonteInterna, estilo.FonteCampoConteudo.Tamanho);
                 primitiveComposer.ShowText(produto.Codigo, new PointF(40, Y_NFC), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
-                primitiveComposer.ShowText(produto.Descricao.Substring(0, 10), new PointF(80, Y_NFC), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
+
+                if (produto.Descricao.Length >= 10)
+                    primitiveComposer.ShowText(produto.Descricao.Substring(0, 10), new PointF(80, Y_NFC), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
+                else
+                    primitiveComposer.ShowText(produto.Descricao, new PointF(80, Y_NFC), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
+
                 primitiveComposer.ShowText(produto.Quantidade.Formatar(), new PointF(120, Y_NFC), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
                 primitiveComposer.ShowText(produto.Unidade, new PointF(160, Y_NFC), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
                 primitiveComposer.ShowText(produto.ValorUnitario.Formatar(), new PointF(200, Y_NFC), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
