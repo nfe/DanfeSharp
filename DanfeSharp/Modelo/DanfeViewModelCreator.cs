@@ -290,8 +290,6 @@ namespace DanfeSharp.Modelo
                 produto.Quantidade = det.prod.qCom;
                 produto.ValorUnitario = det.prod.vUnCom;
                 produto.ValorTotal = det.prod.vProd;
-                // valor aproximado dos tributos Lei 12.741/2012
-                produto.ValorAproximadoTributos = !string.IsNullOrWhiteSpace(det.prod.vUnTrib) ? (double?)Double.Parse(det.prod.vUnTrib) : null;
 
                 model.Produtos.Add(produto);
             }
@@ -372,6 +370,10 @@ namespace DanfeSharp.Modelo
             model.QrCode = nfe.infNFeSupl.qrCode;
 
             // Divisão 9 - Mensagem de Interesse do Contribuinte
+            model.CalculoImposto.ValorAproximadoTributos = infNfe.total.ICMSTot.vICMS + infNfe.total.ICMSTot.vST + infNfe.total.ICMSTot.vII + infNfe.total.ICMSTot.vIPI + infNfe.total.ICMSTot.vPIS + infNfe.total.ICMSTot.vCOFINS;
+
+            model.CalculoImposto.ValorAproximadoTributosEstaduais = infNfe.total.ICMSTot.vICMS + infNfe.total.ICMSTot.vST;
+            model.CalculoImposto.ValorAproximadoTributosFederais = infNfe.total.ICMSTot.vII + infNfe.total.ICMSTot.vIPI + infNfe.total.ICMSTot.vPIS + infNfe.total.ICMSTot.vCOFINS;
 
             return model;
         }

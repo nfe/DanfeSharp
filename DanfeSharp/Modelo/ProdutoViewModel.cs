@@ -94,12 +94,6 @@ namespace DanfeSharp.Modelo
         /// </summary>
         public double? AliquotaIpi { get; set; }
 
-        /// <summary>
-        /// <para>Valor aproximado total de tributos federais, estaduais e municipais. [NT2013.003]</para>
-        /// <para>Tag vTotTrib</para>
-        /// </summary>
-        public double? ValorAproximadoTributos { get; set; }
-
         public ProdutoViewModel()
         {
             AliquotaIpi = null;

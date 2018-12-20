@@ -25,9 +25,12 @@ namespace DanfeSharp.Blocos.NFC
             primitiveComposer.ShowXObject(imageXObject, new PointF(140, y + 20), new SizeF(150, 150), XAlignmentEnum.Center, YAlignmentEnum.Top, 0);
 
             if (viewModel.CalculoImposto.ValorAproximadoTributos > 0)
+            // valor aproximado dos tributos 
             {
                 primitiveComposer.SetFont(estilo.FonteCampoTituloNegrito.FonteInterna, estilo.FonteCampoTituloNegrito.Tamanho);
-                primitiveComposer.ShowText($"Valor Aproximado dos tributos: {viewModel.CalculoImposto.ValorAproximadoTributos.Formatar()}", new PointF(140, y + 180), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
+                primitiveComposer.ShowText($"Valor Aproximado dos tributos Lei 12.741/2012: {viewModel.CalculoImposto.ValorAproximadoTributos.Formatar()}", new PointF(140, y + 180), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
+                primitiveComposer.ShowText($"Valor Aproximado dos tributos Federais: {viewModel.CalculoImposto.ValorAproximadoTributosFederais.Formatar()}", new PointF(140, y + 190), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
+                primitiveComposer.ShowText($"Valor Aproximado dos tributos Estaduais: {viewModel.CalculoImposto.ValorAproximadoTributosEstaduais.Formatar()}", new PointF(140, y + 200), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
             }
         }
     }

@@ -104,6 +104,10 @@
         /// </summary>
         public double? ValorAproximadoTributos { get; set; }
 
+        public double? ValorAproximadoTributosFederais { get; set; }
+        public double? ValorAproximadoTributosEstaduais{ get; set; }
+
+
         /// <summary>
         /// <para>Quantidade total de produtos distintos</para>
         /// </summary>
