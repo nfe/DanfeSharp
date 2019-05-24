@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="PdfClown.NetStandard" Version="0.2.0-beta" />
+    <PackageReference Include="PDFClown.NET" Version="2.0.0" />
   </ItemGroup>
   
   <ItemGroup>
