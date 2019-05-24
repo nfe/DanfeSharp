@@ -408,9 +408,9 @@ namespace DanfeSharp.Modelo
             model.ChaveAcesso = procNfe.NFe.infNFe.Id.Substring(3);
             model.TipoNF = (int)ide.tpNF;
 
-            model.TipoEmissao = (int)ide.tpEmis;
-            model.DataHoraContingencia = ide.dhCont;
-            model.MotivoContingencia = ide.xJust;
+            model.TipoEmissao = ide.tpEmis;
+            model.ContingenciaDataHora = ide.dhCont;
+            model.ContingenciaJustificativa = ide.xJust;
 
             model.Emitente = CreateEmpresaFrom(infNfe.emit);
             model.Destinatario = CreateEmpresaFrom(infNfe.dest);
@@ -545,6 +545,14 @@ namespace DanfeSharp.Modelo
             model.ProtocoloAutorizacao = String.Format(Formatador.Cultura, "{0} - {1}", infoProto.nProt, infoProto.dhRecbto.DateTimeOffsetValue.DateTime);
 
             ExtrairDatas(model, infNfe);
+
+            // Contingência SVC-AN e SVC-RS
+            if (model.TipoEmissao == FormaEmissao.ContingenciaSVCAN || model.TipoEmissao == FormaEmissao.ContingenciaSVCRS)
+            {
+
+                model.ContingenciaDataHora = ide.dhCont;
+                model.ContingenciaJustificativa = ide.xJust;
+            }
 
             return model;
         }

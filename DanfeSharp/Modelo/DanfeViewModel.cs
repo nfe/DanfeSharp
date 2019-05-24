@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DanfeSharp.Esquemas.NFe;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -137,17 +138,17 @@ namespace DanfeSharp.Modelo
         // Para a NFC-e somente estão disponíveis e são válidas as opções de contingência 5 e 9.
         /// <para>Tag tpNF</para>
         /// </summary>
-        public int TipoEmissao { get; set; }
+        public FormaEmissao TipoEmissao { get; set; }
 
         /// <summary>
         /// <para>Data e Hora da entrada em contingência - dhCont
         /// </summary>
-        public DateTimeOffset? DataHoraContingencia { get; set; }
+        public DateTimeOffset? ContingenciaDataHora { get; set; }
 
         /// <summary>
         /// <para> Justificativa da entrada em contingência - xJust
         /// </summary>
-        public String MotivoContingencia { get; set; }
+        public String ContingenciaJustificativa { get; set; }
 
         /// <summary>
         /// <para>Tipo Emissao
@@ -280,37 +281,68 @@ namespace DanfeSharp.Modelo
             }
         }
 
+        public virtual String TextoAdicionalFisco()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            if (TipoEmissao == FormaEmissao.ContingenciaSVCAN || TipoEmissao == FormaEmissao.ContingenciaSVCRS)
+            {
+                sb.Append("Contingência ");
+
+                if (TipoEmissao == FormaEmissao.ContingenciaSVCAN)
+                    sb.Append("SVC-AN");
+
+                if (TipoEmissao == FormaEmissao.ContingenciaSVCRS)
+                    sb.Append("SVC-RS");
+
+                if (ContingenciaDataHora.HasValue)
+                {
+                    sb.Append($" - {ContingenciaDataHora.Value.ToString("yyyy-MM-ddThh:mm:sszzz")}");
+                }
+
+                if (!String.IsNullOrWhiteSpace(ContingenciaJustificativa))
+                {
+                    sb.Append($" - {ContingenciaJustificativa}");
+                }
+
+                sb.Append(".");
+
+            }
+
+            return sb.ToString();
+        }
+
         public virtual String TextoReservadoFisco()
         {
             StringBuilder sb = new StringBuilder();
 
             // 4 = Contingência DPEC
-            if (TipoEmissao == 4)
+            if (TipoEmissao == FormaEmissao.ContingenciaDPEC)
             {
                 sb.Append("CONTINGÊNCIA DPEC");
-                sb.AppendChaveValor("Entrada em contingência", DataHoraContingencia.Value.ToString("yyyy-MM-ddThh:mm:sszzz")); // data hora
-                sb.AppendChaveValor("Justificativa", MotivoContingencia); // just
+                sb.AppendChaveValor("Entrada em contingência", ContingenciaDataHora.Value.ToString("yyyy-MM-ddThh:mm:sszzz")); // data hora
+                sb.AppendChaveValor("Justificativa", ContingenciaJustificativa); // just
             }
             // 5 = Contingência FSDA
-            if (TipoEmissao == 5)
+            if (TipoEmissao == FormaEmissao.ContingenciaFSDA)
             {
                 sb.Append("CONTINGÊNCIA FSDA");
-                sb.AppendChaveValor("Entrada em contingência", DataHoraContingencia.Value.ToString("yyyy-MM-ddThh:mm:sszzz")); // data hora
-                sb.AppendChaveValor("Justificativa", MotivoContingencia); // just
+                sb.AppendChaveValor("Entrada em contingência", ContingenciaDataHora.Value.ToString("yyyy-MM-ddThh:mm:sszzz")); // data hora
+                sb.AppendChaveValor("Justificativa", ContingenciaJustificativa); // just
             }
             // 6 = Contingência SVC-AN
-            else if (TipoEmissao == 6)
+            else if (TipoEmissao == FormaEmissao.ContingenciaSVCAN)
             {
                 sb.Append("CONTINGÊNCIA SVC-AN");
-                sb.AppendChaveValor("Entrada em contingência", DataHoraContingencia.Value.ToString("yyyy-MM-ddThh:mm:sszzz")); // data hora
-                sb.AppendChaveValor("Justificativa", MotivoContingencia); // just
+                sb.AppendChaveValor("Entrada em contingência", ContingenciaDataHora.Value.ToString("yyyy-MM-ddThh:mm:sszzz")); // data hora
+                sb.AppendChaveValor("Justificativa", ContingenciaJustificativa); // just
             }
             // 7 = Contingência SVC-RS
-            else if (TipoEmissao == 7)
+            else if (TipoEmissao == FormaEmissao.ContingenciaSVCRS)
             {
                 sb.Append("CONTINGÊNCIA SVC-RS");
-                sb.AppendChaveValor("Entrada em contingência", DataHoraContingencia.Value.ToString("yyyy-MM-ddThh:mm:sszzz")); // data hora
-                sb.AppendChaveValor("Justificativa", MotivoContingencia); // just
+                sb.AppendChaveValor("Entrada em contingência", ContingenciaDataHora.Value.ToString("yyyy-MM-ddThh:mm:sszzz")); // data hora
+                sb.AppendChaveValor("Justificativa", ContingenciaJustificativa); // just
             }
             return sb.ToString();
         }
