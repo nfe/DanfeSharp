@@ -8,12 +8,12 @@
     <AssemblyName>DanfeSharp</AssemblyName>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
-
+  
   <ItemGroup>
     <PackageReference Include="PDFClown.NET" Version="2.0.0" />
   </ItemGroup>
   
   <ItemGroup>
-    <None Include="packages.config" />
+    <PackageReference Include="QRCoder" Version="1.3.5" />
   </ItemGroup>
 </Project>

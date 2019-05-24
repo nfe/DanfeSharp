@@ -28,7 +28,6 @@ namespace DanfeSharp.Modelo
         /// </summary>
         public String Ncm { get; set; }
 
-
         /// <summary>
         /// <para>Origem da mercadoria + Tributação do ICMS</para>
         /// <para>Tag orig e CST</para>
@@ -117,7 +116,7 @@ namespace DanfeSharp.Modelo
                 {
                     descriCaoCompleta += "\r\n" + InformacoesAdicionais;
                 }
-                
+
                 return descriCaoCompleta;
             }
         }

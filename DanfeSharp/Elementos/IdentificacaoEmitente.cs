@@ -69,8 +69,6 @@ namespace DanfeSharp
             ts.AlinhamentoHorizontal = AlinhamentoHorizontal.Centro;
             ts.AlinhamentoVertical = AlinhamentoVertical.Centro;
             ts.Draw(gfx);
-
-
         }
     }
 }

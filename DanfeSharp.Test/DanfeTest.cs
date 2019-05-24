@@ -1,20 +1,37 @@
-﻿using DanfeSharp.Esquemas.NFe;
-using DanfeSharp.Modelo;
+﻿using DanfeSharp.Modelo;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Drawing;
 using System.IO;
 
 namespace DanfeSharp.Test
 {
     [TestClass]
     public class DanfeTest
-    {      
+    {
+
+        [TestMethod]
+        public void GerarDanfeNFCXml()
+        {
+            string pasta = @"Z:\NFe";
+            string caminhoOut = @"Z:\NFe\DanfesDeXml";
+
+            if (!Directory.Exists(caminhoOut)) Directory.CreateDirectory(caminhoOut);
+
+            foreach (var pathXml in Directory.EnumerateFiles(pasta, "*.xml"))
+            {
+                var model = DanfeViewModelCreator.CriarModeloNFCeDeArquivoXml(pathXml);
+                using (var danfe = new DanfeNFC(viewModel: model))
+                {
+                    danfe.Gerar();
+                    danfe.Salvar($"{caminhoOut}/{model.ChaveAcesso}.pdf");
+                }
+            }
+        }
 
         [TestMethod]
         public void GerarDanfeXml()
         {
-            string pasta = @"D:\NFe";
-            string caminhoOut = "DanfesDeXml";
+            string pasta = @"Z:\NFe";
+            string caminhoOut = @"Z:\NFe\DanfesDeXml";
 
             if (!Directory.Exists(caminhoOut)) Directory.CreateDirectory(caminhoOut);
 
@@ -123,7 +140,7 @@ namespace DanfeSharp.Test
         {
             var model = FabricaFake.DanfeViewModel_1();
             model.Orientacao = Orientacao.Retrato;
-            DanfeSharp.Danfe d = new DanfeSharp.Danfe(model);       
+            DanfeSharp.Danfe d = new DanfeSharp.Danfe(model);
             d.Gerar();
             d.SalvarTestPdf();
         }

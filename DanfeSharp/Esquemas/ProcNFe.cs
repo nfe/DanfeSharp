@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Xml;
+using System.Xml.Schema;
 using System.Xml.Serialization;
 
 namespace DanfeSharp.Esquemas.NFe
@@ -19,7 +21,6 @@ namespace DanfeSharp.Esquemas.NFe
         [XmlAttribute]
         public string versao;
     }
-
 
     /// <summary>
     /// Identificação do Ambiente
@@ -42,7 +43,6 @@ namespace DanfeSharp.Esquemas.NFe
     [XmlType(AnonymousType = true, Namespace = Namespaces.NFe)]
     public partial class InfProt
     {
-
         /// <summary>
         /// Identificação do Ambiente
         /// </summary>
@@ -61,7 +61,6 @@ namespace DanfeSharp.Esquemas.NFe
         public string Id;
     }
 
-
     /// <summary>
     /// Tipo Protocolo de status resultado do processamento da NF-e<
     /// </summary>
@@ -75,21 +74,22 @@ namespace DanfeSharp.Esquemas.NFe
         public string versao;
     }
 
-
-
     [Serializable]
-    [XmlType(Namespace = Namespaces.NFe)]
+    [XmlRoot(Namespace = Namespaces.NFe, IsNullable = false)]
     public partial class NFe
     {
         public InfNFe infNFe;
-    }
 
+        /// <summary>
+        /// ZX01 - Informações suplementares da Nota Fiscal
+        /// </summary>
+        public infNFeSupl infNFeSupl;
+    }
 
     [Serializable]
     [XmlType(Namespace = Namespaces.NFe)]
     public partial class Endereco
     {
-
         public string xLgr;
         public string nro;
         public string xCpl;
@@ -108,9 +108,7 @@ namespace DanfeSharp.Esquemas.NFe
         public string xNome;
         public string IE;
         public string IEST;
-
         public string email;
-
         [XmlIgnore]
         public Endereco Endereco;
     }
@@ -139,7 +137,6 @@ namespace DanfeSharp.Esquemas.NFe
     [XmlType(AnonymousType = true, Namespace = Namespaces.NFe)]
     public partial class Emitente : Empresa
     {
-
         public string xFant;
         public string IM;
         public string CNAE;
@@ -161,7 +158,6 @@ namespace DanfeSharp.Esquemas.NFe
         /// </summary>
         public String CRT { get; set; }
     }
-
 
     /// <summary>
     /// Dados dos produtos e serviços da NF-e
@@ -192,7 +188,6 @@ namespace DanfeSharp.Esquemas.NFe
         public string nItemPed;
         public string nFCI;
     }
-
 
     [Serializable]
     [XmlTypeAttribute(AnonymousType = true, Namespace = Namespaces.NFe)]
@@ -228,7 +223,6 @@ namespace DanfeSharp.Esquemas.NFe
     [XmlType(AnonymousType = true, Namespace = Namespaces.NFe)]
     public partial class ProdutoICMS
     {
-
         [XmlElement("ICMS00", typeof(ImpostoICMS00))]
         [XmlElement("ICMS10", typeof(ImpostoICMS10))]
         [XmlElement("ICMS20", typeof(ImpostoICMS20))]
@@ -249,12 +243,10 @@ namespace DanfeSharp.Esquemas.NFe
         public ImpostoICMS ICMS;
     }
 
-
     [Serializable]
     [XmlType(AnonymousType = true, Namespace = Namespaces.NFe)]
     public partial class ProdutoIPI
     {
-
         public string clEnq;
         public string CNPJProd;
         public string cSelo;
@@ -267,7 +259,6 @@ namespace DanfeSharp.Esquemas.NFe
     [XmlType(AnonymousType = true, Namespace = Namespaces.NFe)]
     public partial class IPITrib
     {
-
         public string CST;
         public double? pIPI;
         public double? qUnid;
@@ -295,26 +286,78 @@ namespace DanfeSharp.Esquemas.NFe
     [XmlType(AnonymousType = true, Namespace = Namespaces.NFe)]
     public class Detalhe
     {
-
         public Produto prod;      
         public ProdutoImposto imposto;
         public string infAdProd;
-
         [XmlAttribute]
         public string nItem;
     }
-    
+
+    /// <summary>
+    /// Grupo de Formas de Pagamento
+    /// </summary>
+    [Serializable]
+    [XmlType(AnonymousType = true, Namespace = Namespaces.NFe)]
+    public class pag
+    {
+        /// <summary>
+        /// YA01a - Grupo Detalhamento da Forma de Pagamento
+        /// VERSÃO 4.00
+        /// </summary>
+        [XmlElement("detPag")]
+        public List<detPag> detPag { get; set; }
+
+        /// <summary>
+        /// Valor do troco (vTroco)
+        /// VERSÃO 4.00
+        /// </summary>
+        public decimal? vTroco { get; set; }
+    }
+
+    public class detPag
+    {
+        public IndicadorPagamentoDetalhePagamento? indPag { get; set; }
+        /// <summary>
+        /// YA02 - Forma de pagamento
+        /// </summary>
+        public FormaPagamento tPag { get; set; }
+
+        public decimal vPag { get; set; }
+
+        public card card { get; set; }
+    }
+
+    public class card
+    {
+        /// <summary>
+        ///     YA04a - Tipo de Integração para pagamento
+        /// </summary>
+        public TipoIntegracaoPagamento? tpIntegra { get; set; }
+
+        /// <summary>
+        ///     YA05 - CNPJ da Credenciadora de cartão de crédito e/ou débito
+        /// </summary>
+        public string CNPJ { get; set; }
+
+        /// <summary>
+        ///     YA06 - Bandeira da operadora de cartão de crédito e/ou débito
+        /// </summary>
+        public BandeiraCartao? tBand { get; set; }
+
+        /// <summary>
+        ///     YA07 - Número de autorização da operação cartão de crédito e/ou débito
+        /// </summary>
+        public string cAut { get; set; }
+    }
 
     [Serializable]
     [XmlType(AnonymousType = true, Namespace = Namespaces.NFe)]
     public partial class Duplicata
     {
-
         public string nDup;
         public DateTime? dVenc;
         public Double? vDup;
     }
-
 
     [Serializable]
     [XmlType(AnonymousType = true, Namespace = Namespaces.NFe)]
@@ -325,8 +368,6 @@ namespace DanfeSharp.Esquemas.NFe
         public string vDesc;
         public string vLiq;
     }
-
-
 
     [Serializable]
     [XmlType(AnonymousType = true, Namespace = Namespaces.NFe)]
@@ -343,31 +384,23 @@ namespace DanfeSharp.Esquemas.NFe
         }
     }
 
-
     [Serializable]
     [XmlType(AnonymousType = true, Namespace = Namespaces.NFe)]
     public partial class ObsCont
     {
-
         public string xTexto;
-
         [XmlAttribute]
         public string xCampo;
     }
-
-
 
     [Serializable]
     [XmlType(AnonymousType = true, Namespace = Namespaces.NFe)]
     public partial class ObsFisco
     {
-
         public string xTexto;
-
         [XmlAttribute]
         public string xCampo;
     }
-
 
     /// <summary>
     /// Informações adicionais da NF-e
@@ -376,7 +409,6 @@ namespace DanfeSharp.Esquemas.NFe
     [XmlType(AnonymousType = true, Namespace = Namespaces.NFe)]
     public partial class InfAdic
     {
-
         public string infAdFisco;
         public string infCpl;
 
@@ -391,9 +423,7 @@ namespace DanfeSharp.Esquemas.NFe
             obsCont = new List<ObsCont>();
             obsFisco = new List<ObsFisco>();
         }
-
     }
-
 
     /// <summary>
     /// Grupo de Valores Totais referentes ao ICMS
@@ -487,7 +517,6 @@ namespace DanfeSharp.Esquemas.NFe
         /// </summary>
         public Double vNF;
 
-
         public Double? vTotTrib;
     }
 
@@ -498,7 +527,6 @@ namespace DanfeSharp.Esquemas.NFe
     [XmlType(AnonymousType = true, Namespace = Namespaces.NFe)]
     public partial class ISSQNTotal
     {
-
         public Double? vServ;
         public Double? vBC;
         public Double? vISS;
@@ -506,16 +534,13 @@ namespace DanfeSharp.Esquemas.NFe
         public Double? vCOFINS;
     }
 
-
     [Serializable]
     [XmlType(AnonymousType = true, Namespace = Namespaces.NFe)]
     public partial class Total
     {
-
         public ICMSTotal ICMSTot;
         public ISSQNTotal ISSQNtot;
     }
-
 
     /// <summary>
     /// Modalidade do frete
@@ -524,26 +549,19 @@ namespace DanfeSharp.Esquemas.NFe
     [XmlType(AnonymousType = true, Namespace = Namespaces.NFe)]
     public enum ModalidadeFrete
     {
-
         [XmlEnum("0")]
         PorContaRemetente = 0,
-
         [XmlEnum("1")]
         PorContaDestinatario = 1,
-
         [XmlEnum("2")]
         PorContaTerceiros = 2,
-
         [XmlEnum("3")]
         ProprioContaRemetente = 3,
-
         [XmlEnum("4")]
         ProprioContaDestinatario = 4,
-
         [XmlEnum("9")]
         SemTransporte = 9,
     }
-
 
     /// <summary>
     /// Dados do transportador
@@ -552,7 +570,6 @@ namespace DanfeSharp.Esquemas.NFe
     [XmlType(AnonymousType = true, Namespace = Namespaces.NFe)]
     public partial class Transportador
     {
-
         public string CNPJ;
         public string CPF;
         public string xNome;
@@ -560,27 +577,21 @@ namespace DanfeSharp.Esquemas.NFe
         public string xEnder;
         public string xMun;
         public String UF;
-
     }
-
 
     [Serializable]
     [XmlType(Namespace = Namespaces.NFe)]
     public partial class Veiculo
     {
-
         public string placa;
         public String UF;
         public string RNTC;
     }
 
-
-
     [Serializable]
     [XmlType(AnonymousType = true, Namespace = Namespaces.NFe)]
     public partial class Volume
     {
-
         public Double? qVol;
         public string esp;
         public string marca;
@@ -589,12 +600,10 @@ namespace DanfeSharp.Esquemas.NFe
         public Double? pesoB;
     }
 
-
     [Serializable]
     [XmlType(AnonymousType = true, Namespace = Namespaces.NFe)]
     public partial class Transporte
     {
-
         public ModalidadeFrete modFrete;
         public Transportador transporta;
 
@@ -613,20 +622,79 @@ namespace DanfeSharp.Esquemas.NFe
         }
     }
 
+    [Serializable]
+    [XmlType(AnonymousType = true, Namespace = Namespaces.NFe)]
+    public class infNFeSupl
+    {
+        /// <summary>
+        /// ZX02 - Texto com o QR-Code impresso no DANFE NFC-e
+        /// O atributo qrCode deve ser serializado como CDATA, conforme NT2015.002, V141, regra ZX02-22
+        /// </summary>
+        [XmlElement("qrCode")]
+        public string qrCode { get; set; }
 
+        /// <summary>
+        /// ZX03 - Texto com a URL de consulta por chave de acesso a ser imrpessa no DANFE NFC-e
+        /// VERSÃO 4.00
+        /// </summary>
+        [XmlElement("urlChave")]
+        public string urlChave { get; set; }
+
+        public XmlSchema GetSchema()
+        {
+            return null;
+        }
+
+        public void ReadXml(XmlReader reader)
+        {
+            reader.ReadStartElement(typeof(infNFeSupl).Name);
+
+            reader.ReadStartElement("qrCode");
+            qrCode = reader.ReadString();
+            reader.ReadEndElement();
+
+            if (reader.IsStartElement("urlChave"))
+            {
+                reader.ReadStartElement("urlChave");
+                urlChave = reader.ReadString();
+                reader.ReadEndElement();
+            }
+
+            reader.ReadEndElement();
+        }
+
+        public void WriteXml(XmlWriter writer)
+        {
+            writer.WriteStartElement("qrCode");
+            writer.WriteCData(qrCode);
+            writer.WriteEndElement();
+
+            if (urlChave == null) return;
+
+            writer.WriteStartElement("urlChave");
+            writer.WriteString(urlChave);
+            writer.WriteEndElement();
+        }
+    }
 
     [Serializable]
     [XmlType(AnonymousType = true, Namespace = Namespaces.NFe)]
     public partial class InfNFe
     {
-
         public Identificacao ide;
         public Emitente emit;
         public Destinatario dest;
 
         [XmlElement("det")]
         public List<Detalhe> det { get; set; }
-     
+
+        /// <summary>
+        ///     YA01 - Grupo de Formas de Pagamento
+        ///     <para>Ocorrência: 0-100</para>
+        /// </summary>
+        [XmlElement("pag")]
+        public List<pag> pag { get; set; }
+
         public Total total;
         public Transporte transp;
         public Cobranca cobr;
@@ -664,7 +732,6 @@ namespace DanfeSharp.Esquemas.NFe
     [XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.portalfiscal.inf.br/nfe")]
     public partial class InfCompra
     {
-
         /// <summary>
         /// Nota de Empenho
         /// </summary>
@@ -688,28 +755,20 @@ namespace DanfeSharp.Esquemas.NFe
     [XmlType(AnonymousType = true, Namespace = "http://www.portalfiscal.inf.br/nfe")]
     public enum FormaEmissao
     {
-
         [XmlEnum("1")]
         Normal = 1,
-
         [XmlEnum("2")]
         ContingenciaFS = 2,
-
         [XmlEnum("3")]
         ContingenciaSCAN = 3,
-
         [XmlEnum("4")]
         ContingenciaDPEC = 4,
-
         [XmlEnum("5")]
         ContingenciaFSDA = 5,
-
         [XmlEnum("6")]
         ContingenciaSVCAN = 6,
-
         [XmlEnum("7")]
         ContingenciaSVCRS = 7,
-
         [XmlEnum("9")]
         ContingenciaOffLineNFCe = 9,
     }
@@ -718,7 +777,6 @@ namespace DanfeSharp.Esquemas.NFe
     [XmlType(AnonymousType = true, Namespace = Namespaces.NFe)]
     public partial class Identificacao
     {
-
         public string natOp { get; set; }
 
         /// <summary>
@@ -789,8 +847,6 @@ namespace DanfeSharp.Esquemas.NFe
         }
     }
 
-   
-
     /// <summary>
     /// Tipo do Documento Fiscal
     /// </summary>
@@ -803,5 +859,108 @@ namespace DanfeSharp.Esquemas.NFe
         Entrada = 0,
         [XmlEnum("1")]
         Saida = 1,
+    }
+
+    /// <summary>
+    ///     <para>01=Dinheiro</para>
+    ///     <para>02=Cheque</para>
+    ///     <para>03=Cartão de Crédito</para>
+    ///     <para>04=Cartão de Débito</para>
+    ///     <para>05=Crédito Loja</para>
+    ///     <para>10=Vale Alimentação</para>
+    ///     <para>11=Vale Refeição</para>
+    ///     <para>12=Vale Presente</para>
+    ///     <para>13=Vale Combustível</para>
+    ///     <para>14=Duplicata Mercantil (versão 4.00)</para>
+    ///     <para>15=Boleto Bancário (versão 4.00)</para>
+    ///     <para>90=Sem pagamento (versão 4.00)</para>
+    ///     <para>99=Outros</para>
+    /// </summary>
+    public enum FormaPagamento
+    {
+        [Description("Dinheiro")] [XmlEnum("01")] fpDinheiro,
+
+        [Description("Cheque")] [XmlEnum("02")] fpCheque,
+
+        [Description("Cartão de Crédito")] [XmlEnum("03")] fpCartaoCredito,
+
+        [Description("Cartão de Débito")] [XmlEnum("04")] fpCartaoDebito,
+
+        [Description("Crédito Loja")] [XmlEnum("05")] fpCreditoLoja,
+
+        [Description("Vale Alimentação")] [XmlEnum("10")] fpValeAlimentacao,
+
+        [Description("Vale Refeição")] [XmlEnum("11")] fpValeRefeicao,
+
+        [Description("Vale Presente")] [XmlEnum("12")] fpValePresente,
+
+        [Description("Vale Combustível")] [XmlEnum("13")] fpValeCombustivel,
+
+        /// <summary>
+        /// Foi excluido pela NT 2016. 002 v1.50
+        /// Continuara aqui pois a mesma alguém já pode ter utilizado
+        /// Foi excluido pela NT 2016. 002 v1.50, Continua pois a mesma pode ter sido utilizada já
+        /// </summary>
+        [Description("Duplicata Mercantil")] [XmlEnum("14")] fpDuplicataMercantil, // VERSÃO 4.00
+
+        [Description("Boleto Bancário")] [XmlEnum("15")] fpBoletoBancario, // VERSÃO 4.00
+
+        [Description("Sem pagamento")] [XmlEnum("90")] fpSemPagamento, // VERSÃO 4.00
+
+        [Description("Outros")] [XmlEnum("99")] fpOutro
+    }
+
+    /// <summary>
+    ///     <para>01=Visa</para>
+    ///     <para>02=Mastercard</para>
+    ///     <para>03=American Express</para>
+    ///     <para>04=Sorocred</para>
+    ///     <para>05=Diners Club (versão 4.00)</para>
+    ///     <para>06=Elo (versão 4.00)</para>
+    ///     <para>07=Hipercard (versão 4.00)</para>
+    ///     <para>08=Aura (versão 4.00)</para>
+    ///     <para>09=Cabal (versão 4.00)</para>
+    ///     <para>99=Outros</para>
+    /// </summary>
+    public enum BandeiraCartao
+    {
+        [Description("Visa")] [XmlEnum("01")] bcVisa,
+
+        [Description("Mastercard")] [XmlEnum("02")] bcMasterCard,
+
+        [Description("American Express")] [XmlEnum("03")] bcAmericanExpress,
+
+        [Description("Sorocred")] [XmlEnum("04")] bcSorocred,
+
+        [Description("Diners Club")] [XmlEnum("05")] bcDinersClub,
+
+        [Description("Elo")] [XmlEnum("06")] Elo,
+
+        [Description("Hipercard")] [XmlEnum("07")] Hipercard,
+
+        [Description("Aura")] [XmlEnum("08")] Aura,
+
+        [Description("Cabal")] [XmlEnum("09")] Cabal,
+
+        [Description("Outros")] [XmlEnum("99")] bcOutros
+    }
+
+    /// <summary>
+    ///     <para>1=Pagamento integrado com o sistema de automação da empresa(Ex.: equipamento TEF, Comércio Eletrônico);</para>
+    ///     <para>Pagamento não integrado com o sistema de automação da empresa(Ex.: equipamento POS);</para>
+    /// </summary>
+    public enum TipoIntegracaoPagamento
+    {
+        [XmlEnum("1")]
+        TipIntegradoAutomacao = 1,
+
+        [XmlEnum("2")]
+        TipNaoIntegrado = 2
+    }
+
+    public enum IndicadorPagamentoDetalhePagamento
+    {
+        [XmlEnum("0")] ipDetPgVista = 0,
+        [XmlEnum("1")] ipDetPgPrazo = 1,
     }
 }

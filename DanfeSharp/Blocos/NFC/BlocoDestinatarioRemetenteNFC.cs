@@ -1,0 +1,71 @@
+﻿using DanfeSharp.Modelo;
+using org.pdfclown.documents.contents.composition;
+using System.Drawing;
+
+namespace DanfeSharp.Blocos.NFC
+{
+    internal class BlocoDestinatarioRemetenteNFC : BlocoBase
+    {
+        public BlocoDestinatarioRemetenteNFC(DanfeViewModel viewModel, Estilo estilo, PrimitiveComposer primitiveComposer, float y) : base(viewModel, estilo)
+        {
+            primitiveComposer.BeginLocalState();
+            primitiveComposer.SetFont(estilo.FonteCampoConteudo.FonteInterna, estilo.FonteCampoConteudo.Tamanho);
+
+            if (viewModel.Destinatario != null && !string.IsNullOrWhiteSpace(viewModel?.Destinatario?.CnpjCpf))
+            {
+                var dest = viewModel?.Destinatario;
+
+                primitiveComposer.ShowText("CONSUMIDOR", new PointF(140, y + 10), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
+
+                if (!string.IsNullOrWhiteSpace(dest.RazaoSocial))
+                {
+                    if (dest.RazaoSocial.Length > 30)
+                    {
+                        primitiveComposer.ShowText(dest.RazaoSocial.Substring(0, 30), new PointF(140, y + 20), XAlignmentEnum.Center, YAlignmentEnum.Top, 0);
+                        primitiveComposer.ShowText(dest.RazaoSocial.Substring(30), new PointF(140, y + 30), XAlignmentEnum.Center, YAlignmentEnum.Top, 0);
+
+                        y = y + 10;
+                    }
+                    else
+                    {
+                        primitiveComposer.ShowText($"NOME: {dest.RazaoSocial}", new PointF(140, y + 20), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
+                    }
+                }
+
+                primitiveComposer.ShowText($"CNPJ/CPF: {dest.CnpjCpf}", new PointF(140, y + 30), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
+
+
+                if (!string.IsNullOrWhiteSpace(dest.EnderecoLogadrouro) &&
+                   !string.IsNullOrWhiteSpace(dest.EnderecoNumero) &&
+                   !string.IsNullOrWhiteSpace(dest.EnderecoBairro) &&
+                   !string.IsNullOrWhiteSpace(dest.Municipio))
+                {
+                    primitiveComposer.ShowText($"{dest.EnderecoLogadrouro}, {dest.EnderecoNumero}, {dest.EnderecoBairro}, {dest.Municipio} - {dest.EnderecoUf}", new PointF(140, y + 40), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
+                }
+
+                Y_NFC = y + 50;
+
+                primitiveComposer.DrawLine(new PointF(15, Y_NFC), new PointF(265, Y_NFC));
+                primitiveComposer.SetLineDash(new org.pdfclown.documents.contents.LineDash(new double[] { 3, 2 }));
+
+                primitiveComposer.Stroke();
+                primitiveComposer.End();
+            }
+            else
+            {
+                primitiveComposer.ShowText("CONSUMIDOR NÃO IDENTIFICADO", new PointF(140, y + 10), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
+
+                Y_NFC = y + 20;
+
+                primitiveComposer.DrawLine(new PointF(15, Y_NFC), new PointF(265, Y_NFC));
+                primitiveComposer.SetLineDash(new org.pdfclown.documents.contents.LineDash(new double[] { 3, 2 }));
+
+                primitiveComposer.Stroke();
+                primitiveComposer.End();
+            }
+        }
+
+        public override string Cabecalho => "Destinatário / Remetente";
+        public override PosicaoBloco Posicao => PosicaoBloco.Topo;
+    }
+}

@@ -1,8 +1,7 @@
-﻿using System.Drawing;
-using System;
+﻿using org.pdfclown.documents.contents.composition;
 using org.pdfclown.documents.contents.xObjects;
-using org.pdfclown.documents.contents.composition;
-using System.Text.RegularExpressions;
+using System;
+using System.Drawing;
 using System.Linq;
 
 namespace DanfeSharp.Graphics

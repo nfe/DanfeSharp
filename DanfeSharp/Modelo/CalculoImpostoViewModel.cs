@@ -98,11 +98,19 @@
         /// </summary>
         public double ValorTotalNota { get; set; }
 
-
         /// <summary>
         /// <para>Valor aproximado total de tributos federais, estaduais e municipais (NT 2013.003)</para>
         /// <para>Tag vTotTrib</para>
         /// </summary>
         public double? ValorAproximadoTributos { get; set; }
+
+        public double? ValorAproximadoTributosFederais { get; set; }
+        public double? ValorAproximadoTributosEstaduais{ get; set; }
+
+
+        /// <summary>
+        /// <para>Quantidade total de produtos distintos</para>
+        /// </summary>
+        public decimal QuantidadeTotal { get; set; }
     }
 }

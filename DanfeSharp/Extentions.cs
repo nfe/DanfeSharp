@@ -1,5 +1,6 @@
 ﻿using org.pdfclown.documents.contents.composition;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 
@@ -8,6 +9,24 @@ namespace DanfeSharp
     internal static class Extentions
     {
         private const float PointFactor = 72F / 25.4F;
+
+        private static Dictionary<string, string> forma = new Dictionary<string, string>
+        {
+            {"fpDinheiro", "Dinheiro" },
+            {"fpCheque", "Cheque" },
+            {"fpCartaoCredito", "Cartão de Crédito" },
+            {"fpCartaoDebito", "Cartão de Débito" },
+            {"fpCreditoLoja", "Crédito Loja" },
+            {"fpValeAlimentacao", "Vale Alimentação" },
+            {"fpValeRefeicao", "Vale Refeição" },
+            {"fpValePresente", "Vale Presente" },
+            {"fpValeCombustivel", "Vale Combustível" },
+            {"fpDuplicataMercantil", "Duplicata Mercantil" },
+            {"fpBoletoBancario", "Boleto Bancário" },
+            {"fpSemPagamento", "Sem pagamento" },
+            {"fpOutro", "Outros" },
+        };
+
 
         /// <summary>
         /// Converts Millimeters to Point
@@ -83,7 +102,7 @@ namespace DanfeSharp
         public static RectangleF CutLeft(this RectangleF r, float width) => new RectangleF(r.X + width, r.Y, r.Width - width, r.Height);
 
         public static PointF ToPointMeasure(this PointF r) => new PointF(r.X.ToPoint(), r.Y.ToPoint());
-        
+
         public static StringBuilder AppendChaveValor(this StringBuilder sb, String chave, String valor)
         {
             if (sb.Length > 0) sb.Append(' ');
@@ -120,7 +139,102 @@ namespace DanfeSharp
             throw new InvalidOperationException();
         }
 
+        public static string FormaPagamentoToString(this FormaPagamento value)
+        {
+            if (forma.TryGetValue(value.ToString(), out string result))
+                return result;
 
+            throw new InvalidOperationException();
+        }
 
+        public static string SpaceOnAccessKey(this string current)
+        {
+            if (!string.IsNullOrWhiteSpace(current))
+            {
+                var modified = string.Empty;
+                for (int i = 0; i < current.Length; i++)
+                {
+                    if (i != 0 && i % 4 == 0)
+                        modified += " ";
+
+                    modified += current[i];
+                }
+                return modified;
+            }
+
+            return null;
+        }
+
+        public static string UrlNFCeProduction(this string state)
+        {
+            var stateDictionary = new Dictionary<string, string>
+            {
+                {"AC", "www.sefaznet.ac.gov.br/nfce/consulta"},
+                {"AL", "www.sefaz.al.gov.br/nfce/consulta"},
+                {"AP", "www.sefaz.ap.gov.br/nfce/consulta" },
+                {"AM", "www.sefaz.am.gov.br/nfce/consulta"},
+                {"BA", "www.sefaz.ba.gov.br/nfce/consulta"},
+                {"CE", "www.sefaz.ce.gov.br/nfce/consulta"},
+                {"DF", "www.fazenda.df.gov.br/nfce/consulta"},
+                {"ES", "www.sefaz.es.gov.br/nfce/consulta"},
+                {"GO", "www.sefaz.go.gov.br/nfce/consulta"},
+                {"MA", "www.sefaz.ma.gov.br/nfce/consulta"},
+                {"MG", "www.fazenda.mg.gov.br/nfce/consulta"},
+                {"MT", "www.sefaz.mt.gov.br/nfce/consultanfce"},
+                {"MS", "www.dfe.ms.gov.br/nfce/consulta"},
+                {"PA", "www.sefa.pa.gov.br/nfce/consulta"},
+                {"PB", "www.receita.pb.gov.br/nfce/consulta"},
+                {"PR", "www.fazenda.pr.gov.br/nfce/consulta"},
+                {"PE", "nfce.sefaz.pe.gov.br/nfce/consulta"},
+                {"PI", "www.sefaz.pi.gov.br/nfce/consulta"},
+                {"RJ", "www.fazenda.rj.gov.br/nfce/consulta"},
+                {"RN", "www.set.rn.gov.br/nfce/consulta"},
+                {"RS", "www.sefaz.rs.gov.br/nfce/consulta"},
+                {"RO", "www.sefin.ro.gov.br/nfce/consulta"},
+                {"RR", "www.sefaz.rr.gov.br/nfce/consulta"},
+                {"SP", "www.nfce.fazenda.sp.gov.br/consulta"},
+                {"SE", "www.nfce.se.gov.br/nfce/consulta"},
+                {"TO", "www.sefaz.to.gov.br/nfce/consulta"},
+                {"SC", ""}
+            }.TryGetValue(state, out string value);
+
+            return value;
+        }
+
+        public static string UrlNFCeTest(this string state)
+        {
+            var stateDictionary = new Dictionary<string, string>
+            {
+                {"AC", "www.sefaznet.ac.gov.br/nfce/consulta"},
+                {"AL", "www.sefaz.al.gov.br/nfce/consulta"},
+                {"AP", "www.sefaz.ap.gov.br/nfce/consulta" },
+                {"AM", "www.sefaz.am.gov.br/nfce/consulta"},
+                {"BA", "hinternet.sefaz.ba.gov.br/nfce/consulta"},
+                {"CE", "www.sefaz.ce.gov.br/nfce/consulta"},
+                {"DF", "www.fazenda.df.gov.br/nfce/consulta"},
+                {"ES", "www.sefaz.es.gov.br/nfce/consulta"},
+                {"GO", "www.sefaz.go.gov.br/nfce/consulta"},
+                {"MA", "www.sefaz.ma.gov.br/nfce/consulta"},
+                {"MG", "www.fazenda.mg.gov.br/nfce/consulta"},
+                {"MT", "homologacao.sefaz.mt.gov.br/nfce/consultanfce"},
+                {"MS", "www.dfe.ms.gov.br/nfce/consulta"},
+                {"PA", "www.sefa.pa.gov.br/nfce/consulta"},
+                {"PB", "www.receita.pb.gov.br/nfcehom"},
+                {"PR", "www.fazenda.pr.gov.br/nfce/consulta"},
+                {"PE", "nfce.sefaz.pe.gov.br/nfce/consulta"},
+                {"PI", "www.sefaz.pi.gov.br/nfce/consulta"},
+                {"RJ", "www.fazenda.rj.gov.br/nfce/consulta"},
+                {"RN", "www.set.rn.gov.br/nfce/consulta"},
+                {"RS", "www.sefaz.rs.gov.br/nfce/consulta"},
+                {"RO", "www.sefin.ro.gov.br/nfce/consulta"},
+                {"RR", "www.sefaz.rr.gov.br/nfce/consulta"},
+                {"SP", "www.homologacao.nfce.fazenda.sp.gov.br/consulta"},
+                {"SE", "www.hom.nfe.se.gov.br/nfce/consulta"},
+                {"TO", "www.sefaz.to.gov.br/nfce/consulta"},
+                {"SC", ""}
+            }.TryGetValue(state, out string value);
+
+            return value;
+        }
     }
 }
