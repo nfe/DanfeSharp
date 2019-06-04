@@ -128,7 +128,7 @@ namespace DanfeSharp
             info.Creator = _metadataCriador;
         }
 
-        private Estilo CriarEstilo(float tFonteCampoCabecalho = 8, float tFonteCampoConteudo = 8)
+        private Estilo CriarEstilo(float tFonteCampoCabecalho = 10, float tFonteCampoConteudo = 9)
         {
             return new Estilo(_FonteRegular, _FonteNegrito, _FonteItalico, tFonteCampoCabecalho, tFonteCampoConteudo);
         }
