@@ -29,9 +29,9 @@ namespace DanfeSharp.Blocos.NFC
 
             primitiveComposer.SetFont(estilo.FonteCampoConteudo.FonteInterna, estilo.FonteCampoConteudo.Tamanho);
             primitiveComposer.ShowText("CÓDIGO", new PointF(40, Y_NFC), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
-            primitiveComposer.ShowText("DESC.", new PointF(80, Y_NFC), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
-            primitiveComposer.ShowText("QTD.", new PointF(120, Y_NFC), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
-            primitiveComposer.ShowText("UNID.", new PointF(160, Y_NFC), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
+            primitiveComposer.ShowText("DESC.", new PointF(90, Y_NFC), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
+            primitiveComposer.ShowText("QTD.", new PointF(140, Y_NFC), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
+            primitiveComposer.ShowText("UNID.", new PointF(170, Y_NFC), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
             primitiveComposer.ShowText("PREÇO", new PointF(200, Y_NFC), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
             primitiveComposer.ShowText("TOTAL", new PointF(240, Y_NFC), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
 
@@ -42,12 +42,12 @@ namespace DanfeSharp.Blocos.NFC
                 primitiveComposer.ShowText(produto.Codigo, new PointF(40, Y_NFC), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
 
                 if (produto.Descricao.Length >= 10)
-                    primitiveComposer.ShowText(produto.Descricao.Substring(0, 10), new PointF(80, Y_NFC), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
+                    primitiveComposer.ShowText(produto.Descricao.Substring(0, 10), new PointF(90, Y_NFC), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
                 else
-                    primitiveComposer.ShowText(produto.Descricao, new PointF(80, Y_NFC), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
+                    primitiveComposer.ShowText(produto.Descricao, new PointF(90, Y_NFC), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
 
-                primitiveComposer.ShowText(produto.Quantidade.Formatar(), new PointF(120, Y_NFC), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
-                primitiveComposer.ShowText(produto.Unidade, new PointF(160, Y_NFC), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
+                primitiveComposer.ShowText(produto.Quantidade.Formatar(), new PointF(140, Y_NFC), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
+                primitiveComposer.ShowText(produto.Unidade, new PointF(170, Y_NFC), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
                 primitiveComposer.ShowText(produto.ValorUnitario.Formatar(), new PointF(200, Y_NFC), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
                 primitiveComposer.ShowText(produto.ValorTotal.Formatar(), new PointF(240, Y_NFC), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
             }
