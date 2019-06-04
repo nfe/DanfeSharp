@@ -21,26 +21,30 @@ namespace DanfeSharp.Blocos.NFC
                 {
                     if (dest.RazaoSocial.Length > 30)
                     {
-                        primitiveComposer.ShowText(dest.RazaoSocial.Substring(0, 30), new PointF(140, y + 20), XAlignmentEnum.Center, YAlignmentEnum.Top, 0);
-                        primitiveComposer.ShowText(dest.RazaoSocial.Substring(30), new PointF(140, y + 30), XAlignmentEnum.Center, YAlignmentEnum.Top, 0);
+                        primitiveComposer.ShowText(dest.RazaoSocial.Substring(0, 39), new PointF(140, y + 20), XAlignmentEnum.Center, YAlignmentEnum.Top, 0);
+
+                        if (dest.RazaoSocial.Length >= 60)
+                            primitiveComposer.ShowText(dest.RazaoSocial.Substring(39, 60), new PointF(140, y + 30), XAlignmentEnum.Center, YAlignmentEnum.Top, 0);
+                        else
+                            primitiveComposer.ShowText(dest.RazaoSocial.Substring(39), new PointF(140, y + 30), XAlignmentEnum.Center, YAlignmentEnum.Top, 0);
+
+                        primitiveComposer.ShowText($"CNPJ/CPF: {dest.CnpjCpf}", new PointF(140, y + 40), XAlignmentEnum.Center, YAlignmentEnum.Top, 0);
 
                         y = y + 10;
                     }
                     else
                     {
-                        primitiveComposer.ShowText($"NOME: {dest.RazaoSocial}", new PointF(140, y + 20), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
+                        primitiveComposer.ShowText($"NOME: {dest.RazaoSocial}", new PointF(140, y + 20), XAlignmentEnum.Center, YAlignmentEnum.Top, 0);
+                        primitiveComposer.ShowText($"CNPJ/CPF: {dest.CnpjCpf}", new PointF(140, y + 30), XAlignmentEnum.Center, YAlignmentEnum.Top, 0);
                     }
                 }
-
-                primitiveComposer.ShowText($"CNPJ/CPF: {dest.CnpjCpf}", new PointF(140, y + 30), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
-
 
                 if (!string.IsNullOrWhiteSpace(dest.EnderecoLogadrouro) &&
                    !string.IsNullOrWhiteSpace(dest.EnderecoNumero) &&
                    !string.IsNullOrWhiteSpace(dest.EnderecoBairro) &&
                    !string.IsNullOrWhiteSpace(dest.Municipio))
                 {
-                    primitiveComposer.ShowText($"{dest.EnderecoLogadrouro}, {dest.EnderecoNumero}, {dest.EnderecoBairro}, {dest.Municipio} - {dest.EnderecoUf}", new PointF(140, y + 40), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
+                    primitiveComposer.ShowText($"{dest.EnderecoLogadrouro}, {dest.EnderecoNumero}, {dest.EnderecoBairro}, {dest.Municipio} - {dest.EnderecoUf}", new PointF(140, y + 40), XAlignmentEnum.Center, YAlignmentEnum.Top, 0);
                 }
 
                 Y_NFC = y + 50;
