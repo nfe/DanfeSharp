@@ -27,10 +27,11 @@ namespace DanfeSharp.Blocos.NFC
             if (viewModel.CalculoImposto.ValorAproximadoTributos > 0)
             // valor aproximado dos tributos 
             {
-                primitiveComposer.SetFont(estilo.FonteCampoTituloNegrito.FonteInterna, estilo.FonteCampoTituloNegrito.Tamanho);
-                primitiveComposer.ShowText($"Valor Aproximado dos tributos Lei 12.741/2012: {viewModel.CalculoImposto.ValorAproximadoTributos.Formatar()}", new PointF(140, y + 180), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
-                primitiveComposer.ShowText($"Valor Aproximado dos tributos Federais: {viewModel.CalculoImposto.ValorAproximadoTributosFederais.Formatar()}", new PointF(140, y + 190), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
-                primitiveComposer.ShowText($"Valor Aproximado dos tributos Estaduais: {viewModel.CalculoImposto.ValorAproximadoTributosEstaduais.Formatar()}", new PointF(140, y + 200), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
+                primitiveComposer.SetFont(estilo.FonteCampoConteudoNegrito.FonteInterna, 7);
+                
+                primitiveComposer.ShowText($"CONFORME LEI 12.741/2012 o valor aproximado dos tributos é {viewModel.CalculoImposto.ValorAproximadoTributos.Formatar()}", new PointF(140, y + 180), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
+                primitiveComposer.ShowText($"O valor aproximado dos tributos Federais é {viewModel.CalculoImposto.ValorAproximadoTributosFederais.Formatar()}", new PointF(140, y + 190), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
+                primitiveComposer.ShowText($"O valor aproximado dos tributos Estaduais é {viewModel.CalculoImposto.ValorAproximadoTributosEstaduais.Formatar()}", new PointF(140, y + 200), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
             }
         }
     }
