@@ -21,14 +21,10 @@ namespace DanfeSharp.Blocos.NFC
 
             var emitente = viewModel.Emitente;
 
-            if (emitente.RazaoSocial.Length > 30)
+            if (emitente.RazaoSocial.Length > 39)
             {
                 primitiveComposer.ShowText(emitente.RazaoSocial.Substring(0, 39), new PointF(140, 10), XAlignmentEnum.Center, YAlignmentEnum.Top, 0);
-
-                if (emitente.RazaoSocial.Length >= 40)
-                    primitiveComposer.ShowText(emitente.RazaoSocial.Substring(39, 40), new PointF(140, 20), XAlignmentEnum.Center, YAlignmentEnum.Top, 0);
-                else
-                    primitiveComposer.ShowText(emitente.RazaoSocial.Substring(39), new PointF(140, 20), XAlignmentEnum.Center, YAlignmentEnum.Top, 0);
+                primitiveComposer.ShowText(emitente.RazaoSocial.Substring(39), new PointF(140, 20), XAlignmentEnum.Center, YAlignmentEnum.Top, 0);
 
                 primitiveComposer.ShowText($"CNPJ - {Formatador.FormatarCnpj(emitente.CnpjCpf)}", new PointF(140, 30), XAlignmentEnum.Center, YAlignmentEnum.Top, 0);
 
@@ -49,8 +45,12 @@ namespace DanfeSharp.Blocos.NFC
                !string.IsNullOrWhiteSpace(emitente.EnderecoBairro) &&
                !string.IsNullOrWhiteSpace(emitente.Municipio))
             {
-                primitiveComposer.ShowText($"{emitente.EnderecoLogadrouro.Substring(0, 25)}, {emitente.EnderecoNumero} - {emitente.EnderecoBairro} - {emitente.Municipio} - {emitente.EnderecoUf}",
-            new PointF(140, y + 10), XAlignmentEnum.Center, YAlignmentEnum.Top, 0);
+                if (emitente.EnderecoLogadrouro.Length >= 25)
+                    primitiveComposer.ShowText($"{emitente.EnderecoLogadrouro.Substring(0, 25)}, {emitente.EnderecoNumero} - {emitente.EnderecoBairro} - {emitente.Municipio} - {emitente.EnderecoUf}",
+                new PointF(140, y + 10), XAlignmentEnum.Center, YAlignmentEnum.Top, 0);
+                else
+                    primitiveComposer.ShowText($"{emitente.EnderecoLogadrouro}, {emitente.EnderecoNumero} - {emitente.EnderecoBairro} - {emitente.Municipio} - {emitente.EnderecoUf}",
+                new PointF(140, y + 10), XAlignmentEnum.Center, YAlignmentEnum.Top, 0);
             }
             primitiveComposer.DrawLine(new PointF(15, y + 20), new PointF(265, y + 20));
             primitiveComposer.SetLineDash(new org.pdfclown.documents.contents.LineDash(new double[] { 3, 2 }));
