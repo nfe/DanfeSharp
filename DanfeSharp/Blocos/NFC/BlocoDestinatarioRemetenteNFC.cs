@@ -42,8 +42,10 @@ namespace DanfeSharp.Blocos.NFC
                 if (!string.IsNullOrWhiteSpace(dest.EnderecoLogadrouro) &&
                    !string.IsNullOrWhiteSpace(dest.EnderecoNumero) &&
                    !string.IsNullOrWhiteSpace(dest.EnderecoBairro) &&
+                   !string.IsNullOrWhiteSpace(dest.EnderecoUf) &&
                    !string.IsNullOrWhiteSpace(dest.Municipio))
                 {
+                    if (dest.EnderecoLogadrouro.Length <= 20)
                     primitiveComposer.ShowText($"{dest.EnderecoLogadrouro}, {dest.EnderecoNumero}, {dest.EnderecoBairro}, {dest.Municipio} - {dest.EnderecoUf}", new PointF(140, y + 40), XAlignmentEnum.Center, YAlignmentEnum.Top, 0);
                 }
 
