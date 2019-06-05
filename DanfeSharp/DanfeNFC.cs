@@ -67,7 +67,7 @@ namespace DanfeSharp
             _metadataCriador = metadataCriador ?? String.Format("{0} {1} - {2}", "DanfeSharp", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version, "https://github.com/SilverCard/DanfeSharp");
 
             // De acordo com o item 7.7, a fonte deve ser Times New Roman ou Courier New.
-            _FonteFamilia = StandardType1Font.FamilyEnum.Courier;
+            _FonteFamilia = StandardType1Font.FamilyEnum.Helvetica;
             _FonteRegular = new StandardType1Font(PdfDocument, _FonteFamilia, false, false);
             _FonteNegrito = new StandardType1Font(PdfDocument, _FonteFamilia, true, false);
             _FonteItalico = new StandardType1Font(PdfDocument, _FonteFamilia, false, true);
