@@ -452,6 +452,7 @@ namespace DanfeSharp.Modelo
                             produto.BaseIcms = icms.vBC;
                             produto.AliquotaIcms = icms.pICMS;
                             produto.OCst = icms.orig + icms.CST + icms.CSOSN;
+                            produto.BaseIcmsST = icms.vBCST;
                         }
                     }
 

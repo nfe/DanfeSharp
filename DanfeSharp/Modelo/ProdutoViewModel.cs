@@ -70,6 +70,11 @@ namespace DanfeSharp.Modelo
         /// </summary>
         public double BaseIcms { get; set; }
 
+        ///<summary>
+        /// Valor da BC do ICMS ST (vBCST)
+        /// </summary>
+        public double? BaseIcmsST { get; set; }
+
         /// <summary>
         /// <para>Valor do ICMS</para>
         /// <para>Tag vICMS</para>

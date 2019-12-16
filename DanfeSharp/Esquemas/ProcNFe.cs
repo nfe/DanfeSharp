@@ -197,6 +197,7 @@ namespace DanfeSharp.Esquemas.NFe
         public String CST;
         public String CSOSN;
         public double vBC;
+        public double? vBCST;
         public double pICMS;
         public double vICMS;
     }

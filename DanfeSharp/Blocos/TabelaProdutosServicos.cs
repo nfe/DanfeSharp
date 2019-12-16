@@ -37,6 +37,7 @@ namespace DanfeSharp.Blocos
                 .ComColuna(6F, ad, "VALOR", "UNIT.")
                 .ComColuna(6F, ad, "VALOR", "TOTAL")
                 .ComColuna(6F, ad, "B CÁLC", "ICMS")
+                .ComColuna(6F, ad, "B CÁLC", "ICMS ST")
                 .ComColuna(5, ad, "VALOR", "ICMS")
                 .ComColuna(5, ad, "VALOR", "IPI")
                 .ComColuna(3.5F, ad, "ALIQ.", "ICMS")
@@ -55,6 +56,7 @@ namespace DanfeSharp.Blocos
                 .ComColuna(5.6F, ad, "VALOR UNIT.")
                 .ComColuna(5.6F, ad, "VALOR TOTAL")
                 .ComColuna(5.6F, ad, "B CÁLC ICMS")
+                .ComColuna(5.6F, ad, "B CÁLC ICMS ST")
                 .ComColuna(5.6F, ad, "VALOR ICMS")
                 .ComColuna(5.6F, ad, "VALOR IPI")
                 .ComColuna(3F, ad, "ALIQ.", "ICMS")
@@ -77,6 +79,7 @@ namespace DanfeSharp.Blocos
                     p.ValorUnitario.Formatar(),
                     p.ValorTotal.Formatar(),
                     p.BaseIcms.Formatar(),
+                    p.BaseIcmsST?.Formatar(),
                     p.ValorIcms.Formatar(),
                     p.ValorIpi.Formatar(),
                     p.AliquotaIcms.Formatar(),
