@@ -21,6 +21,9 @@ namespace DanfeSharp.Modelo
             model.Ie = empresa.IE;
             model.IeSt = empresa.IEST;
 
+            if (string.IsNullOrWhiteSpace(empresa.IE) && string.IsNullOrWhiteSpace(empresa.IEST))
+                model.Ie = "ISENTO";
+
             var end = empresa.Endereco;
 
             if (end != null)
