@@ -518,6 +518,10 @@ namespace DanfeSharp.Esquemas.NFe
         /// </summary>
         public Double vNF;
 
+        /// <summary>
+        /// Valor aproximado total de tributos federais, estaduais e municipais
+        /// </summary>
+
         public Double? vTotTrib;
     }
 

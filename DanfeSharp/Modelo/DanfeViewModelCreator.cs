@@ -227,7 +227,7 @@ namespace DanfeSharp.Modelo
         {
             return new CalculoImpostoViewModel()
             {
-                ValorAproximadoTributos = i.vICMS + i.vST + i.vII + i.vIPI + i.vPIS + i.vCOFINS,
+                ValorAproximadoTributos = i.vTotTrib,//i.vICMS + i.vST + i.vII + i.vIPI + i.vPIS + i.vCOFINS,
                 BaseCalculoIcms = i.vBC,
                 ValorIcms = i.vICMS,
                 BaseCalculoIcmsSt = i.vBCST,
