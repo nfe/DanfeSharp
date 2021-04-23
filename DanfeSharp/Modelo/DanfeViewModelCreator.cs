@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,8 @@ namespace DanfeSharp.Modelo
 {
     public static class DanfeViewModelCreator
     {
+        public readonly static IEnumerable<FormaEmissao> FormasEmissaoSuportadas = new FormaEmissao[]{ FormaEmissao.Normal, FormaEmissao.ContingenciaSVCAN, FormaEmissao.ContingenciaSVCRS };
+
         private static XmlSerializer ProcNFeSerializer = new XmlSerializer(typeof(ProcNFe));
 
         private static EmpresaViewModel CreateEmpresaFrom(Empresa empresa)
@@ -20,6 +23,7 @@ namespace DanfeSharp.Modelo
             model.CnpjCpf = !String.IsNullOrWhiteSpace(empresa.CNPJ) ? empresa.CNPJ : empresa.CPF;
             model.Ie = empresa.IE;
             model.IeSt = empresa.IEST;
+            model.Email = empresa.email;
 
             if (string.IsNullOrWhiteSpace(empresa.IE) && string.IsNullOrWhiteSpace(empresa.IEST))
                 model.Ie = "ISENTO";
@@ -203,12 +207,12 @@ namespace DanfeSharp.Modelo
 
             if (infNfe.Versao.Maior >= 3)
             {
-                if (ide.dhEmi.HasValue) model.DataHoraEmissao = ide.dhEmi.Value.DateTimeOffsetValue.DateTime;
-                if (ide.dhSaiEnt.HasValue) model.DataSaidaEntrada = ide.dhSaiEnt.Value.DateTimeOffsetValue.DateTime;
+                if(ide.dhEmi.HasValue) model.DataHoraEmissao = ide.dhEmi?.DateTimeOffsetValue.DateTime;
+                if(ide.dhSaiEnt.HasValue) model.DataSaidaEntrada = ide.dhSaiEnt?.DateTimeOffsetValue.DateTime;
 
                 if (model.DataSaidaEntrada.HasValue)
                 {
-                    model.HoraSaidaEntrada = model.DataSaidaEntrada.Value.TimeOfDay;
+                    model.HoraSaidaEntrada = model.DataSaidaEntrada?.TimeOfDay;
                 }
             }
             else
@@ -388,15 +392,17 @@ namespace DanfeSharp.Modelo
             var nfe = procNfe.NFe;
             var infNfe = nfe.infNFe;
             var ide = infNfe.ide;
+            model.TipoEmissao = ide.tpEmis;
 
             if (ide.mod != 55)
             {
-                throw new Exception("Somente o mod==55 está implementado.");
+                throw new NotSupportedException("Somente o mod==55 está implementado.");
             }
 
-            if (ide.tpEmis != FormaEmissao.Normal && ide.tpEmis != FormaEmissao.ContingenciaDPEC && ide.tpEmis != FormaEmissao.ContingenciaFSDA && ide.tpEmis != FormaEmissao.ContingenciaSVCAN && ide.tpEmis != FormaEmissao.ContingenciaSVCRS)
+            if(!FormasEmissaoSuportadas.Contains(model.TipoEmissao))
+            //if (ide.tpEmis != FormaEmissao.Normal && ide.tpEmis != FormaEmissao.ContingenciaDPEC && ide.tpEmis != FormaEmissao.ContingenciaFSDA && ide.tpEmis != FormaEmissao.ContingenciaSVCAN && ide.tpEmis != FormaEmissao.ContingenciaSVCRS)
             {
-                throw new Exception("Somente o tpEmis==1 está implementado.");
+                throw new NotSupportedException($"O tpEmis {ide.tpEmis} não é suportado.");
             }
 
             model.Orientacao = ide.tpImp == 1 ? Orientacao.Retrato : Orientacao.Paisagem;
@@ -417,6 +423,17 @@ namespace DanfeSharp.Modelo
 
             model.Emitente = CreateEmpresaFrom(infNfe.emit);
             model.Destinatario = CreateEmpresaFrom(infNfe.dest);
+
+            // Local retirada e entrega 
+            if (infNfe.retirada != null)
+            {
+                model.LocalRetirada = CreateLocalRetiradaEntrega(infNfe.retirada);
+            }
+
+            if (infNfe.entrega != null)
+            {
+                model.LocalEntrega = CreateLocalRetiradaEntrega(infNfe.entrega);
+            }
 
             model.NotasFiscaisReferenciadas = ide.NFref.Select(x => x.ToString()).ToList();
 
@@ -559,6 +576,38 @@ namespace DanfeSharp.Modelo
             }
 
             return model;
+        }
+
+        private static LocalEntregaRetiradaViewModel CreateLocalRetiradaEntrega(LocalEntregaRetirada local)
+        {
+            var m = new LocalEntregaRetiradaViewModel()
+            {
+                NomeRazaoSocial = local.xNome,
+                CnpjCpf = !String.IsNullOrWhiteSpace(local.CNPJ) ? local.CNPJ : local.CPF,
+                InscricaoEstadual = local.IE,
+                Bairro = local.xBairro,
+                Municipio = local.xMun,
+                Uf = local.UF,
+                Cep = local.CEP,
+                Telefone = local.fone
+            };
+
+            StringBuilder sb = new StringBuilder();
+            sb.Append(local.xLgr);
+
+            if (!String.IsNullOrWhiteSpace(local.nro))
+            {
+                sb.Append(", ").Append(local.nro);
+            }
+
+            if (!String.IsNullOrWhiteSpace(local.xCpl))
+            {
+                sb.Append(" - ").Append(local.xCpl);
+            }
+
+            m.Endereco = sb.ToString();
+
+            return m;
         }
     }
 }

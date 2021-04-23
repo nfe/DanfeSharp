@@ -42,11 +42,13 @@ namespace DanfeSharp
             {
                 RectangleF rLogo;
 
-                if(Logo.Size.Width >= Logo.Size.Height)
+                // Logo Horizontal
+                if(Logo.Size.Width > Logo.Size.Height)
                 {
                     rLogo = new RectangleF(rp.X, rp.Y, rp.Width, alturaMaximaLogoHorizontal);
                     rp = rp.CutTop(alturaMaximaLogoHorizontal);
                 }
+                // Logo Vertical / Quadrado
                 else
                 {
                     float lw = rp.Height * Logo.Size.Width / Logo.Size.Height;
@@ -59,7 +61,14 @@ namespace DanfeSharp
             }
 
             var emitente = ViewModel.Emitente;
-            var nome = !String.IsNullOrWhiteSpace(emitente.NomeFantasia) ? emitente.NomeFantasia : emitente.RazaoSocial;
+
+            string nome = emitente.RazaoSocial;
+
+            if (ViewModel.PreferirEmitenteNomeFantasia)
+            {
+                nome = !String.IsNullOrWhiteSpace(emitente.NomeFantasia) ? emitente.NomeFantasia : emitente.RazaoSocial;
+            } 
+
             var ts = new TextStack(rp) {  LineHeightScale = 1 }
                 .AddLine(nome, f2)
                 .AddLine(emitente.EnderecoLinha1.Trim(), f3)

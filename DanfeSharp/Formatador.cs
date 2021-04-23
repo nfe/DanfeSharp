@@ -32,6 +32,7 @@ namespace DanfeSharp
         public const String CNPJ = @"^(\d{2})\.?(\d{3})\.?(\d{3})\/?(\d{4})\-?(\d{2})$";
         public const String CPF = @"^(\d{3})\.?(\d{3})\.?(\d{3})\-?(\d{2})$";
         public const String Telefone = @"^\(?(\d{2})\)?\s*(\d{4,5})\s*\-?\s*(\d{4})$";
+        public const String Placa = @"^([A-Z]{3})\s*\-?\s*(\d{4})$";
 
         public const String FormatoMoeda = "#,0.00##";
         public const String FormatoNumero = "#,0.####";
@@ -64,7 +65,7 @@ namespace DanfeSharp
         public static String FormatarEnderecoLinha1(String endereco, int? numero, String complemento = null)
         {
             String sNumero = numero.HasValue ? numero.Value.ToString() : null;
-            return FormatarEnderecoLinha1(endereco, numero, complemento);
+            return FormatarEnderecoLinha1(endereco, sNumero, complemento);
         }
 
         /// <summary>
@@ -177,6 +178,11 @@ namespace DanfeSharp
             return result;
         }
 
+        public static String FormatarPlacaVeiculo(String placa)
+        {
+            return InternalRegexReplace(placa, Placa, "$1-$2");
+        }
+
         public static String FormatarTelefone(String telefone)
         {
             return InternalRegexReplace(telefone, Telefone, "($1) $2-$3");
@@ -219,7 +225,13 @@ namespace DanfeSharp
 
         public static String Formatar(this DateTime? dateTime)
         {
-            return dateTime.HasValue ? dateTime.Value.ToString("dd/MM/yyyy")/*  ToShortDateString()*/ : String.Empty;
+            return dateTime.HasValue ? dateTime.Value.ToString("dd/MM/yyyy") : String.Empty;
+        }
+
+        public static String FormatarDataHora(this DateTime? dateTime)
+        {
+            return dateTime.HasValue ? dateTime.Value.ToString("dd/MM/yyyy hh:mm:ss") : String.Empty;
+            //return dateTime.HasValue ? dateTime.Value.ToString("dd/MM/yyyy")/*  ToShortDateString()*/ : String.Empty;
         }
 
         public static String Formatar(this TimeSpan? timeSpan)

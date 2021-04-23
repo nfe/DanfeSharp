@@ -155,6 +155,11 @@ namespace DanfeSharp.Modelo
         /// <para>Tag tpNF</para>
         /// </summary>
         public int TipoNF { get; set; }
+        
+        /// <summary>
+        /// Tipo de emissão
+        /// </summary>
+        public FormaEmissao TipoEmissao { get; set; }
 
         /// <summary>
         /// Numero do protocolo com sua data e hora
@@ -206,6 +211,14 @@ namespace DanfeSharp.Modelo
         /// </summary>
         public List<String> NotasFiscaisReferenciadas { get; set; }
 
+        #region Local Retirada e Entrega
+
+        public LocalEntregaRetiradaViewModel LocalRetirada { get; set; }
+
+        public LocalEntregaRetiradaViewModel LocalEntrega { get; set; }
+
+        #endregion
+
         #region Informações adicionais de compra
 
         /// <summary>
@@ -230,12 +243,37 @@ namespace DanfeSharp.Modelo
         /// <summary>
         /// Exibi os valores do ICMS Interestadual e Valor Total dos Impostos no bloco Cálculos do Imposto.
         /// </summary>
-        public bool ExibirIcmsInterestadual { get; set; }
+        public bool ExibirIcmsInterestadual { get; set; } = true;
 
         /// <summary>
         /// Exibi os valores do PIS e COFINS no bloco Cálculos do Imposto.
         /// </summary>
-        public bool ExibirPisConfins { get; set; }
+        public bool ExibirPisConfins { get; set; } = true;
+
+        /// <summary>
+        /// Exibi o bloco "Informações do local de entrega" quando o elemento "entrega" estiver disponível.
+        /// </summary>
+        public bool ExibirBlocoLocalEntrega { get; set; } = true;
+
+        /// <summary>
+        /// Exibi o bloco "Informações do local de retirada" quando o elemento "retirada" estiver disponível.
+        /// </summary>
+        public bool ExibirBlocoLocalRetirada { get; set; } = true;
+
+        
+        /// <summary>
+        /// Exibe o Nome Fantasia, caso disponível, ao invés da Razão Social no quadro identificação do emitente.
+        /// </summary>
+        public bool PreferirEmitenteNomeFantasia { get; set; } = true;
+
+
+        #endregion
+
+        #region Contingencia
+
+        public DateTime? ContingenciaDataHora { get; set; }
+
+        public String ContingenciaJustificativa { get; set; }
 
         #endregion
 
@@ -253,9 +291,6 @@ namespace DanfeSharp.Modelo
             CalculoIssqn = new CalculoIssqnViewModel();
             Pagamento = new List<PagamentoViewModel>();
             NotasFiscaisReferenciadas = new List<string>();
-
-            ExibirIcmsInterestadual = true;
-            ExibirPisConfins = true;
         }
 
         public Boolean MostrarCalculoIssqn { get; set; }
@@ -344,6 +379,37 @@ namespace DanfeSharp.Modelo
                 sb.AppendChaveValor("Entrada em contingência", ContingenciaDataHora.Value.ToString("yyyy-MM-ddThh:mm:sszzz")); // data hora
                 sb.AppendChaveValor("Justificativa", ContingenciaJustificativa); // just
             }
+            return sb.ToString();
+        }
+
+        public virtual String TextoAdicionalFisco()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            if (TipoEmissao == FormaEmissao.ContingenciaSVCAN || TipoEmissao == FormaEmissao.ContingenciaSVCRS)
+            {
+                sb.Append("Contingência ");
+
+                if (TipoEmissao == FormaEmissao.ContingenciaSVCAN)
+                    sb.Append("SVC-AN");
+
+                if (TipoEmissao == FormaEmissao.ContingenciaSVCRS)
+                    sb.Append("SVC-RS");
+
+                if(ContingenciaDataHora.HasValue)
+                {
+                    sb.Append($" - {ContingenciaDataHora.FormatarDataHora()}");
+                }
+
+                if (!String.IsNullOrWhiteSpace(ContingenciaJustificativa))
+                {
+                    sb.Append($" - {ContingenciaJustificativa}");
+                }
+
+                sb.Append(".");
+
+            }
+
             return sb.ToString();
         }
 
