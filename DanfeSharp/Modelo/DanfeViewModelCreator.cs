@@ -456,7 +456,7 @@ namespace DanfeSharp.Modelo
                 produto.Quantidade = det.prod.qCom;
                 produto.ValorUnitario = det.prod.vUnCom;
                 produto.ValorTotal = det.prod.vProd;
-                produto.InformacoesAdicionais = det.infAdProd;
+                produto.InformacoesAdicionais = det.infAdProd/*.Replace("\\n", "\n")*/;
 
                 var imposto = det.imposto;
 
