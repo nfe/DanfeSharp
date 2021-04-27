@@ -234,6 +234,11 @@ namespace DanfeSharp
             //return dateTime.HasValue ? dateTime.Value.ToString("dd/MM/yyyy")/*  ToShortDateString()*/ : String.Empty;
         }
 
+        public static String FormatarDataHora(this DateTimeOffset? dateTime)
+        {
+            return dateTime.HasValue ? dateTime.Value.ToString("dd/MM/yyyy hh:mm:ss a zzz") : String.Empty;
+        }
+
         public static String Formatar(this TimeSpan? timeSpan)
         {
             return timeSpan.HasValue ? 

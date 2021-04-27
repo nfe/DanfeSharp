@@ -241,6 +241,7 @@ namespace DanfeSharp.Esquemas.NFe
         public double vBC { get; set; }
         public double pICMS { get; set; }
         public double vICMS { get; set; }
+        public double? vBCST { get; set; }
     }
 
     public class ImpostoICMS00 : ImpostoICMS { }
@@ -891,10 +892,6 @@ namespace DanfeSharp.Esquemas.NFe
         public FormaEmissao tpEmis { get; set; }
 
         public TAmb tpAmb { get; set; }
-
-        public DateTime? dhCont { get; set; }
-
-        public String xJust { get; set; }
 
         /// <summary>
         /// Data e Hora da entrada em contingência

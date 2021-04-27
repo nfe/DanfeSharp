@@ -141,25 +141,10 @@ namespace DanfeSharp.Modelo
         public FormaEmissao TipoEmissao { get; set; }
 
         /// <summary>
-        /// <para>Data e Hora da entrada em contingência - dhCont
-        /// </summary>
-        public DateTimeOffset? ContingenciaDataHora { get; set; }
-
-        /// <summary>
-        /// <para> Justificativa da entrada em contingência - xJust
-        /// </summary>
-        public String ContingenciaJustificativa { get; set; }
-
-        /// <summary>
         /// <para>Tipo Emissao
         /// <para>Tag tpNF</para>
         /// </summary>
         public int TipoNF { get; set; }
-        
-        /// <summary>
-        /// Tipo de emissão
-        /// </summary>
-        public FormaEmissao TipoEmissao { get; set; }
 
         /// <summary>
         /// Numero do protocolo com sua data e hora
@@ -270,11 +255,15 @@ namespace DanfeSharp.Modelo
         #endregion
 
         #region Contingencia
+        /// <summary>
+        /// <para>Data e Hora da entrada em contingência - dhCont
+        /// </summary>
+        public DateTimeOffset? ContingenciaDataHora { get; set; }
 
-        public DateTime? ContingenciaDataHora { get; set; }
-
-        public String ContingenciaJustificativa { get; set; }
-
+        /// <summary>
+        /// <para> Justificativa da entrada em contingência - xJust
+        /// </summary>
+        public string ContingenciaJustificativa { get; set; }
         #endregion
 
         public DanfeViewModel()
@@ -332,7 +321,7 @@ namespace DanfeSharp.Modelo
 
                 if (ContingenciaDataHora.HasValue)
                 {
-                    sb.Append($" - {ContingenciaDataHora.Value.ToString("yyyy-MM-ddThh:mm:sszzz")}");
+                    sb.Append($" - {ContingenciaDataHora.FormatarDataHora()/*Value.ToString("yyyy-MM-ddThh:mm:sszzz")*/}");
                 }
 
                 if (!String.IsNullOrWhiteSpace(ContingenciaJustificativa))
@@ -346,6 +335,37 @@ namespace DanfeSharp.Modelo
 
             return sb.ToString();
         }
+
+        //public virtual String TextoAdicionalFisco()
+        //{
+        //    StringBuilder sb = new StringBuilder();
+
+        //    if (TipoEmissao == FormaEmissao.ContingenciaSVCAN || TipoEmissao == FormaEmissao.ContingenciaSVCRS)
+        //    {
+        //        sb.Append("Contingência ");
+
+        //        if (TipoEmissao == FormaEmissao.ContingenciaSVCAN)
+        //            sb.Append("SVC-AN");
+
+        //        if (TipoEmissao == FormaEmissao.ContingenciaSVCRS)
+        //            sb.Append("SVC-RS");
+
+        //        if (ContingenciaDataHora.HasValue)
+        //        {
+        //            sb.Append($" - {ContingenciaDataHora.FormatarDataHora()}");
+        //        }
+
+        //        if (!String.IsNullOrWhiteSpace(ContingenciaJustificativa))
+        //        {
+        //            sb.Append($" - {ContingenciaJustificativa}");
+        //        }
+
+        //        sb.Append(".");
+
+        //    }
+
+        //    return sb.ToString();
+        //}
 
         public virtual String TextoReservadoFisco()
         {
@@ -379,37 +399,6 @@ namespace DanfeSharp.Modelo
                 sb.AppendChaveValor("Entrada em contingência", ContingenciaDataHora.Value.ToString("yyyy-MM-ddThh:mm:sszzz")); // data hora
                 sb.AppendChaveValor("Justificativa", ContingenciaJustificativa); // just
             }
-            return sb.ToString();
-        }
-
-        public virtual String TextoAdicionalFisco()
-        {
-            StringBuilder sb = new StringBuilder();
-
-            if (TipoEmissao == FormaEmissao.ContingenciaSVCAN || TipoEmissao == FormaEmissao.ContingenciaSVCRS)
-            {
-                sb.Append("Contingência ");
-
-                if (TipoEmissao == FormaEmissao.ContingenciaSVCAN)
-                    sb.Append("SVC-AN");
-
-                if (TipoEmissao == FormaEmissao.ContingenciaSVCRS)
-                    sb.Append("SVC-RS");
-
-                if(ContingenciaDataHora.HasValue)
-                {
-                    sb.Append($" - {ContingenciaDataHora.FormatarDataHora()}");
-                }
-
-                if (!String.IsNullOrWhiteSpace(ContingenciaJustificativa))
-                {
-                    sb.Append($" - {ContingenciaJustificativa}");
-                }
-
-                sb.Append(".");
-
-            }
-
             return sb.ToString();
         }
 
