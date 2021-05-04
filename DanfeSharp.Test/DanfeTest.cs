@@ -1,5 +1,6 @@
 ﻿using DanfeSharp.Modelo;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -32,8 +33,8 @@ namespace DanfeSharp.Test
         [TestMethod]
         public void GerarDanfeXml()
         {
-            string pasta = @"Z:\teste";
-            string caminhoOut = @"Z:\teste";
+            string pasta = @"C:\works\Companies\nfe\João\pdf";
+            string caminhoOut = @"C:\works\Companies\nfe\João\pdf";
 
             if (!Directory.Exists(caminhoOut)) Directory.CreateDirectory(caminhoOut);
 
@@ -119,7 +120,7 @@ namespace DanfeSharp.Test
         {
             var model = FabricaFake.DanfeViewModel_1();
             model.TipoEmissao = Esquemas.NFe.FormaEmissao.ContingenciaSVCAN;
-            model.ContingenciaDataHora = DateTime.Now;
+            model.ContingenciaDataHora = DateTimeOffset.Now;
             model.ContingenciaJustificativa = "Aqui vai o motivo da contingência";
             model.Orientacao = Orientacao.Retrato;
             DanfeSharp.Danfe d = new DanfeSharp.Danfe(model);
@@ -132,7 +133,7 @@ namespace DanfeSharp.Test
         {
             var model = FabricaFake.DanfeViewModel_1();
             model.TipoEmissao = Esquemas.NFe.FormaEmissao.ContingenciaSVCRS;
-            model.ContingenciaDataHora = DateTime.Now;
+            model.ContingenciaDataHora = DateTimeOffset.Now;
             model.ContingenciaJustificativa = "Aqui vai o motivo da contingência";
             model.Orientacao = Orientacao.Retrato;
             DanfeSharp.Danfe d = new DanfeSharp.Danfe(model);
@@ -207,6 +208,8 @@ namespace DanfeSharp.Test
         public void ComBlocoLocalRetirada()
         {
             var model = FabricaFake.DanfeViewModel_1();
+            model.DataHoraEmissao = DateTimeOffset.UtcNow.DateTime;
+            model.DataSaidaEntrada = DateTimeOffset.UtcNow.DateTime;
             model.LocalRetirada = FabricaFake.LocalEntregaRetiradaFake();
             DanfeSharp.Danfe d = new DanfeSharp.Danfe(model);
             d.Gerar();
