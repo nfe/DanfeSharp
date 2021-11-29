@@ -405,7 +405,9 @@ namespace DanfeSharp.Modelo
                 throw new NotSupportedException($"O tpEmis {ide.tpEmis} não é suportado.");
             }
 
-            model.Orientacao = ide.tpImp == 1 ? Orientacao.Retrato : Orientacao.Paisagem;
+            // comentamos essa linha, pois o PDF modelo paisagem falhava por conta do uso do netcore2.0
+            // model.Orientacao = ide.tpImp == 1 ? Orientacao.Retrato : Orientacao.Paisagem;
+            model.Orientacao = Orientacao.Retrato;
 
             var infProt = procNfe.protNFe.infProt;
             model.CodigoStatusReposta = infProt.cStat;
