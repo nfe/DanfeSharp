@@ -50,6 +50,25 @@ namespace DanfeSharp.Test
         }
 
         [TestMethod]
+        public void GerarDanfeEventoXml()
+        {
+            string pasta = @"C:\Users\BrunoAlencar\Documents\pdf";
+            string caminhoOut = @"C:\Users\BrunoAlencar\Documents\pdf";
+
+            if (!Directory.Exists(caminhoOut)) Directory.CreateDirectory(caminhoOut);
+
+            foreach (var pathXml in Directory.EnumerateFiles(pasta, "*.xml"))
+            {
+                var model = DanfeEventoViewModelCreator.CriarDeArquivoXml(pathXml);
+                using (DanfeCCC danfe = new DanfeCCC(model))
+                {
+                    danfe.Gerar();
+                    danfe.Salvar($"{caminhoOut}/{model.ChaveAcesso}.pdf");
+                }
+            }
+        }
+
+        [TestMethod]
         public void RetratoSemIcmsInterestadual()
         {
             var model = FabricaFake.DanfeViewModel_1();

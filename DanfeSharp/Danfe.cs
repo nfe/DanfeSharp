@@ -16,6 +16,7 @@ namespace DanfeSharp
 
         internal BlocoCanhoto Canhoto { get; private set; }
         internal BlocoIdentificacaoEmitente IdentificacaoEmitente { get; private set; }
+        internal List<BlocoEventoBase> Blocos { get; private set; }
 
         internal List<BlocoBase> _Blocos;
         internal Estilo EstiloPadrao { get; private set; }

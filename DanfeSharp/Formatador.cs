@@ -193,6 +193,8 @@ namespace DanfeSharp
             return Regex.Replace(chaveAcesso, ".{4}", "$0 ").TrimEnd();
         }
 
+        public static string FormatarNumeroNF(string numero) => InternalRegexReplace(numero, FormatoNumeroNF, "$1.$2.$3");
+
         public static String Formatar(this Double number, String formato = FormatoMoeda)
         {
             return number.ToString(formato, Cultura);
