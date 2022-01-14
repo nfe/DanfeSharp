@@ -1,6 +1,5 @@
 ﻿
 
-using DanfeSharp.Atributos;
 using DanfeSharp.Modelo;
 using System.Linq;
 
@@ -21,7 +20,7 @@ namespace DanfeSharp.Blocos
                 .ComLarguras(30F * Proporcao, 0, 45F * Proporcao);
 
             AdicionarLinhaCampos()
-                .ComCampo("EVENTO", GetDFeValue(viewModel.TipoEvento))
+                .ComCampo("EVENTO",((int)viewModel.TipoEvento).ToString())
                 .ComCampo("DESCRIÇÃO DO EVENTO", viewModel.DescricaoEvento)
                 .ComCampo("SEQUÊNCIA DO EVENTO", viewModel.SequenciaEvento.ToString(), AlinhamentoHorizontal.Centro)
                 .ComLarguras(30F * Proporcao, 0, 45F * Proporcao);
@@ -34,13 +33,13 @@ namespace DanfeSharp.Blocos
 
         #endregion
 
-        public string GetDFeValue<T>(T value) where T : System.Enum
-        {
-            var member = typeof(T).GetMember(value.ToString()).FirstOrDefault();
-            var enumAttribute = member?.GetCustomAttributes(false).OfType<DFeEnumAttribute>().FirstOrDefault();
-            var enumValue = enumAttribute?.Value;
-            return enumValue ?? value.ToString();
-        }
+        //public string GetDFeValue<T>(T value) where T : System.Enum
+        //{
+        //    var member = typeof(T).GetMember(value.ToString()).FirstOrDefault();
+        //    var enumAttribute = member?.GetCustomAttributes(false).OfType<DFeEnumAttribute>().FirstOrDefault();
+        //    var enumValue = enumAttribute?.Value;
+        //    return enumValue ?? value.ToString();
+        //}
 
         #region Properties
 

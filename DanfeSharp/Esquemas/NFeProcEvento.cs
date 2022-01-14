@@ -1,5 +1,4 @@
-﻿using DanfeSharp.Atributos;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
@@ -79,7 +78,6 @@ namespace DanfeSharp.Esquemas
         #endregion
     }
 
-    [DFeRoot("retEvento", Namespace = "http://www.portalfiscal.inf.br/nfe")]
     public sealed class NFeRetEvento :/* DFeSignDocument<NFeRetEvento>, */INotifyPropertyChanged
     {
         #region Events
@@ -146,74 +144,62 @@ namespace DanfeSharp.Esquemas
         /// <summary>
         ///     HR17 - Descrição do status da resposta.
         /// </summary>
-        [DFeElement(TipoCampo.Str, "xMotivo", Id = "HR17", Min = 1, Max = 255, Ocorrencia = Ocorrencia.Obrigatoria)]
         public string xMotivo { get; set; }
 
         /// <summary>
         ///     HR18 - Chave de Acesso da NF-e vinculada ao evento.
         /// </summary>
-        [DFeElement(TipoCampo.StrNumber, "chNFe", Id = "HR18", Min = 44, Max = 44, Ocorrencia = Ocorrencia.NaoObrigatoria)]
         public string chave { get; set; }
 
         /// <summary>
         ///     HR19 - Código do Tipo do Evento.
         /// </summary>
-        [DFeElement(TipoCampo.Enum, "tpEvento", Id = "HR19", Min = 6, Max = 6, Ocorrencia = Ocorrencia.NaoObrigatoria)]
         public NFeTipoEvento? tpEvento { get; set; }
 
         /// <summary>
         ///     HR20 - Descrição do Evento – “Cancelamento homologado”
         /// </summary>
-        [DFeElement(TipoCampo.Str, "xEvento", Id = "HR20", Min = 5, Max = 60, Ocorrencia = Ocorrencia.NaoObrigatoria)]
         public string xEvento { get; set; }
 
         /// <summary>
         ///     HR21 - Sequencial do evento para o mesmo tipo de evento.
         /// </summary>
-        [DFeElement(TipoCampo.Int, "nSeqEvento", Id = "HR21", Min = 1, Max = 2, Ocorrencia = Ocorrencia.NaoObrigatoria)]
         public int? nSeqEvento { get; set; }
 
         /// <summary>
         ///     R22 - (EPEC) Idem a mensagem de entrada.
         /// </summary>
-        [DFeElement(TipoCampo.Str, "cOrgaoAutor", Id = "R22", Ocorrencia = Ocorrencia.NaoObrigatoria)]
         public string COrgaoAutor { get; set; }
 
         /// <summary>
         ///     HR22 - CNPJ do destinatário da NFe
         /// </summary>
-        [DFeElement(TipoCampo.StrNumberFill, "CNPJDest", Id = "HR22", Min = 14, Max = 14, Ocorrencia = Ocorrencia.NaoObrigatoria)]
         public string CNPJDest { get; set; }
 
         /// <summary>
         ///     HR23 - CPF do destinatário da NFe
         /// </summary>
-        [DFeElement(TipoCampo.StrNumberFill, "CPFDest", Id = "HR23", Min = 11, Max = 11, Ocorrencia = Ocorrencia.NaoObrigatoria)]
         public string CPFDest { get; set; }
 
         /// <summary>
         ///     HR24 - e-mail do destinatário informado na NF-e.
         /// </summary>
-        [DFeElement(TipoCampo.Str, "emailDest", Id = "HR24", Min = 1, Max = 60, Ocorrencia = Ocorrencia.NaoObrigatoria)]
         public string emailDest { get; set; }
 
         /// <summary>
         ///     HR25 - Data e hora de registro do evento. Se o evento for rejeitado informar a data e hora de recebimento do
         ///     evento.
         /// </summary>
-        [DFeElement(TipoCampo.DatHorTz, "dhRegEvento", Id = "HR25", Min = 19, Max = 19, Ocorrencia = Ocorrencia.Obrigatoria)]
         public DateTimeOffset dhRegEvento { get; set; }
 
         /// <summary>
         ///     HR26 - Número do Protocolo da NF-e
         /// </summary>
-        [DFeElement(TipoCampo.StrNumber, "nProt", Id = "HR26", Min = 15, Max = 15, Ocorrencia = Ocorrencia.NaoObrigatoria)]
         public string nProt { get; set; }
 
         /// <summary>
         ///     R25 - (EPEC) Relação de Chaves de Acesso de EPEC pendentes de conciliação, existentes no AN.
         /// </summary>
-        [DFeElement(TipoCampo.Str, "chNFePend", Id = "R25", Ocorrencia = Ocorrencia.NaoObrigatoria)]
         public string chNFePend { get; set; }
 
         #endregion
@@ -249,7 +235,6 @@ namespace DanfeSharp.Esquemas
     }
 
     //[DFeSignInfoElement("infEvento")]
-    [DFeRoot("evento", Namespace = "http://www.portalfiscal.inf.br/nfe")]
     [Serializable]
     [XmlType("evento", AnonymousType = true, Namespace = Namespaces.NFe)]
     public sealed class NFeEvento :/* DFeSignDocument<NFeEvento>,*/ INotifyPropertyChanged
@@ -275,13 +260,11 @@ namespace DanfeSharp.Esquemas
         /// <summary>
         ///     HP05 - Versão do leiaute do evento
         /// </summary>
-        [DFeAttribute(TipoCampo.Enum, "versao", Id = "HP05", Min = 1, Max = 4, Ocorrencia = Ocorrencia.Obrigatoria)]
         public NFeVersao versao { get; set; }
 
         /// <summary>
         ///     HP06 - Grupo de informações do registro do Evento
         /// </summary>
-        [DFeElement("infEvento", Id = "HP06", Ocorrencia = Ocorrencia.Obrigatoria)]
         public NFeInfEvento infEvento { get; set; }
 
         #endregion
@@ -363,67 +346,56 @@ namespace DanfeSharp.Esquemas
         /// <summary>
         ///     HP07 - Grupo de informações do registro do Evento
         /// </summary>
-        [DFeAttribute(TipoCampo.Str, "Id", Id = "HP07", Min = 54, Max = 54, Ocorrencia = Ocorrencia.Obrigatoria)]
         public string id { get; set; }
 
         /// <summary>
         ///     HP08 - Código do órgão de recepção do Evento.
         /// </summary>
-        [DFeElement(TipoCampo.Enum, "cOrgao", Id = "HP08", Min = 2, Max = 2, Ocorrencia = Ocorrencia.Obrigatoria)]
         public CodigoUF cOrgao { get; set; }
 
         /// <summary>
         ///     HP09 - Identificação do Ambiente: 1=Produção /2=Homologação
         /// </summary>
-        [DFeElement(TipoCampo.Enum, "tpAmb", Id = "HP09", Min = 1, Max = 1, Ocorrencia = Ocorrencia.Obrigatoria)]
         public TAmb tpAmb { get; set; }
 
         /// <summary>
         ///     HP10 - CNPJ do autor do Evento
         /// </summary>
-        [DFeElement(TipoCampo.StrNumberFill, "CNPJ", Id = "HP10", Min = 14, Max = 14, Ocorrencia = Ocorrencia.Obrigatoria)]
         public string CNPJ { get; set; }
 
         /// <summary>
         ///     HP11 - CPF do autor do Evento
         /// </summary>
-        [DFeElement(TipoCampo.StrNumberFill, "CPF", Id = "HP11", Min = 11, Max = 11, Ocorrencia = Ocorrencia.Obrigatoria)]
         public string CPF { get; set; }
 
         /// <summary>
         ///     HP12 - Chave de Acesso da NF-e vinculada ao Evento
         /// </summary>
-        [DFeElement(TipoCampo.StrNumber, "chNFe", Id = "HP12", Min = 44, Max = 44, Ocorrencia = Ocorrencia.Obrigatoria)]
         public string chNFe { get; set; }
 
         /// <summary>
         ///     HP13 - Data e hora do evento
         /// </summary>
-        [DFeElement(TipoCampo.DatHorTz, "dhEvento", Id = "HP13", Min = 19, Max = 19, Ocorrencia = Ocorrencia.Obrigatoria)]
         public DateTime dhEvento { get; set; }
 
         /// <summary>
         ///     HP14 - Código do evento
         /// </summary>
-        [DFeElement(TipoCampo.Enum, "tpEvento", Id = "HP14", Min = 6, Max = 6, Ocorrencia = Ocorrencia.Obrigatoria)]
         public NFeTipoEvento tpEvento { get; set; }
 
         /// <summary>
         ///     HP15 - Sequencial do evento para o mesmo tipo de evento.
         /// </summary>
-        [DFeElement(TipoCampo.Int, "nSeqEvento", Id = "HP15", Min = 1, Max = 2, Ocorrencia = Ocorrencia.Obrigatoria)]
         public int nSeqEvento { get; set; }
 
         /// <summary>
         ///     HP16 - Versão do detalhe do evento
         /// </summary>
-        [DFeElement(TipoCampo.Enum, "verEvento", Id = "HP16", Min = 3, Max = 5, Ocorrencia = Ocorrencia.Obrigatoria)]
         public NFeVersao verEvento { get; set; }
 
         /// <summary>
         ///     HP17 - Informações do Evento (Cancelamento, Carta de Correcao, EPEC, Manifestação)
         /// </summary>
-        [DFeElement("detEvento", Id = "HP17", Ocorrencia = Ocorrencia.Obrigatoria)]
         public NFeDetEvento detEvento { get; set; }
 
         //[DFeIgnore]
@@ -460,7 +432,6 @@ namespace DanfeSharp.Esquemas
         /// <summary>
         ///     110110 - Carta de Correção
         /// </summary>
-        [DFeEnum("110110")]
         [Description("CCe")]
         [XmlEnum("110110")]
         CartaCorrecao = 110110,
@@ -468,7 +439,6 @@ namespace DanfeSharp.Esquemas
         /// <summary>
         ///     110111 - Cancelamento
         /// </summary>
-        [DFeEnum("110111")]
         [Description("Cancelamento")]
         [XmlEnum("110111")]
         Cancelamento = 110111,
@@ -476,7 +446,6 @@ namespace DanfeSharp.Esquemas
         /// <summary>
         ///     110112 - Cancelamento Substituição
         /// </summary>
-        [DFeEnum("110112")]
         [Description("Cancelamento ST")]
         [XmlEnum("110112")]
         CancelamentoST = 110112,
@@ -484,7 +453,6 @@ namespace DanfeSharp.Esquemas
         /// <summary>
         ///     110113 - EPEC
         /// </summary>
-        [DFeEnum("110113")]
         [Description("EPEC")]
         [XmlEnum("110113")]
         EPEC = 110113,
@@ -492,15 +460,12 @@ namespace DanfeSharp.Esquemas
 
     public enum NFeVersao
     {
-        [DFeEnum("1.00")]
         [Description("1.00")]
         [XmlEnum("1.00")]
         v100,
-        [DFeEnum("3.10")]
         [Description("3.10")]
         [XmlEnum("3.10")]
         v310,
-        [DFeEnum("4.00")]
         [Description("4.00")]
         [XmlEnum("4.00")]
         v400
@@ -512,109 +477,109 @@ namespace DanfeSharp.Esquemas
         ///     12 - Acre
         /// </summary>
         [XmlEnum("12")]
-        [DFeEnum("12")] [Description("AC")] AC = 12,
+        [Description("AC")] AC = 12,
 
         /// <summary>
         ///     27 - Alagoas
         /// </summary>
         [XmlEnum("27")]
-        [DFeEnum("27")] [Description("AL")] AL = 27,
+        [Description("AL")] AL = 27,
 
         /// <summary>
         ///     25 - Paraíba
         /// </summary>
         [XmlEnum("25")]
-        [DFeEnum("25")] [Description("PB")] PB = 25,
+        [Description("PB")] PB = 25,
 
         /// <summary>
         ///     26 - Pernambuco
         /// </summary>
         [XmlEnum("26")]
-        [DFeEnum("26")] [Description("PE")] PE = 26,
+        [Description("PE")] PE = 26,
 
         /// <summary>
         ///     22 - Piauí
         /// </summary>
         [XmlEnum("22")]
-        [DFeEnum("22")] [Description("PI")] PI = 22,
+        [Description("PI")] PI = 22,
 
         /// <summary>
         ///     41 - Paraná
         /// </summary>
         [XmlEnum("41")]
-        [DFeEnum("41")] [Description("PR")] PR = 41,
+        [Description("PR")] PR = 41,
 
         /// <summary>
         ///     33 - Rio de Janeiro
         /// </summary>
         [XmlEnum("33")]
-        [DFeEnum("33")] [Description("RJ")] RJ = 33,
+        [Description("RJ")] RJ = 33,
 
         /// <summary>
         ///     24 - Rio Grande do Norte
         /// </summary>
         [XmlEnum("24")]
-        [DFeEnum("24")] [Description("RN")] RN = 24,
+        [Description("RN")] RN = 24,
 
         /// <summary>
         ///     11 - Rondônia
         /// </summary>
         [XmlEnum("11")]
-        [DFeEnum("11")] [Description("RO")] RO = 11,
+        [Description("RO")] RO = 11,
 
         /// <summary>
         ///     14 - Roraima
         /// </summary>
         [XmlEnum("14")]
-        [DFeEnum("14")] [Description("RR")] RR = 14,
+        [Description("RR")] RR = 14,
 
         /// <summary>
         ///     43 - Rio Grande do Sul
         /// </summary>
         [XmlEnum("43")]
-        [DFeEnum("43")] [Description("RS")] RS = 43,
+        [Description("RS")] RS = 43,
 
         /// <summary>
         ///     42 - Santa Catarina
         /// </summary>
         [XmlEnum("42")]
-        [DFeEnum("42")] [Description("SC")] SC = 42,
+        [Description("SC")] SC = 42,
 
         /// <summary>
         ///     28 - Sergipe
         /// </summary>
         [XmlEnum("28")]
-        [DFeEnum("28")] [Description("SE")] SE = 28,
+        [Description("SE")] SE = 28,
 
         /// <summary>
         ///     35 - São Paulo
         /// </summary>
         [XmlEnum("35")]
-        [DFeEnum("35")] [Description("SP")] SP = 35,
+        [Description("SP")] SP = 35,
 
         /// <summary>
         ///     17 - Tocantins
         /// </summary>
         [XmlEnum("17")]
-        [DFeEnum("17")] [Description("TO")] TO = 17,
+        [Description("TO")] TO = 17,
 
         /// <summary>
         ///     91 - Ambiente Nacional
         /// </summary>
         [XmlEnum("91")]
-        [DFeEnum("91")] [Description("AN")] AN = 91,
+        [Description("AN")] AN = 91,
 
         /// <summary>
         ///     00 - Exterior
         /// </summary>
         [XmlEnum("00")]
-        [DFeEnum("00")] [Description("EX")] EX = 0,
+        [Description("EX")] EX = 0,
 
         /// <summary>
         ///     99 - Suframa
         /// </summary>
         [XmlEnum("99")]
-        [DFeEnum("99")] [Description("SU")] SU = 99
+        [Description("SU")] SU = 99
     }
 
 
@@ -634,13 +599,11 @@ namespace DanfeSharp.Esquemas
         ///     HP18 - Versão do Pedido de Cancelamento, da carta de correção ou EPEC, deve ser informado com a mesma informação da
         ///     tag verEvento (HP16)
         /// </summary>
-        [DFeAttribute(TipoCampo.Enum, "versao", Id = "HP18", Min = 4, Max = 4, Ocorrencia = Ocorrencia.Obrigatoria)]
         public NFeVersao versao { get; set; }
 
         /// <summary>
         ///     HP19 - "Cancelamento", "Carta de Correção", "Carta de Correcao" ou "EPEC"
         /// </summary>
-        [DFeElement(TipoCampo.Str, "descEvento", Id = "HP19", Min = 5, Max = 60, Ocorrencia = Ocorrencia.Obrigatoria)]
         public string descEvento { get; set; }
 
         #endregion
@@ -650,14 +613,12 @@ namespace DanfeSharp.Esquemas
         /// <summary>
         ///     HP20 - Correção a ser considerada, texto livre. A correção mais recente substitui as anteriores.
         /// </summary>
-        [DFeElement(TipoCampo.Str, "xCorrecao", Id = "HP20", Min = 15, Max = 1000, Ocorrencia = Ocorrencia.Obrigatoria)]
         public string xCorrecao { get; set; }
 
         /// <summary>
         ///     HP20a - Condições de uso da Carta de Correção
         /// </summary>
 
-        [DFeElement(TipoCampo.Custom, "xCondUso", Id = "HP20a", Ocorrencia = Ocorrencia.Obrigatoria)]
         public string xCondUso { get; set; }
 
         #endregion
@@ -667,13 +628,11 @@ namespace DanfeSharp.Esquemas
         /// <summary>
         ///     HP20 - Informar o número do Protocolo de Autorização da NF-e a ser Cancelada.
         /// </summary>
-        [DFeElement(TipoCampo.StrNumber, "nProt", Id = "HP20", Min = 15, Max = 15, Ocorrencia = Ocorrencia.Obrigatoria)]
         public string nProt { get; set; }
 
         /// <summary>
         ///     HP21 - Informar a justificativa do cancelamento
         /// </summary>
-        [DFeElement(TipoCampo.Str, "xJust", Id = "HP21", Min = 15, Max = 255, Ocorrencia = Ocorrencia.Obrigatoria)]
         public string xJust { get; set; }
 
         #endregion
