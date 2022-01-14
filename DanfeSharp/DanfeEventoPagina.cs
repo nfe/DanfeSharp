@@ -48,9 +48,9 @@ namespace DanfeSharp
 
         #region Methods
 
-        public void DesenharCreditos()
+        public void DesenharCreditos(string creditos)
         {
-            //Gfx.DrawString($"{Constantes.TextoCreditos}", RetanguloCreditos, Danfe.EstiloPadrao.CriarFonteItalico(6), AlinhamentoHorizontal.Direita);
+            Gfx.DrawString(creditos, RetanguloCreditos, Danfe.EstiloPadrao.CriarFonteItalico(6), AlinhamentoHorizontal.Direita);
         }
 
         public void DesenharAvisoHomologacao()

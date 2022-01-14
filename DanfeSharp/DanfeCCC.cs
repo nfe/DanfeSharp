@@ -20,24 +20,31 @@ namespace DanfeSharp
     {
         #region Fields
 
-        private readonly File _file;
+        public File File { get; private set; }
         private bool _FoiGerado;
 
         private readonly StandardType1Font _fonteRegular;
         private readonly StandardType1Font _fonteNegrito;
         private readonly StandardType1Font _fonteItalico;
 
+        private readonly string _creditos;
+        private readonly string _metadataCriador;
         #endregion
 
         #region Constructors
 
-        public DanfeCCC(DanfeEventoViewModel viewModel)
+        public DanfeCCC(DanfeEventoViewModel viewModel, string creditos = null, string metadataCriador = null)
         {
+
+            _creditos = creditos ?? "Impresso com DanfeSharp";
+            _metadataCriador = metadataCriador ?? String.Format("{0} {1} - {2}", "DanfeSharp", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version, "https://github.com/SilverCard/DanfeSharp");
+
+
             ViewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
 
-            _file = new File();
+            File = new File();
             Blocos = new List<BlocoEventoBase>();
-            PdfDocument = _file.Document;
+            PdfDocument = File.Document;
 
             // De acordo com o item 7.7, a fonte deve ser Times New Roman ou Courier New.
             var fonteFamilia = StandardType1Font.FamilyEnum.Times;
@@ -95,7 +102,7 @@ namespace DanfeSharp
             var page = new DanfeEventoPagina(this);
             Paginas.Add(page);
             page.DesenharBlocos();
-            page.DesenharCreditos();
+            page.DesenharCreditos(_creditos);
 
             if (ViewModel.TipoAmbiente == 2)
                 page.DesenharAvisoHomologacao();
@@ -109,20 +116,20 @@ namespace DanfeSharp
         public void Salvar(string path)
         {
             if (string.IsNullOrWhiteSpace(path)) throw new ArgumentException(nameof(path));
-            _file.Save(path, SerializationModeEnum.Incremental);
+            File.Save(path, SerializationModeEnum.Incremental);
         }
 
         public void Salvar(Stream stream)
         {
             if (stream == null) throw new ArgumentNullException(nameof(stream));
-            _file.Save(new org.pdfclown.bytes.Stream(stream), SerializationModeEnum.Incremental);
+            File.Save(new org.pdfclown.bytes.Stream(stream), SerializationModeEnum.Incremental);
         }
 
         public byte[] ObterPdfBytes(Stream stream)
         {
             if (stream == null) throw new ArgumentNullException(nameof(stream));
             var pdfStrean = new org.pdfclown.bytes.Stream(stream);
-            _file.Save(pdfStrean, SerializationModeEnum.Incremental);
+            File.Save(pdfStrean, SerializationModeEnum.Incremental);
             return pdfStrean.ToByteArray();
         }
 
@@ -136,8 +143,8 @@ namespace DanfeSharp
             info[new PdfName("ChaveAcesso")] = ViewModel.ChaveAcesso;
             info[new PdfName("TipoDocumento")] = "DANFE Evento";
             info.CreationDate = DateTime.Now;
-            info.Creator = $"Vip.DFe {Assembly.GetExecutingAssembly().GetName().Version} - https://github.com/leandrovip/Vip.DFe";
             info.Title = "DANFE Evento (Documento auxiliar do evento da NFe)";
+            info.Creator = _metadataCriador;
         }
 
         private Estilo CriarEstilo(float tFonteCampoCabecalho = 6, float tFonteCampoConteudo = 10) => new Estilo(_fonteRegular, _fonteNegrito, _fonteItalico, tFonteCampoCabecalho, tFonteCampoConteudo);
@@ -179,7 +186,7 @@ namespace DanfeSharp
         {
             if (!disposedValue)
             {
-                if (disposing) _file.Dispose();
+                if (disposing) File.Dispose();
                 disposedValue = true;
             }
         }

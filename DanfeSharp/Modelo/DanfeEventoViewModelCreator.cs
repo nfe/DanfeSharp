@@ -74,6 +74,16 @@ namespace DanfeSharp.Modelo
             }
         }
 
+        public static DanfeEventoViewModel CriarDeArquivoXml(Stream stream)
+        {
+            if (stream == null) throw new ArgumentNullException(nameof(stream));
+
+            using (var sr = new StreamReader(stream, true))
+            {
+                return CriarDeArquivoXmlInternal(sr);
+            }
+        }
+
         private static DanfeEventoViewModel CriarDeArquivoXmlInternal(TextReader reader)
         {
             NFeProcEvento nfe = null;
