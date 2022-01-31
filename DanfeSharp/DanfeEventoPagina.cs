@@ -11,7 +11,7 @@ namespace DanfeSharp
     {
         #region Constructors
 
-        public DanfeEventoPagina(DanfeCCC danfe)
+        public DanfeEventoPagina(DanfeCartaCorrecao danfe)
         {
             Danfe = danfe ?? throw new ArgumentNullException(nameof(danfe));
             PdfPage = new Page(Danfe.PdfDocument);
@@ -34,7 +34,7 @@ namespace DanfeSharp
 
         #region Properties
 
-        public DanfeCCC Danfe { get; private set; }
+        public DanfeCartaCorrecao Danfe { get; private set; }
         public Page PdfPage { get; private set; }
         public PrimitiveComposer PrimitiveComposer { get; private set; }
         public Gfx Gfx { get; private set; }

@@ -16,7 +16,7 @@ using org.pdfclown.objects;
 
 namespace DanfeSharp
 {
-    public class DanfeCCC : IDisposable
+    public class DanfeCartaCorrecao : IDisposable
     {
         #region Fields
 
@@ -33,7 +33,7 @@ namespace DanfeSharp
 
         #region Constructors
 
-        public DanfeCCC(DanfeEventoViewModel viewModel, string creditos = null, string metadataCriador = null)
+        public DanfeCartaCorrecao(DanfeEventoViewModel viewModel, string creditos = null, string metadataCriador = null)
         {
 
             _creditos = creditos ?? "Impresso com DanfeSharp";
