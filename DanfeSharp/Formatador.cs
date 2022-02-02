@@ -232,7 +232,7 @@ namespace DanfeSharp
 
         public static String FormatarDataHora(this DateTime? dateTime)
         {
-            return dateTime.HasValue ? dateTime.Value.ToString("dd/MM/yyyy hh:mm:ss") : String.Empty;
+            return dateTime.HasValue ? dateTime.Value.ToString("dd/MM/yyyy HH:mm:ss zzz") : String.Empty;
             //return dateTime.HasValue ? dateTime.Value.ToString("dd/MM/yyyy")/*  ToShortDateString()*/ : String.Empty;
         }
 
