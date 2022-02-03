@@ -157,13 +157,5 @@ namespace DanfeSharp.Modelo
         }
 
         #endregion
-
-        #region Methods Static
-
-        //public static DanfeEventoViewModel CriarDeArquivoXml(string path) => DanfeEventoViewModelCreator.CriarDeArquivoXml(path);
-
-        //public static DanfeEventoViewModel CriarDoConteudoXml(string xml) => DanfeEventoViewModelCreator.CreateFromXmlString(xml);
-
-        #endregion
     }
 }

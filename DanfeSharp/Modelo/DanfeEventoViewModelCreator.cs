@@ -12,20 +12,6 @@ namespace DanfeSharp.Modelo
     {
         #region Methods
 
-        //internal static DanfeEventoViewModel CreateFromXmlStream(Stream stream)
-        //{
-        //    try
-        //    {
-        //        var evento = NFeProcEvento.Load(stream);
-        //        return CreateFromXml(evento);
-        //    }
-        //    catch (System.Exception ex)
-        //    {
-        //        if (ex.InnerException is XmlException e) throw new System.Exception($"Não foi possível interpretar o Xml. Linha {e.LineNumber} Posição {e.LinePosition}.");
-        //        throw new XmlException("O Xml não parece ser um Evento processado.", ex);
-        //    }
-        //}
-
         private static XmlSerializer ProcNFeSerializer = new XmlSerializer(typeof(NFeProcEvento));
 
         internal static DanfeEventoViewModel CreateFromXmlString(string xml)
@@ -33,8 +19,6 @@ namespace DanfeSharp.Modelo
             NFeProcEvento nfe = null;
             try
             {
-                //var evento = NFeProcEvento.Load(xml);
-
                 using (var reader = new StringReader(xml))
                 {
                     nfe = (NFeProcEvento)ProcNFeSerializer.Deserialize(reader);
@@ -61,11 +45,6 @@ namespace DanfeSharp.Modelo
         /// </summary>
         /// <param name="caminho"></param>
         /// <returns></returns>
-        //public static DanfeEventoViewModel CriarDeArquivoXml(string caminho)
-        //{
-        //    using var sr = new StreamReader(caminho, true);
-        //    return CreateFromXmlStream(sr.BaseStream);
-
         public static DanfeEventoViewModel CriarDeArquivoXml(String caminho)
         {
             using (var sr = new StreamReader(caminho, true))
@@ -103,21 +82,6 @@ namespace DanfeSharp.Modelo
                 throw new XmlException("O Xml não parece ser uma NF-e processada.", e);
             }
         }
-
-        //    try
-        //    {
-        //        using (var reader = new StringReader(xml))
-        //        {
-        //            nfe = (ProcNFe)ProcNFeSerializer.Deserialize(reader);
-        //        }
-
-        //        return CreateFromProcNFe(nfe);
-        //    }
-        //    catch (InvalidOperationException e)
-        //    {
-        //        throw new Exception("Não foi possível interpretar o texto Xml.", e);
-        //    }
-        //}
 
         /// <summary>
         ///     Cria o modelo a partir de um arquivo xml contido num stream.

@@ -22,16 +22,6 @@ namespace DanfeSharp.Esquemas
 
         #endregion
 
-        #region Constructors
-
-        //public NFeProcEvento()
-        //{
-        //    Evento = new NFeEvento();
-        //    RetEvento = new NFeRetEvento();
-        //}
-
-        #endregion
-
         #region Properties
 
         /// <summary>
@@ -50,30 +40,6 @@ namespace DanfeSharp.Esquemas
         /// </summary>
         public NFeRetEvento retEvento { get; set; }
 
-        //[DFeIgnore] public bool Processado => RetEvento.InfEvento.CStat.IsIn(Constantes.EventoProcessado);
-
-        #endregion
-
-        #region Methods
-
-        //public void Gravar(NFeConfig configuracoes)
-        //{
-        //    if (!configuracoes.Arquivos.Salvar) return;
-
-        //    var nomeArquivo = $"{RetEvento.InfEvento.Chave}_{RetEvento.InfEvento.TpEvento.GetValueOrDefault().GetDFeValue()}_{RetEvento.InfEvento.NSeqEvento:00}-procEventoNFe.xml";
-        //    var caminho = configuracoes.Arquivos.ObterCaminhoAutorizado(RetEvento.InfEvento.DhRegEvento.DateTime);
-        //    Save(Path.Combine(caminho, nomeArquivo));
-
-        //    #region Backup
-
-        //    if (configuracoes.Arquivos.DiretorioAutorizadasBackup.IsNotNullOrEmpty())
-        //    {
-        //        var caminhoBackup = configuracoes.Arquivos.ObterCaminhoAutorizado(RetEvento.InfEvento.DhRegEvento.DateTime, configuracoes.Arquivos.DiretorioAutorizadasBackup);
-        //        Save(Path.Combine(caminhoBackup, nomeArquivo));
-        //    }
-
-        //    #endregion
-        //}
 
         #endregion
     }
@@ -83,16 +49,6 @@ namespace DanfeSharp.Esquemas
         #region Events
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        #endregion
-
-        #region Constructors
-
-        //public NFeRetEvento()
-        //{
-        //    InfEvento = new NFeRetInfEvento();
-        //    //Signature = new DFeSignature();
-        //}
 
         #endregion
 
@@ -206,52 +162,41 @@ namespace DanfeSharp.Esquemas
 
         #region Methods
 
-        //private bool ShouldSerializeTpEvento()
-        //{
-        //    return TpEvento.HasValue;
-        //}
+        private bool ShouldSerializeTpEvento()
+        {
+            return tpEvento.HasValue;
+        }
 
-        //private bool ShouldSerializeNSeqEvento()
-        //{
-        //    return NSeqEvento.HasValue;
-        //}
+        private bool ShouldSerializeNSeqEvento()
+        {
+            return nSeqEvento.HasValue;
+        }
 
-        //private bool ShouldSerializeCOrgaoAutor()
-        //{
-        //    return COrgaoAutor.IsNotNullOrEmpty();
-        //}
+        private bool ShouldSerializeCOrgaoAutor()
+        {
+            return string.IsNullOrWhiteSpace(COrgaoAutor);
+        }
 
-        //private bool ShouldSerializeCNPJDest()
-        //{
-        //    return CNPJDest.IsNotNullOrEmpty();
-        //}
+        private bool ShouldSerializeCNPJDest()
+        {
+            return string.IsNullOrWhiteSpace(CNPJDest);
+        }
 
-        //private bool ShouldSerializeCPFDest()
-        //{
-        //    return CPFDest.IsNotNullOrEmpty();
-        //}
+        private bool ShouldSerializeCPFDest()
+        {
+            return string.IsNullOrWhiteSpace(CPFDest);
+        }
 
         #endregion
     }
 
-    //[DFeSignInfoElement("infEvento")]
     [Serializable]
     [XmlType("evento", AnonymousType = true, Namespace = Namespaces.NFe)]
-    public sealed class NFeEvento :/* DFeSignDocument<NFeEvento>,*/ INotifyPropertyChanged
+    public sealed class NFeEvento : INotifyPropertyChanged
     {
         #region Events
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        #endregion
-
-        #region Constructors
-
-        //public NFeEvento()
-        //{
-        //    InfEvento = new NFeInfEvento();
-        //    //Signature = new DFeSignature();
-        //}
 
         #endregion
 
@@ -266,28 +211,6 @@ namespace DanfeSharp.Esquemas
         ///     HP06 - Grupo de informações do registro do Evento
         /// </summary>
         public NFeInfEvento infEvento { get; set; }
-
-        #endregion
-
-        #region Method
-
-        //public void Assinar(X509Certificate2 certificado, SaveOptions saveOptions)
-        //{
-        //    Guard.Against<ArgumentNullException>(certificado == null, "Certificado não pode ser nulo.");
-
-        //    if (InfEvento.Id.IsNullOrEmpty() || InfEvento.Id.Length < 54)
-        //    {
-        //        var idEvento = $"ID{InfEvento.TpEvento.GetDFeValue()}{InfEvento.Chave}{InfEvento.NSeqEvento:D2}";
-        //        InfEvento.Id = idEvento;
-        //    }
-
-        //    AssinarDocumento(certificado, saveOptions, false, SignDigest.SHA1);
-        //}
-
-        //public string ObterNomeXml()
-        //{
-        //    return $"{InfEvento.Chave}-eve-{InfEvento.TpEvento.GetDescription().ToLower()}.xml";
-        //}
 
         #endregion
     }
@@ -329,15 +252,6 @@ namespace DanfeSharp.Esquemas
         #region Events
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        #endregion
-
-        #region Constructors
-
-        //public NFeInfEvento()
-        //{
-        //    DetEvento = new NFeDetEvento();
-        //}
 
         #endregion
 
@@ -414,15 +328,15 @@ namespace DanfeSharp.Esquemas
         //#endregion
 
 
-        //private bool ShouldSerializeCNPJ()
-        //{
-        //    return CNPJ.IsNotNullOrEmpty();
-        //}
+        private bool ShouldSerializeCNPJ()
+        {
+            return string.IsNullOrWhiteSpace(CNPJ);
+        }
 
-        //private bool ShouldSerializeCPF()
-        //{
-        //    return CPF.IsNotNullOrEmpty();
-        //}
+        private bool ShouldSerializeCPF()
+        {
+            return string.IsNullOrWhiteSpace(CPF);
+        }
 
         //#endregion
     }
@@ -585,7 +499,7 @@ namespace DanfeSharp.Esquemas
 
     [Serializable]
     [XmlType("detEvento", AnonymousType = true, Namespace = Namespaces.NFe)]
-    public sealed class NFeDetEvento : GenericClone<NFeDetEvento>, INotifyPropertyChanged
+    public sealed class NFeDetEvento : INotifyPropertyChanged
     {
         #region Events
 
