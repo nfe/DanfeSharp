@@ -13,6 +13,7 @@ namespace DanfeSharp.Esquemas
         [XmlElement("refNF", typeof(RefNF))]
         [XmlElement("refNFP", typeof(RefNFP))]
         [XmlElement("refNFe", typeof(string))]
+        [XmlElement("refNFeSig", typeof(string))]
         [XmlChoiceIdentifier("TipoNFReferenciada")]
         public object Item;
 
@@ -21,7 +22,7 @@ namespace DanfeSharp.Esquemas
 
         public override string ToString()
         {
-            if (TipoNFReferenciada == TipoNFReferenciada.refCTe || TipoNFReferenciada == TipoNFReferenciada.refNFe)
+            if (TipoNFReferenciada == TipoNFReferenciada.refCTe || TipoNFReferenciada == TipoNFReferenciada.refNFe || TipoNFReferenciada == TipoNFReferenciada.refNFeSig)
             {
                 string chaveAcesso = Item.ToString();
                 return $"{Utils.TipoDFeDeChaveAcesso(chaveAcesso)} Ref.: {Formatador.FormatarChaveAcesso(Item.ToString())}";
@@ -41,6 +42,7 @@ namespace DanfeSharp.Esquemas
         refNF,
         refNFP,
         refNFe,
+        refNFeSig,
     }
 
     [Serializable]
