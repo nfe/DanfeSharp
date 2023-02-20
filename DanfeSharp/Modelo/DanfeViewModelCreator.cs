@@ -399,11 +399,11 @@ namespace DanfeSharp.Modelo
                 throw new NotSupportedException("Somente o mod==55 está implementado.");
             }
 
-            if(!FormasEmissaoSuportadas.Contains(model.TipoEmissao))
+            //if(!FormasEmissaoSuportadas.Contains(model.TipoEmissao))
             //if (ide.tpEmis != FormaEmissao.Normal && ide.tpEmis != FormaEmissao.ContingenciaDPEC && ide.tpEmis != FormaEmissao.ContingenciaFSDA && ide.tpEmis != FormaEmissao.ContingenciaSVCAN && ide.tpEmis != FormaEmissao.ContingenciaSVCRS)
-            {
-                throw new NotSupportedException($"O tpEmis {ide.tpEmis} não é suportado.");
-            }
+            //{
+            //    throw new NotSupportedException($"O tpEmis {ide.tpEmis} não é suportado.");
+            //}
 
             // comentamos essa linha, pois o PDF modelo paisagem falhava por conta do uso do netcore2.0
             // model.Orientacao = ide.tpImp == 1 ? Orientacao.Retrato : Orientacao.Paisagem;
