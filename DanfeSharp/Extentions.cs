@@ -23,8 +23,12 @@ namespace DanfeSharp
             {"fpValeCombustivel", "Vale Combustível" },
             {"fpDuplicataMercantil", "Duplicata Mercantil" },
             {"fpBoletoBancario", "Boleto Bancário" },
+            {"fpDepositoBancario", "Depósito Bancário" },
+            {"fpPagamentoInstantaneoPIX", "Pagamento Instantâneo (PIX)" },
+            {"fpTransferenciabancaria", "Transferência bancária, Carteira Digital" },
+            {"fpProgramadefidelidade", "Programa de fidelidade, Cashback, Crédito Virtualo" },
             {"fpSemPagamento", "Sem pagamento" },
-            {"fpOutro", "Outros" },
+            {"fpOutro", "Outros" }
         };
 
 
