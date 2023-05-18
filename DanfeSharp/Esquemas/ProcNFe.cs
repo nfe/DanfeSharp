@@ -222,7 +222,7 @@ namespace DanfeSharp.Esquemas.NFe
         public string uTrib { get; set; }
         public string qTrib { get; set; }
         public string vUnTrib { get; set; }
-        public string vFrete { get; set; }        
+        public string vFrete { get; set; }
         public string vSeg { get; set; }
         public string vDesc { get; set; }
         public string vOutro { get; set; }
@@ -245,12 +245,16 @@ namespace DanfeSharp.Esquemas.NFe
     }
 
     public class ImpostoICMS00 : ImpostoICMS { }
+    public class ImpostoICMS02 : ImpostoICMS { }
     public class ImpostoICMS10 : ImpostoICMS { }
+    public class ImpostoICMS15 : ImpostoICMS { }
     public class ImpostoICMS20 : ImpostoICMS { }
     public class ImpostoICMS30 : ImpostoICMS { }
     public class ImpostoICMS40 : ImpostoICMS { }
     public class ImpostoICMS51 : ImpostoICMS { }
+    public class ImpostoICMS53 : ImpostoICMS { }
     public class ImpostoICMS60 : ImpostoICMS { }
+    public class ImpostoICMS61 : ImpostoICMS { }
     public class ImpostoICMS70 : ImpostoICMS { }
     public class ImpostoICMS90 : ImpostoICMS { }
     public class ImpostoICMSPart : ImpostoICMS { }
@@ -261,18 +265,22 @@ namespace DanfeSharp.Esquemas.NFe
     public class ImpostoICMSSN500 : ImpostoICMS { }
     public class ImpostoICMSSN900 : ImpostoICMS { }
     public class ImpostoICMSST : ImpostoICMS { }
-    
+
     [Serializable]
     [XmlType(AnonymousType = true, Namespace = Namespaces.NFe)]
     public partial class ProdutoICMS
     {
         [XmlElement("ICMS00", typeof(ImpostoICMS00))]
+        [XmlElement("ICMS02", typeof(ImpostoICMS02))]
         [XmlElement("ICMS10", typeof(ImpostoICMS10))]
+        [XmlElement("ICMS15", typeof(ImpostoICMS15))]
         [XmlElement("ICMS20", typeof(ImpostoICMS20))]
         [XmlElement("ICMS30", typeof(ImpostoICMS30))]
         [XmlElement("ICMS40", typeof(ImpostoICMS40))]
         [XmlElement("ICMS51", typeof(ImpostoICMS51))]
+        [XmlElement("ICMS53", typeof(ImpostoICMS53))]
         [XmlElement("ICMS60", typeof(ImpostoICMS60))]
+        [XmlElement("ICMS61", typeof(ImpostoICMS61))]
         [XmlElement("ICMS70", typeof(ImpostoICMS70))]
         [XmlElement("ICMS90", typeof(ImpostoICMS90))]
         [XmlElement("ICMSPart", typeof(ImpostoICMSPart))]
@@ -329,7 +337,7 @@ namespace DanfeSharp.Esquemas.NFe
     [XmlType(AnonymousType = true, Namespace = Namespaces.NFe)]
     public class Detalhe
     {
-        public Produto prod { get; set; }      
+        public Produto prod { get; set; }
         public ProdutoImposto imposto { get; set; }
         public string infAdProd { get; set; }
 
@@ -748,7 +756,7 @@ namespace DanfeSharp.Esquemas.NFe
 
         [XmlElement("det")]
         public List<Detalhe> det { get; set; }
-     
+
         public Total total { get; set; }
         public Transporte transp { get; set; }
         public Cobranca cobr { get; set; }
@@ -884,7 +892,7 @@ namespace DanfeSharp.Esquemas.NFe
         /// <summary>
         /// Tipo de Impressao
         /// </summary>
-        public int tpImp { get; set; } 
+        public int tpImp { get; set; }
 
         /// <summary>
         /// Forma de emissão da NF-e
@@ -902,7 +910,7 @@ namespace DanfeSharp.Esquemas.NFe
         /// Justificativa da entrada em contingência 
         /// </summary>
         public string xJust { get; set; }
-               
+
         /// <summary>
         /// Grupo de informação das NF/NF-e referenciadas
         /// </summary>
