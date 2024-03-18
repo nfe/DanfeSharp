@@ -305,68 +305,6 @@ namespace DanfeSharp.Modelo
             }
         }
 
-        public virtual String TextoAdicionalFisco()
-        {
-            StringBuilder sb = new StringBuilder();
-
-            if (TipoEmissao == FormaEmissao.ContingenciaSVCAN || TipoEmissao == FormaEmissao.ContingenciaSVCRS)
-            {
-                sb.Append("Contingência ");
-
-                if (TipoEmissao == FormaEmissao.ContingenciaSVCAN)
-                    sb.Append("SVC-AN");
-
-                if (TipoEmissao == FormaEmissao.ContingenciaSVCRS)
-                    sb.Append("SVC-RS");
-
-                if (ContingenciaDataHora.HasValue)
-                {
-                    sb.Append($" - {ContingenciaDataHora.FormatarDataHora()/*Value.ToString("yyyy-MM-ddThh:mm:sszzz")*/}");
-                }
-
-                if (!String.IsNullOrWhiteSpace(ContingenciaJustificativa))
-                {
-                    sb.Append($" - {ContingenciaJustificativa}");
-                }
-
-                sb.Append(".");
-
-            }
-
-            return sb.ToString();
-        }
-
-        //public virtual String TextoAdicionalFisco()
-        //{
-        //    StringBuilder sb = new StringBuilder();
-
-        //    if (TipoEmissao == FormaEmissao.ContingenciaSVCAN || TipoEmissao == FormaEmissao.ContingenciaSVCRS)
-        //    {
-        //        sb.Append("Contingência ");
-
-        //        if (TipoEmissao == FormaEmissao.ContingenciaSVCAN)
-        //            sb.Append("SVC-AN");
-
-        //        if (TipoEmissao == FormaEmissao.ContingenciaSVCRS)
-        //            sb.Append("SVC-RS");
-
-        //        if (ContingenciaDataHora.HasValue)
-        //        {
-        //            sb.Append($" - {ContingenciaDataHora.FormatarDataHora()}");
-        //        }
-
-        //        if (!String.IsNullOrWhiteSpace(ContingenciaJustificativa))
-        //        {
-        //            sb.Append($" - {ContingenciaJustificativa}");
-        //        }
-
-        //        sb.Append(".");
-
-        //    }
-
-        //    return sb.ToString();
-        //}
-
         public virtual String TextoReservadoFisco()
         {
             StringBuilder sb = new StringBuilder();
