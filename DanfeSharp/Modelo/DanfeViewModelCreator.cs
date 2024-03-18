@@ -569,13 +569,8 @@ namespace DanfeSharp.Modelo
 
             ExtrairDatas(model, infNfe);
 
-            // Contingência SVC-AN e SVC-RS
-            if (model.TipoEmissao == FormaEmissao.ContingenciaSVCAN || model.TipoEmissao == FormaEmissao.ContingenciaSVCRS)
-            {
-
-                model.ContingenciaDataHora = ide.dhCont;
-                model.ContingenciaJustificativa = ide.xJust;
-            }
+            model.ContingenciaDataHora = ide.dhCont;
+            model.ContingenciaJustificativa = ide.xJust;
 
             return model;
         }
