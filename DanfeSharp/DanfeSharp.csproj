@@ -11,72 +11,7 @@
   
   <ItemGroup>
     <PackageReference Include="PdfClown.NetStandard" Version="0.2.0-beta" />
-  </ItemGroup>
-  <ItemGroup>
-    <!--<Compile Include="Atributos\AlturaFixaAttribute.cs" />
-    <Compile Include="Blocos\BlocoBase.cs" />
-    <Compile Include="Blocos\BlocoCalculoImposto.cs" />
-    <Compile Include="Blocos\BlocoCanhoto.cs" />
-    <Compile Include="Blocos\BlocoDadosAdicionais.cs" />
-    <Compile Include="Blocos\BlocoDestinatarioRemetente.cs" />
-    <Compile Include="Blocos\BlocoDuplicataFatura.cs" />
-    <Compile Include="Blocos\BlocoIdentificacaoEmitente.cs" />
-    <Compile Include="Blocos\BlocoCalculoIssqn.cs" />
-    <Compile Include="Blocos\BlocoLocalEntregaRetirada\BlocoLocalEntrega.cs" />
-    <Compile Include="Blocos\BlocoLocalEntregaRetirada\BlocoLocalEntregaRetirada.cs" />
-    <Compile Include="Blocos\BlocoLocalEntregaRetirada\BlocoLocalRetirada.cs" />
-    <Compile Include="Blocos\TabelaProdutosServicos.cs" />
-    <Compile Include="Blocos\BlocoTransportador.cs" />
-    <Compile Include="Constantes.cs" />
-    <Compile Include="Danfe.cs" />
-    <Compile Include="DanfePagina.cs" />
-    <Compile Include="Elementos\Barcode128C.cs" />
-    <Compile Include="Elementos\CabecalhoBloco.cs" />
-    <Compile Include="Elementos\Campo.cs" />
-    <Compile Include="Elementos\CampoMultilinha.cs" />
-    <Compile Include="Elementos\CampoNumerico.cs" />
-    <Compile Include="Elementos\LinhaTracejada.cs" />
-    <Compile Include="Elementos\DrawableBase.cs" />
-    <Compile Include="Elementos\ElementoBase.cs" />
-    <Compile Include="Elementos\ElementoVazio.cs" />
-    <Compile Include="Elementos\Estilo.cs" />
-    <Compile Include="Elementos\Duplicata.cs" />
-    <Compile Include="Elementos\FlexibleLine.cs" />
-    <Compile Include="Elementos\IdentificacaoEmitente.cs" />
-    <Compile Include="Elementos\LinhaCampos.cs" />
-    <Compile Include="Elementos\NumeroNfSerie.cs" />
-    <Compile Include="Elementos\NumeroNfSerie2.cs" />
-    <Compile Include="Elementos\Tabela.cs" />
-    <Compile Include="Elementos\TabelaColuna.cs" />
-    <Compile Include="Elementos\TextBlock.cs" />
-    <Compile Include="Elementos\TextoSimples.cs" />
-    <Compile Include="Elementos\TextStack.cs" />
-    <Compile Include="Elementos\VerticalStack.cs" />
-    <Compile Include="Enumeracoes\AlinhamentoHorizontal.cs" />
-    <Compile Include="Enumeracoes\AlinhamentoVertical.cs" />
-    <Compile Include="Enumeracoes\Orientacao.cs" />
-    <Compile Include="Enumeracoes\PosicaoBloco.cs" />
-    <Compile Include="Esquemas\NFReferenciada.cs" />
-    <Compile Include="Extentions.cs" />
-    <Compile Include="Formatador.cs" />
-    <Compile Include="Graphics\Fonte.cs" />
-    <Compile Include="Modelo\CalculoImpostoViewModel.cs" />
-    <Compile Include="Modelo\CalculoIssqnViewModel.cs" />
-    <Compile Include="Modelo\DanfeViewModel.cs" />
-    <Compile Include="Modelo\DanfeViewModelCreator.cs" />
-    <Compile Include="Modelo\EmpresaViewModel.cs" />
-    <Compile Include="Modelo\DuplicataViewModel.cs" />
-    <Compile Include="Modelo\LocalEntregaRetiradaViewModel.cs" />
-    <Compile Include="Modelo\ProdutoViewModel.cs" />
-    <Compile Include="Modelo\TransportadoraViewModel.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Graphics\Gfx.cs" />
-    <Compile Include="Esquemas\Namespaces.cs" />
-    <Compile Include="Esquemas\ProcNFe.cs" />
-    <Compile Include="Esquemas\Versao.cs" />
-    <Compile Include="Strings.cs" />
-    <Compile Include="Structs\DateTimeOffsetIso8601.cs" />
-    <Compile Include="Utils.cs" />-->
     <PackageReference Include="QRCoder" Version="1.3.5" />
   </ItemGroup>
+
 </Project>
