@@ -1,12 +1,13 @@
 ﻿using System.Linq;
 using DanfeNet.Elementos;
 using DanfeNet.Models;
+using Duplicata = DanfeNet.Elementos.Duplicata;
 
 namespace DanfeNet.Blocos;
 
 internal class BlocoDuplicataFatura : BlocoBase 
 {
-    public BlocoDuplicataFatura(DanfeViewModel viewModel, Estilo estilo) 
+    public BlocoDuplicataFatura(Danfe viewModel, Estilo estilo) 
         : base (viewModel, estilo) 
     {
         var de = viewModel.Duplicatas.Select(x => new Duplicata (estilo, x)).ToList();

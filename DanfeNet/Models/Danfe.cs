@@ -9,7 +9,7 @@ namespace DanfeNet.Models;
 /// <summary>
 /// Modelo de dados utilizado para o DANFE.
 /// </summary>
-public class DanfeViewModel
+public class Danfe
 {
     private int _QuantidadeCanhoto;
 
@@ -48,7 +48,7 @@ public class DanfeViewModel
     /// <summary>
     ///  Grupo de Formas de Pagamento (pag)
     /// </summary>
-    public List<PagamentoViewModel> Pagamento { get; set; }
+    public List<Pagamento> Pagamento { get; set; }
 
     /// <summary>
     /// QrCode NFC-e
@@ -118,12 +118,12 @@ public class DanfeViewModel
     /// <summary>
     /// Dados do Emitente
     /// </summary>
-    public EmpresaViewModel Emitente { get; set; }
+    public Empresa Emitente { get; set; }
 
     /// <summary>
     /// Dados do Destinatário
     /// </summary>
-    public EmpresaViewModel Destinatario { get; set; }
+    public Empresa Destinatario { get; set; }
 
     /// <summary>
     /// <para>Tipo de Emissão da NF-e
@@ -154,27 +154,27 @@ public class DanfeViewModel
     /// <summary>
     /// Faturas da Nota Fiscal
     /// </summary>
-    public List<DuplicataViewModel> Duplicatas { get; set; }
+    public List<Duplicata> Duplicatas { get; set; }
 
     /// <summary>
     /// Dados da Transportadora
     /// </summary>
-    public TransportadoraViewModel Transportadora { get; set; }
+    public Transportadora Transportadora { get; set; }
 
     /// <summary>
     /// View Model do bloco Cálculo do Imposto
     /// </summary>
-    public CalculoImpostoViewModel CalculoImposto { get; set; }
+    public CalculoImposto CalculoImposto { get; set; }
 
     /// <summary>
     /// Produtos da Nota Fiscal
     /// </summary>
-    public List<ProdutoViewModel> Produtos { get; set; }
+    public List<Produto> Produtos { get; set; }
 
     /// <summary>
     /// View Model do Bloco Cálculo do Issqn
     /// </summary>
-    public CalculoIssqnViewModel CalculoIssqn { get; set; }
+    public CalculoIssqn CalculoIssqn { get; set; }
 
     /// <summary>
     /// Tipo de Ambiente
@@ -198,9 +198,9 @@ public class DanfeViewModel
 
     #region Local Retirada e Entrega
 
-    public LocalEntregaRetiradaViewModel LocalRetirada { get; set; }
+    public LocalEntregaRetirada LocalRetirada { get; set; }
 
-    public LocalEntregaRetiradaViewModel LocalEntrega { get; set; }
+    public LocalEntregaRetirada LocalEntrega { get; set; }
 
     #endregion
 
@@ -266,19 +266,19 @@ public class DanfeViewModel
     public string ContingenciaJustificativa { get; set; }
     #endregion
 
-    public DanfeViewModel()
+    public Danfe()
     {
         QuantidadeCanhotos = 1;
         Margem = 4;
         Orientacao = Orientacao.Retrato;
-        CalculoImposto = new CalculoImpostoViewModel();
-        Emitente = new EmpresaViewModel();
-        Destinatario = new EmpresaViewModel();
-        Duplicatas = new List<DuplicataViewModel>();
-        Produtos = new List<ProdutoViewModel>();
-        Transportadora = new TransportadoraViewModel();
-        CalculoIssqn = new CalculoIssqnViewModel();
-        Pagamento = new List<PagamentoViewModel>();
+        CalculoImposto = new CalculoImposto();
+        Emitente = new Empresa();
+        Destinatario = new Empresa();
+        Duplicatas = new List<Duplicata>();
+        Produtos = new List<Produto>();
+        Transportadora = new Transportadora();
+        CalculoIssqn = new CalculoIssqn();
+        Pagamento = new List<Pagamento>();
         NotasFiscaisReferenciadas = new List<string>();
     }
 
@@ -292,7 +292,7 @@ public class DanfeViewModel
         return str == null ? string.Empty : str.Replace(';', '\n');
     }
 
-    public static DanfeViewModel CreateFromXmlString(string xml)
+    public static Danfe CreateFromXmlString(string xml)
     {
         return DanfeFactory.CreateFromXmlString(xml);
     }

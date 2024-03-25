@@ -24,7 +24,7 @@ public class DanfeNFC : IDisposable
     private readonly SizeF _size;
     private Page _page;
     private PrimitiveComposer _primitiveComposer;
-    public DanfeViewModel ViewModel { get; private set; }
+    public Danfe ViewModel { get; private set; }
     public File File { get; private set; }
     internal Document PdfDocument { get; private set; }
     internal BlocoIdentificacaoEmitenteNFC IdentificacaoEmitente { get; private set; }
@@ -33,7 +33,7 @@ public class DanfeNFC : IDisposable
 
     private org.pdfclown.documents.contents.xObjects.XObject _LogoObject = null;
 
-    public DanfeNFC(DanfeViewModel viewModel, string creditos = null, string metadataCriador = null)
+    public DanfeNFC(Danfe viewModel, string creditos = null, string metadataCriador = null)
     {
         ViewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
 

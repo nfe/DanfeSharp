@@ -2,7 +2,7 @@
 
 namespace DanfeNet.Models;
 
-public class TransportadoraViewModel : EmpresaViewModel
+public class Transportadora : Empresa
 {
     public static readonly Dictionary<int, string> ModalidadesFrete = new Dictionary<int,string>()
     {

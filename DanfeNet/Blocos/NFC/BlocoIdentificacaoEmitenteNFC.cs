@@ -14,7 +14,7 @@ internal class BlocoIdentificacaoEmitenteNFC : BlocoBase
     NumeroNfSerie2 ifdNfe;
     IdentificacaoEmitente idEmitente;
 
-    public BlocoIdentificacaoEmitenteNFC(DanfeViewModel viewModel, Estilo estilo, PrimitiveComposer primitiveComposer) : base(viewModel, estilo)
+    public BlocoIdentificacaoEmitenteNFC(Danfe viewModel, Estilo estilo, PrimitiveComposer primitiveComposer) : base(viewModel, estilo)
     {
         primitiveComposer.BeginLocalState();
         primitiveComposer.SetFont(estilo.FonteCampoTituloNegrito.FonteInterna, estilo.FonteCampoTituloNegrito.Tamanho);

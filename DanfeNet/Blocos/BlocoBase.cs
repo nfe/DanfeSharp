@@ -15,7 +15,7 @@ internal abstract class BlocoBase : ElementoBase
     /// </summary>
     public const float Proporcao = 100F / 200F;
 
-    public DanfeViewModel ViewModel { get; private set; }
+    public Danfe ViewModel { get; private set; }
 
     public abstract PosicaoBloco Posicao { get; }
 
@@ -31,7 +31,7 @@ internal abstract class BlocoBase : ElementoBase
 
     public virtual string Cabecalho => null;
 
-    public BlocoBase(DanfeViewModel viewModel, Estilo estilo) : base(estilo)
+    public BlocoBase(Danfe viewModel, Estilo estilo) : base(estilo)
     {
         MainVerticalStack = new VerticalStack();
         ViewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));

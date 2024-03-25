@@ -1,6 +1,6 @@
 ﻿namespace DanfeNet.Models;
 
-public class ProdutoViewModel
+public class Produto
 {
     /// <summary>
     /// <para>Código do produto ou serviço</para>
@@ -103,7 +103,7 @@ public class ProdutoViewModel
     /// </summary>
     public double? ValorAproximadoTributos { get; set; }
 
-    public ProdutoViewModel()
+    public Produto()
     {
         AliquotaIpi = null;
         ValorIpi = null;

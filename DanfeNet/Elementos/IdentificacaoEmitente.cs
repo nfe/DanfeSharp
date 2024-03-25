@@ -8,10 +8,10 @@ namespace DanfeNet.Elementos;
 
 internal class IdentificacaoEmitente : ElementoBase
 {
-    public DanfeViewModel ViewModel { get; private set; }
+    public Danfe ViewModel { get; private set; }
     public XObject Logo { get;  set; }
 
-    public IdentificacaoEmitente(Estilo estilo, DanfeViewModel viewModel) : base(estilo)
+    public IdentificacaoEmitente(Estilo estilo, Danfe viewModel) : base(estilo)
     {
         ViewModel = viewModel;
         Logo = null;

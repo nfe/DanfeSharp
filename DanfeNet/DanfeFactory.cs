@@ -6,15 +6,19 @@ using System.Xml;
 using System.Xml.Serialization;
 using DanfeNet.Esquemas;
 using DanfeNet.Models;
+using Duplicata = DanfeNet.Models.Duplicata;
+using Empresa = DanfeNet.Models.Empresa;
+using LocalEntregaRetirada = DanfeNet.Models.LocalEntregaRetirada;
+using Produto = DanfeNet.Models.Produto;
 
 namespace DanfeNet;
 
 public static class DanfeFactory
 {
 
-    private static EmpresaViewModel CreateEmpresaFrom(Empresa empresa)
+    private static Empresa CreateEmpresaFrom(Esquemas.Empresa empresa)
     {
-        EmpresaViewModel model = new EmpresaViewModel();
+        Empresa model = new Empresa();
 
         model.RazaoSocial = empresa.xNome;
         model.CnpjCpf = !string.IsNullOrWhiteSpace(empresa.CNPJ) ? empresa.CNPJ : empresa.CPF;
@@ -51,7 +55,7 @@ public static class DanfeFactory
         return model;
     }
 
-    internal static DanfeViewModel CreateFromXmlString(string xml)
+    internal static Danfe CreateFromXmlString(string xml)
     {
         ProcNFe nfe;
 
@@ -78,7 +82,7 @@ public static class DanfeFactory
     /// </summary>
     /// <param name="caminho"></param>
     /// <returns></returns>
-    public static DanfeViewModel CriarModeloNFCeDeArquivoXml(string caminho)
+    public static Danfe CriarModeloNFCeDeArquivoXml(string caminho)
     {
         using (var sr = new StreamReader(caminho, true))
         {
@@ -91,7 +95,7 @@ public static class DanfeFactory
     /// </summary>
     /// <param name="stream"></param>
     /// <returns>Modelo</returns>
-    public static DanfeViewModel CriarModeloNFCeDeArquivoXml(Stream stream)
+    public static Danfe CriarModeloNFCeDeArquivoXml(Stream stream)
     {
         if (stream == null) 
             throw new ArgumentNullException(nameof(stream));
@@ -107,7 +111,7 @@ public static class DanfeFactory
     /// </summary>
     /// <param name="caminho"></param>
     /// <returns></returns>
-    public static DanfeViewModel CriarDeArquivoXml(string caminho)
+    public static Danfe CriarDeArquivoXml(string caminho)
     {
         using (var sr = new StreamReader(caminho, true))
         {
@@ -120,7 +124,7 @@ public static class DanfeFactory
     /// </summary>
     /// <param name="stream"></param>
     /// <returns>Modelo</returns>
-    public static DanfeViewModel CriarDeArquivoXml(Stream stream)
+    public static Danfe CriarDeArquivoXml(Stream stream)
     {
         if (stream == null) throw new ArgumentNullException(nameof(stream));
 
@@ -133,7 +137,7 @@ public static class DanfeFactory
     /// <summary>
     /// Cria o modelo a partir de uma string xml.
     /// </summary>
-    public static DanfeViewModel CriarDeStringXml(string str)
+    public static Danfe CriarDeStringXml(string str)
     {
         if (str == null) throw new ArgumentNullException(nameof(str));
 
@@ -143,7 +147,7 @@ public static class DanfeFactory
         }
     }
 
-    private static DanfeViewModel CriarModeloNFCeDeArquivoXmlInternal(TextReader reader)
+    private static Danfe CriarModeloNFCeDeArquivoXmlInternal(TextReader reader)
     {
         ProcNFe nfe = null;
 
@@ -164,7 +168,7 @@ public static class DanfeFactory
         }
     }
 
-    private static DanfeViewModel CriarDeArquivoXmlInternal(TextReader reader)
+    private static Danfe CriarDeArquivoXmlInternal(TextReader reader)
     {
         ProcNFe nfe = null;
 
@@ -185,7 +189,7 @@ public static class DanfeFactory
         }
     }
 
-    internal static void ExtrairDatas(DanfeViewModel model, InfNFe infNfe)
+    internal static void ExtrairDatas(Danfe model, InfNFe infNfe)
     {
         var ide = infNfe.ide;
 
@@ -211,9 +215,9 @@ public static class DanfeFactory
         }
     }
 
-    internal static CalculoImpostoViewModel CriarCalculoImpostoViewModel(ICMSTotal i)
+    internal static CalculoImposto CriarCalculoImpostoViewModel(ICMSTotal i)
     {
-        return new CalculoImpostoViewModel()
+        return new CalculoImposto()
         {
             ValorAproximadoTributos = i.vTotTrib,//i.vICMS + i.vST + i.vII + i.vIPI + i.vPIS + i.vCOFINS,
             BaseCalculoIcms = i.vBC,
@@ -237,9 +241,9 @@ public static class DanfeFactory
     }
 
     // Manual de Especificacoes Tecnicas do DANFE NFCeQRCode_Versao3.4_26_10_2015
-    public static DanfeViewModel CreateFromProcNFCe(ProcNFe procNfe)
+    public static Danfe CreateFromProcNFCe(ProcNFe procNfe)
     {
-        DanfeViewModel model = new DanfeViewModel();
+        Danfe model = new Danfe();
 
         var nfe = procNfe.NFe;
         var infNfe = nfe.infNFe;
@@ -274,7 +278,7 @@ public static class DanfeFactory
         // Divisão 3 - Informações de detalhes de produtos/serviços
         foreach (var det in infNfe.det)
         {
-            var produto = new ProdutoViewModel();
+            var produto = new Produto();
             produto.Codigo = det.prod.cProd;
             produto.Descricao = det.prod.xProd;
             produto.Unidade = det.prod.uCom;
@@ -286,7 +290,7 @@ public static class DanfeFactory
         }
 
         // Divisão 4 - Informações de Totais do DANFE NFCe
-        model.CalculoImposto = new CalculoImpostoViewModel()
+        model.CalculoImposto = new CalculoImposto()
         {
             QuantidadeTotal = model.Produtos.Count(),
             ValorTotalProdutos = infNfe.total.ICMSTot.vProd,
@@ -299,7 +303,7 @@ public static class DanfeFactory
 
         foreach (var pag in infNfe.pag)
         {
-            var pagamento = new PagamentoViewModel();
+            var pagamento = new Pagamento();
             pagamento.DetalhePagamento = new System.Collections.Generic.List<DetalheViewModel>();
             pagamento.Troco = pag.vTroco;
 
@@ -369,9 +373,9 @@ public static class DanfeFactory
         return model;
     }
 
-    public static DanfeViewModel CreateFromProcNFe(ProcNFe procNfe)
+    public static Danfe CreateFromProcNFe(ProcNFe procNfe)
     {
-        DanfeViewModel model = new DanfeViewModel();
+        Danfe model = new Danfe();
 
         var nfe = procNfe.NFe;
         var infNfe = nfe.infNFe;
@@ -426,7 +430,7 @@ public static class DanfeFactory
 
         foreach (var det in infNfe.det)
         {
-            ProdutoViewModel produto = new ProdutoViewModel();
+            Produto produto = new Produto();
             produto.Codigo = det.prod.cProd;
             produto.Descricao = det.prod.xProd;
             produto.Ncm = det.prod.NCM;
@@ -474,7 +478,7 @@ public static class DanfeFactory
         {
             foreach (var item in infNfe.cobr.dup)
             {
-                DuplicataViewModel duplicata = new DuplicataViewModel();
+                Duplicata duplicata = new Duplicata();
                 duplicata.Numero = item.nDup;
                 duplicata.Valor = item.vDup;
                 duplicata.Vecimento = item.dVenc;
@@ -552,9 +556,9 @@ public static class DanfeFactory
         return model;
     }
 
-    private static LocalEntregaRetiradaViewModel CreateLocalRetiradaEntrega(LocalEntregaRetirada local)
+    private static LocalEntregaRetirada CreateLocalRetiradaEntrega(Esquemas.LocalEntregaRetirada local)
     {
-        var m = new LocalEntregaRetiradaViewModel()
+        var m = new LocalEntregaRetirada()
         {
             NomeRazaoSocial = local.xNome,
             CnpjCpf = !string.IsNullOrWhiteSpace(local.CNPJ) ? local.CNPJ : local.CPF,

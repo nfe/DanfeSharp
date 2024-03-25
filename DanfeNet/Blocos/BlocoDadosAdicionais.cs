@@ -12,7 +12,7 @@ internal class BlocoDadosAdicionais : BlocoBase
     private Campo _cReservadoFisco;
     public const float InfComplementaresLarguraPorcentagem = 75;
 
-    public BlocoDadosAdicionais(DanfeViewModel viewModel, Estilo estilo) : base(viewModel, estilo)
+    public BlocoDadosAdicionais(Danfe viewModel, Estilo estilo) : base(viewModel, estilo)
     {
         _cInfComplementares = new CampoMultilinha("Informações Complementares", ViewModel.TextoAdicional(), estilo);
         _cReservadoFisco = new CampoMultilinha("Reservado ao fisco", ViewModel.TextoReservadoFisco(), estilo);

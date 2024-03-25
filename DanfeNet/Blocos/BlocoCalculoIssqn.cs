@@ -5,7 +5,7 @@ namespace DanfeNet.Blocos;
 
 internal class BlocoCalculoIssqn : BlocoBase
 {
-    public BlocoCalculoIssqn(DanfeViewModel viewModel, Estilo estilo) : base(viewModel, estilo)
+    public BlocoCalculoIssqn(Danfe viewModel, Estilo estilo) : base(viewModel, estilo)
     {
         var m = viewModel.CalculoIssqn;
 

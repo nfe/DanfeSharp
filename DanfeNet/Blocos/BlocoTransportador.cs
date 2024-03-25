@@ -11,7 +11,7 @@ internal class BlocoTransportador : BlocoBase
     public const float LarguraCampoUf = 7F * Proporcao;
     public const float LarguraFrete = 34F * Proporcao;
 
-    public BlocoTransportador(DanfeViewModel viewModel, Estilo campoEstilo) : base(viewModel, campoEstilo)
+    public BlocoTransportador(Danfe viewModel, Estilo campoEstilo) : base(viewModel, campoEstilo)
     {
         var transportadora = viewModel.Transportadora;
 

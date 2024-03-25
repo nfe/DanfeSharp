@@ -29,7 +29,7 @@ public class DanfeCartaCorrecao : IDisposable
 
     #region Constructors
 
-    public DanfeCartaCorrecao(DanfeEventoViewModel viewModel, string creditos = null, string metadataCriador = null)
+    public DanfeCartaCorrecao(DanfeEvento viewModel, string creditos = null, string metadataCriador = null)
     {
 
         _creditos = creditos ?? "Impresso com DanfeNet";
@@ -85,7 +85,7 @@ public class DanfeCartaCorrecao : IDisposable
     internal Estilo EstiloPadrao { get; private set; }
     internal List<DanfeEventoPagina> Paginas { get; private set; }
 
-    public DanfeEventoViewModel ViewModel { get; private set; }
+    public DanfeEvento ViewModel { get; private set; }
 
     #endregion
 

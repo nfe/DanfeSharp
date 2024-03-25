@@ -5,7 +5,7 @@ namespace DanfeNet.Blocos;
 
 internal class BlocoDestinatarioRemetente : BlocoBase
 {
-    public BlocoDestinatarioRemetente(DanfeViewModel viewModel, Estilo estilo) : base(viewModel, estilo)
+    public BlocoDestinatarioRemetente(Danfe viewModel, Estilo estilo) : base(viewModel, estilo)
     {
         var destinatario = viewModel.Destinatario;
 

@@ -34,10 +34,10 @@ public class DanfePdf : DanfePdfBase
     internal List<DanfePagina> Paginas { get; private set; }
 
         
-    public DanfeViewModel ViewModel { get; }
+    public Danfe ViewModel { get; }
         
         
-    public DanfePdf(DanfeViewModel viewModel)
+    public DanfePdf(Danfe viewModel)
     {
         ViewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
 

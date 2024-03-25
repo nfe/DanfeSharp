@@ -13,7 +13,7 @@ internal class BlocoIdentificacaoEmitente : BlocoBase
     NumeroNfSerie2 ifdNfe;
     IdentificacaoEmitente idEmitente;
 
-    public BlocoIdentificacaoEmitente(DanfeViewModel viewModel, Estilo estilo) : base(viewModel, estilo)
+    public BlocoIdentificacaoEmitente(Danfe viewModel, Estilo estilo) : base(viewModel, estilo)
     {
 
         var textoConsulta = new TextoSimples(Estilo, Strings.TextoConsulta)

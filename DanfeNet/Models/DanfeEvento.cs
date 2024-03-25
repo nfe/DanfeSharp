@@ -3,7 +3,7 @@ using DanfeNet.Esquemas;
 
 namespace DanfeNet.Models;
 
-public class DanfeEventoViewModel
+public class DanfeEvento
 {
     #region Fields
 
@@ -13,7 +13,7 @@ public class DanfeEventoViewModel
 
     #region Constructors
 
-    public DanfeEventoViewModel()
+    public DanfeEvento()
     {
         Margem = 4;
         Orientacao = Orientacao.Retrato;

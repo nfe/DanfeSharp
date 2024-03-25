@@ -7,7 +7,7 @@ internal class BlocoEventoCabecalho : BlocoEventoBase
 {
     #region Constructors
 
-    public BlocoEventoCabecalho(DanfeEventoViewModel viewModel, Estilo estilo) : base(viewModel, estilo)
+    public BlocoEventoCabecalho(DanfeEvento viewModel, Estilo estilo) : base(viewModel, estilo)
     {
         var ts = new TextStack(BoundingBox) {Height = 30, AlinhamentoVertical = AlinhamentoVertical.Centro, AlinhamentoHorizontal = AlinhamentoHorizontal.Centro, LineHeightScale = 2F}
             .AddLine(viewModel.TituloEvento, Estilo.CriarFonteNegrito(15))

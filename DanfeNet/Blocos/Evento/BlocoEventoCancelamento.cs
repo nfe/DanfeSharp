@@ -7,7 +7,7 @@ internal class BlocoEventoCancelamento : BlocoEventoBase
 {
     #region Constructors
 
-    public BlocoEventoCancelamento(DanfeEventoViewModel viewModel, Estilo estilo) : base(viewModel, estilo)
+    public BlocoEventoCancelamento(DanfeEvento viewModel, Estilo estilo) : base(viewModel, estilo)
     {
         var campoJustificativa = new CampoMultilinha("", viewModel.Justificativa, estilo, AlinhamentoHorizontal.Esquerda, true) { Height = AlturaCampo };
         var linha = new FlexibleLine { Height = AlturaCampo }

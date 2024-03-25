@@ -10,7 +10,7 @@ namespace DanfeNet.Blocos.NFC;
 
 internal class BlocoQrCodeNFC : ElementoBase
 {
-    public BlocoQrCodeNFC(DanfeViewModel viewModel, Estilo estilo, PrimitiveComposer primitiveComposer, float y, Document context) : base(estilo)
+    public BlocoQrCodeNFC(Danfe viewModel, Estilo estilo, PrimitiveComposer primitiveComposer, float y, Document context) : base(estilo)
     {
         var result = new MemoryStream();
         primitiveComposer.BeginLocalState();

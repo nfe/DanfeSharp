@@ -2,7 +2,7 @@
 
 namespace DanfeNet.Models;
 
-public class PagamentoViewModel
+public class Pagamento
 {
     /// <summary>
     /// YA01a - Grupo Detalhamento da Forma de Pagamento (detPag)
