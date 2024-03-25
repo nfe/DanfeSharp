@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using DanfeNet.Models;
+﻿using DanfeNet.Models;
 
-namespace DanfeNet.Test;
+namespace DanfeNet.Tests;
 
 public static class FabricaFake
 {

@@ -1,8 +1,6 @@
-﻿using System;
-using DanfeNet.Esquemas;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using DanfeNet.Esquemas;
 
-namespace DanfeNet.Test;
+namespace DanfeNet.Tests;
 
 [TestClass]
 public class DanfePdfTest

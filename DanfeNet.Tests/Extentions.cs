@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
-using System.IO;
 
-namespace DanfeNet.Test;
+namespace DanfeNet.Tests;
 
 public static class Extentions
 {
