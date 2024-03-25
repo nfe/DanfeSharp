@@ -5,6 +5,7 @@ using DanfeNet.Blocos;
 using DanfeNet.Elementos;
 using DanfeNet.Graphics;
 using org.pdfclown.documents;
+using org.pdfclown.documents.contents.colorSpaces;
 using org.pdfclown.documents.contents.composition;
 
 namespace DanfeNet;
@@ -137,4 +138,23 @@ internal class DanfePagina
         RetanguloCorpo = RetanguloDesenhavel;
         Gfx.Flush();
     }
+    
+    
+    public void DesenharAvisoCancelamento()
+    {
+        var ts = new TextStack(RetanguloCorpo)
+            {
+                AlinhamentoVertical = AlinhamentoVertical.Centro,
+                AlinhamentoHorizontal = AlinhamentoHorizontal.Centro,
+                LineHeightScale = 0.9F
+            }
+            .AddLine("DOCUMENTO CANCELADO", DanfePdf.EstiloPadrao.CriarFonteRegular(48));
+
+        var colorRed = new DeviceRGBColor(255, 0.35, 0.35);
+        Gfx.PrimitiveComposer.BeginLocalState();
+        Gfx.PrimitiveComposer.SetFillColor(colorRed);
+        ts.Draw(Gfx);
+        Gfx.PrimitiveComposer.End();
+    }
+    
 }

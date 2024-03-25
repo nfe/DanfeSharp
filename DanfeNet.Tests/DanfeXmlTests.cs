@@ -43,5 +43,8 @@ public class DanfeXmlTests
 
     [TestMethod]
     public void v4_SKUSize() => TestXml("v4.00/v4_SKUSize.xml");
+    
+    [TestMethod]
+    public void v4_Cancelada() => TestXml("v4.00/v4_Cancelada.xml");
 
 }
