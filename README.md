@@ -8,14 +8,14 @@ Exemplo de uso:
 ```csharp
 
 using DanfeSharp;
-using DanfeSharp.Modelo;
+using DanfeSharp.Models;
 
 //Cria o modelo a partir do arquivo Xml da NF-e.
-var modelo = DanfeViewModelCreator.CriarDeArquivoXml("nfe.xml");
+var modelo = DanfeFactory.CriarDeArquivoXml("nfe.xml");
 
 
 //O modelo também pode ser criado e preenchido de outra forma.
-var modelo = new DanfeViewModel()
+var danfe = new Danfe()
 {
     NfNumero = 123456,
     NfSerie = 123,
@@ -28,7 +28,7 @@ var modelo = new DanfeViewModel()
 
 
 //Inicia o Danfe com o modelo criado
-using (var danfe = new Danfe(modelo))
+using (var pdf = new DanfePdf(modelo))
 {
 	danfe.Gerar();
 	danfe.Salvar("danfe.pdf");

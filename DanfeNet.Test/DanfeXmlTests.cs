@@ -18,7 +18,7 @@ public class DanfeXmlTests
     public void TestXml(string xmlPath)
     {
         var outPdfFilePath = Path.Combine(OutputDirectory, Path.GetFileNameWithoutExtension(xmlPath) + ".pdf");
-        var model = DanfeFactory.CriarDeArquivoXml(Path.Combine(InputXmlDirectoryPrefix, xmlPath));
+        var model = DanfeFactory.FromXmlFilePath(Path.Combine(InputXmlDirectoryPrefix, xmlPath));
         using (DanfePdf danfePdf = new DanfePdf(model))
         {
             danfePdf.Gerar();

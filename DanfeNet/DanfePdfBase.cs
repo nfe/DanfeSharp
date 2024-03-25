@@ -1,11 +1,13 @@
 using System;
 using org.pdfclown.files;
+using org.pdfclown.documents;
 
 namespace DanfeNet;
 
 public abstract class DanfePdfBase : IDisposable
 {
-
+    internal Document PdfDocument { get; set; }
+    
     public File File { get; internal set; }
         
     public string CreditsInfo { get;  set; }

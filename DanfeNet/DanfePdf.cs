@@ -21,8 +21,6 @@ public class DanfePdf : DanfePdfBase
     private bool _FoiGerado;
         
     private org.pdfclown.documents.contents.xObjects.XObject _LogoObject;
-        
-    internal Document PdfDocument { get; private set; }
 
     internal BlocoCanhoto Canhoto { get; private set; }
     internal BlocoIdentificacaoEmitente IdentificacaoEmitente { get;  }

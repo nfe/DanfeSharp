@@ -294,7 +294,7 @@ public class Danfe
 
     public static Danfe CreateFromXmlString(string xml)
     {
-        return DanfeFactory.CreateFromXmlString(xml);
+        return DanfeFactory.FromXmlString(xml);
     }
 
     public virtual string TextoRecebimento
