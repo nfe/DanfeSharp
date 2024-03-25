@@ -1,30 +1,29 @@
 ﻿using DanfeNet.Elementos;
-using DanfeNet.Modelo;
+using DanfeNet.Models;
 
-namespace DanfeNet.Blocos.Evento
+namespace DanfeNet.Blocos.Evento;
+
+internal class BlocoEventoCartaCorrecaoCondicao : BlocoEventoBase
 {
-    internal class BlocoEventoCartaCorrecaoCondicao : BlocoEventoBase
+    #region Constructors
+
+    public BlocoEventoCartaCorrecaoCondicao(DanfeEventoViewModel viewModel, Estilo estilo) : base(viewModel, estilo)
     {
-        #region Constructors
+        var condicao = new CampoMultilinha("", viewModel.CondicaoUso, estilo) {Height = AlturaCondicao};
+        var linha = new FlexibleLine {Height = AlturaCondicao};
+        linha.ComElemento(condicao).ComLargurasIguais();
 
-        public BlocoEventoCartaCorrecaoCondicao(DanfeEventoViewModel viewModel, Estilo estilo) : base(viewModel, estilo)
-        {
-            var condicao = new CampoMultilinha("", viewModel.CondicaoUso, estilo) {Height = AlturaCondicao};
-            var linha = new FlexibleLine {Height = AlturaCondicao};
-            linha.ComElemento(condicao).ComLargurasIguais();
-
-            MainVerticalStack.Add(linha);
-        }
-
-        #endregion
-
-        #region Properties
-
-        public const float AlturaCondicao = 25;
-
-        public override string Cabecalho => "Condição de Uso";
-        public override PosicaoBloco Posicao => PosicaoBloco.Topo;
-
-        #endregion
+        MainVerticalStack.Add(linha);
     }
+
+    #endregion
+
+    #region Properties
+
+    public const float AlturaCondicao = 25;
+
+    public override string Cabecalho => "Condição de Uso";
+    public override PosicaoBloco Posicao => PosicaoBloco.Topo;
+
+    #endregion
 }

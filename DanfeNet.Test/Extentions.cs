@@ -1,19 +1,18 @@
 ﻿using System.Diagnostics;
 using System.IO;
 
-namespace DanfeNet.Test
+namespace DanfeNet.Test;
+
+public static class Extentions
 {
-    public static class Extentions
+    public const string OutputDirectoryName = "Output";
+
+    public static void SalvarTestPdf(this DanfePdf d, string outputName = null)
     {
-        public const string OutputDirectoryName = "Output";
+        if (!Directory.Exists(OutputDirectoryName)) Directory.CreateDirectory(OutputDirectoryName);
 
-        public static void SalvarTestPdf(this DanfePdf d, string outputName = null)
-        {
-            if (!Directory.Exists(OutputDirectoryName)) Directory.CreateDirectory(OutputDirectoryName);
+        if (outputName == null) outputName = new StackTrace().GetFrame(1).GetMethod().Name;
 
-            if (outputName == null) outputName = new StackTrace().GetFrame(1).GetMethod().Name;
-
-            d.Salvar(Path.Combine(OutputDirectoryName, outputName + ".pdf"));
-        }
+        d.Salvar(Path.Combine(OutputDirectoryName, outputName + ".pdf"));
     }
 }

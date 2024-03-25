@@ -1,11 +1,10 @@
 ﻿using DanfeNet.Graphics;
 
-namespace DanfeNet.Elementos
+namespace DanfeNet.Elementos;
+
+internal class ElementoVazio : DrawableBase
 {
-    internal class ElementoVazio : DrawableBase
+    public override void Draw(Gfx gfx)
     {
-        public override void Draw(Gfx gfx)
-        {
-        }
     }
 }

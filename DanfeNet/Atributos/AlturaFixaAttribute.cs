@@ -1,8 +1,5 @@
 using System;
 
-namespace DanfeNet.Atributos
-{
-	internal class AlturaFixaAttribute : Attribute
-    {
-	}
-}
+namespace DanfeNet.Atributos;
+
+internal class AlturaFixaAttribute : Attribute;

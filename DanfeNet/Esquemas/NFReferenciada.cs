@@ -1,95 +1,94 @@
 ﻿using System;
 using System.Xml.Serialization;
 
-namespace DanfeNet.Esquemas
+namespace DanfeNet.Esquemas;
+
+[Serializable]
+[XmlType(AnonymousType = true, Namespace = Namespaces.NFe)]
+public class NFReferenciada
 {
-    [Serializable]
-    [XmlType(AnonymousType = true, Namespace = Namespaces.NFe)]
-    public class NFReferenciada
+    [XmlElement("refCTe", typeof(string))]
+    [XmlElement("refECF", typeof(RefECF))]
+    [XmlElement("refNF", typeof(RefNF))]
+    [XmlElement("refNFP", typeof(RefNFP))]
+    [XmlElement("refNFe", typeof(string))]
+    [XmlElement("refNFeSig", typeof(string))]
+    [XmlChoiceIdentifier("TipoNFReferenciada")]
+    public object Item;
+
+    [XmlIgnore]
+    public TipoNFReferenciada TipoNFReferenciada { get; set; }
+
+    public override string ToString()
     {
-        [XmlElement("refCTe", typeof(string))]
-        [XmlElement("refECF", typeof(RefECF))]
-        [XmlElement("refNF", typeof(RefNF))]
-        [XmlElement("refNFP", typeof(RefNFP))]
-        [XmlElement("refNFe", typeof(string))]
-        [XmlElement("refNFeSig", typeof(string))]
-        [XmlChoiceIdentifier("TipoNFReferenciada")]
-        public object Item;
-
-        [XmlIgnore]
-        public TipoNFReferenciada TipoNFReferenciada { get; set; }
-
-        public override string ToString()
+        if (TipoNFReferenciada == TipoNFReferenciada.refCTe || TipoNFReferenciada == TipoNFReferenciada.refNFe || TipoNFReferenciada == TipoNFReferenciada.refNFeSig)
         {
-            if (TipoNFReferenciada == TipoNFReferenciada.refCTe || TipoNFReferenciada == TipoNFReferenciada.refNFe || TipoNFReferenciada == TipoNFReferenciada.refNFeSig)
-            {
-                string chaveAcesso = Item.ToString();
-                return $"{Utils.TipoDFeDeChaveAcesso(chaveAcesso)} Ref.: {Formatador.FormatarChaveAcesso(Item.ToString())}";
-            }
-            else
-                return Item.ToString();
+            string chaveAcesso = Item.ToString();
+            return $"{Utils.TipoDFeDeChaveAcesso(chaveAcesso)} Ref.: {Formatador.FormatarChaveAcesso(Item.ToString())}";
         }
-
+        else
+            return Item.ToString();
     }
 
-    [Serializable]
-    [XmlType(AnonymousType = true, Namespace = Namespaces.NFe)]
-    public enum TipoNFReferenciada
+}
+
+[Serializable]
+[XmlType(AnonymousType = true, Namespace = Namespaces.NFe)]
+public enum TipoNFReferenciada
+{
+    refCTe,
+    refECF,
+    refNF,
+    refNFP,
+    refNFe,
+    refNFeSig,
+}
+
+[Serializable]
+[XmlType(AnonymousType = true, Namespace = Namespaces.NFe)]
+public class RefECF
+{
+    public string mod { get; set; }
+    public string nECF { get; set; }
+    public string nCOO { get; set; }
+
+    public override string ToString()
     {
-        refCTe,
-        refECF,
-        refNF,
-        refNFP,
-        refNFe,
-        refNFeSig,
+        return $"ECF Ref.: Modelo: {mod} ECF: {nECF} COO: {nCOO}";
     }
+}
 
-    [Serializable]
-    [XmlType(AnonymousType = true, Namespace = Namespaces.NFe)]
-    public class RefECF
+[Serializable]
+[XmlType(AnonymousType = true, Namespace = Namespaces.NFe)]
+public class RefNF
+{
+    public string AAMM { get; set; }
+    public string CNPJ { get; set; }
+    public string mod { get; set; }
+    public string serie { get; set; }
+    public string nNF { get; set; }
+
+    public override string ToString()
     {
-        public string mod { get; set; }
-        public string nECF { get; set; }
-        public string nCOO { get; set; }
-
-        public override string ToString()
-        {
-            return $"ECF Ref.: Modelo: {mod} ECF: {nECF} COO: {nCOO}";
-        }
+        return $"NF Ref.: Série: {serie} Número: {nNF} Emitente: {Formatador.FormatarCnpj(CNPJ)} Modelo: {mod}";
     }
+}
 
-    [Serializable]
-    [XmlType(AnonymousType = true, Namespace = Namespaces.NFe)]
-    public class RefNF
+[Serializable]
+[XmlType(AnonymousType = true, Namespace = Namespaces.NFe)]
+public class RefNFP
+{
+    public string AAMM { get; set; }
+    public string CNPJ { get; set; }
+    public string CPF { get; set; }
+    public string IE { get; set; }
+    public string mod { get; set; }
+    public string serie { get; set; }
+    public string nNF { get; set; }
+
+    public override string ToString()
     {
-        public string AAMM { get; set; }
-        public string CNPJ { get; set; }
-        public string mod { get; set; }
-        public string serie { get; set; }
-        public string nNF { get; set; }
-
-        public override string ToString()
-        {
-            return $"NF Ref.: Série: {serie} Número: {nNF} Emitente: {Formatador.FormatarCnpj(CNPJ)} Modelo: {mod}";
-        }
-    }
-
-    [Serializable]
-    [XmlType(AnonymousType = true, Namespace = Namespaces.NFe)]
-    public class RefNFP
-    {
-        public string AAMM { get; set; }
-        public string CNPJ { get; set; }
-        public string CPF { get; set; }
-        public string IE { get; set; }
-        public string mod { get; set; }
-        public string serie { get; set; }
-        public string nNF { get; set; }
-
-        public override string ToString()
-        {
-            String cpfCnpj = !String.IsNullOrWhiteSpace(CNPJ) ? CNPJ : CPF;
-            return $"NFP Ref.: Série: {serie} Número: {nNF} Emitente: {Formatador.FormatarCpfCnpj(cpfCnpj)} Modelo: {mod} IE: {IE}";
-        }
+        string cpfCnpj = !string.IsNullOrWhiteSpace(CNPJ) ? CNPJ : CPF;
+        return $"NFP Ref.: Série: {serie} Número: {nNF} Emitente: {Formatador.FormatarCpfCnpj(cpfCnpj)} Modelo: {mod} IE: {IE}";
     }
 }

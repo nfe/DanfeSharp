@@ -1,35 +1,34 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 
-namespace DanfeNet
+namespace DanfeNet;
+
+internal static class Utils
 {
-    internal static class Utils
+    /// <summary>
+    /// Verifica se uma string contém outra string no formato chave: valor.
+    /// </summary>
+    public static bool StringContemChaveValor(string str, string chave, string valor)
     {
-        /// <summary>
-        /// Verifica se uma string contém outra string no formato chave: valor.
-        /// </summary>
-        public static Boolean StringContemChaveValor(String str, String chave, String valor)
-        {
-            if (String.IsNullOrWhiteSpace(chave)) throw new ArgumentException(nameof(chave));
-            if (String.IsNullOrWhiteSpace(str)) return false;
+        if (string.IsNullOrWhiteSpace(chave)) throw new ArgumentException(nameof(chave));
+        if (string.IsNullOrWhiteSpace(str)) return false;
 
-            return Regex.IsMatch(str, $@"({chave}):?\s*{valor}", RegexOptions.IgnoreCase);
-        } 
+        return Regex.IsMatch(str, $@"({chave}):?\s*{valor}", RegexOptions.IgnoreCase);
+    } 
         
-        public static String TipoDFeDeChaveAcesso(String chaveAcesso)
+    public static string TipoDFeDeChaveAcesso(string chaveAcesso)
+    {
+        if (string.IsNullOrWhiteSpace(chaveAcesso)) throw new ArgumentException(nameof(chaveAcesso));
+
+        if(chaveAcesso.Length == 44)
         {
-            if (String.IsNullOrWhiteSpace(chaveAcesso)) throw new ArgumentException(nameof(chaveAcesso));
+            string f = chaveAcesso.Substring(20, 2);
 
-            if(chaveAcesso.Length == 44)
-            {
-                String f = chaveAcesso.Substring(20, 2);
-
-                if (f == "55") return "NF-e";
-                else if (f == "57") return "CT-e";
-                else if (f == "65") return "NFC-e";
-            }
-
-            return "DF-e Desconhecido";
+            if (f == "55") return "NF-e";
+            else if (f == "57") return "CT-e";
+            else if (f == "65") return "NFC-e";
         }
+
+        return "DF-e Desconhecido";
     }
 }

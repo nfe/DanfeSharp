@@ -1,26 +1,25 @@
 ﻿using System;
 using DanfeNet.Graphics;
 
-namespace DanfeNet.Elementos
+namespace DanfeNet.Elementos;
+
+/// <summary>
+/// Elemento básico no DANFE.
+/// </summary>
+internal abstract class ElementoBase : DrawableBase
 {
-    /// <summary>
-    /// Elemento básico no DANFE.
-    /// </summary>
-    internal abstract class ElementoBase : DrawableBase
+    public Estilo Estilo { get; protected set; }
+    public virtual bool PossuiContono => true;
+
+    public ElementoBase(Estilo estilo)
     {
-        public Estilo Estilo { get; protected set; }
-        public virtual bool PossuiContono => true;
+        Estilo = estilo ?? throw new ArgumentNullException(nameof(estilo));
+    }
 
-        public ElementoBase(Estilo estilo)
-        {
-            Estilo = estilo ?? throw new ArgumentNullException(nameof(estilo));
-        }
-
-        public override void Draw(Gfx gfx)
-        {
-            base.Draw(gfx);
-            if (PossuiContono)
-                gfx.StrokeRectangle(BoundingBox, 0.25f);
-        }
+    public override void Draw(Gfx gfx)
+    {
+        base.Draw(gfx);
+        if (PossuiContono)
+            gfx.StrokeRectangle(BoundingBox, 0.25f);
     }
 }

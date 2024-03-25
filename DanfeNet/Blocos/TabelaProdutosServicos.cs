@@ -3,31 +3,31 @@ using System.Collections.Generic;
 using System.Drawing;
 using DanfeNet.Elementos;
 using DanfeNet.Graphics;
-using DanfeNet.Modelo;
+using DanfeNet.Models;
 
-namespace DanfeNet.Blocos
+namespace DanfeNet.Blocos;
+
+internal class TabelaProdutosServicos : ElementoBase
 {
-    internal class TabelaProdutosServicos : ElementoBase
+    public CabecalhoBloco CabecalhoBloco { get; private set; }
+    public Tabela Tabela { get; private set; }
+    public DanfeViewModel ViewModel { get; private set; }
+
+    public TabelaProdutosServicos(DanfeViewModel viewModel, Estilo estilo) : base(estilo)
     {
-        public CabecalhoBloco CabecalhoBloco { get; private set; }
-        public Tabela Tabela { get; private set; }
-        public DanfeViewModel ViewModel { get; private set; }
+        ViewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
+        CabecalhoBloco = new CabecalhoBloco(estilo, "DADOS DOS PRODUTOS / SERVIÇOS");
 
-        public TabelaProdutosServicos(DanfeViewModel viewModel, Estilo estilo) : base(estilo)
-        {
-            ViewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
-            CabecalhoBloco = new CabecalhoBloco(estilo, "DADOS DOS PRODUTOS / SERVIÇOS");
+        var ad = AlinhamentoHorizontal.Direita;
+        var ac = AlinhamentoHorizontal.Centro;
+        var ae = AlinhamentoHorizontal.Esquerda;
 
-            var ad = AlinhamentoHorizontal.Direita;
-            var ac = AlinhamentoHorizontal.Centro;
-            var ae = AlinhamentoHorizontal.Esquerda;
+        Tabela = new Tabela(Estilo);
+        string cabecalho4 = ViewModel.Emitente.CRT == "3" ? "O/CST" : "O/CSOSN";
 
-            Tabela = new Tabela(Estilo);
-            String cabecalho4 = ViewModel.Emitente.CRT == "3" ? "O/CST" : "O/CSOSN";
-
-            if (ViewModel.IsRetrato)
-            { 
-                Tabela
+        if (ViewModel.IsRetrato)
+        { 
+            Tabela
                 .ComColuna(9f, ac, "CÓDIGO", "PRODUTO")
                 .ComColuna(0, ae, "DESCRIÇÃO DO PRODUTO / SERVIÇO")
                 .ComColuna(5.6F, ac, "NCM/SH")
@@ -43,10 +43,10 @@ namespace DanfeNet.Blocos
                 .ComColuna(5, ad, "VALOR", "IPI")
                 .ComColuna(3.5F, ad, "ALIQ.", "ICMS")
                 .ComColuna(3.5F, ad, "ALIQ.", "IPI");
-            }
-            else
-            {
-                Tabela
+        }
+        else
+        {
+            Tabela
                 .ComColuna(8.1f, ac, "CÓDIGO PRODUTO")
                 .ComColuna(0, ae, "DESCRIÇÃO DO PRODUTO / SERVIÇO")
                 .ComColuna(5.5F, ac, "NCM/SH")
@@ -62,51 +62,50 @@ namespace DanfeNet.Blocos
                 .ComColuna(5.6F, ad, "VALOR IPI")
                 .ComColuna(3F, ad, "ALIQ.", "ICMS")
                 .ComColuna(3F, ad, "ALIQ.", "IPI");
-            }
-
-            Tabela.AjustarLarguraColunas();
-
-            foreach (var p in ViewModel.Produtos)
-            {
-                var linha = new List<String>
-                {
-                    p.Codigo,
-                    p.DescricaoCompleta,
-                    p.Ncm,
-                    p.OCst,
-                    p.Cfop.Formatar("N0"),
-                    p.Unidade,
-                    p.Quantidade.Formatar(),
-                    p.ValorUnitario.Formatar(),
-                    p.ValorTotal.Formatar(),
-                    p.BaseIcms.Formatar(),
-                    p.BaseIcmsST?.Formatar(),
-                    p.ValorIcms.Formatar(),
-                    p.ValorIpi.Formatar(),
-                    p.AliquotaIcms.Formatar(),
-                    p.AliquotaIpi.Formatar()
-                };
-
-                Tabela.AdicionarLinha(linha);
-            }
         }
 
-        public override void Draw(Gfx gfx)
+        Tabela.AjustarLarguraColunas();
+
+        foreach (var p in ViewModel.Produtos)
         {
-            base.Draw(gfx);
+            var linha = new List<string>
+            {
+                p.Codigo,
+                p.DescricaoCompleta,
+                p.Ncm,
+                p.OCst,
+                p.Cfop.Formatar("N0"),
+                p.Unidade,
+                p.Quantidade.Formatar(),
+                p.ValorUnitario.Formatar(),
+                p.ValorTotal.Formatar(),
+                p.BaseIcms.Formatar(),
+                p.BaseIcmsST?.Formatar(),
+                p.ValorIcms.Formatar(),
+                p.ValorIpi.Formatar(),
+                p.AliquotaIcms.Formatar(),
+                p.AliquotaIpi.Formatar()
+            };
 
-            Tabela.SetPosition(RetanguloTabela.Location);
-            Tabela.SetSize(RetanguloTabela.Size);
-            Tabela.Draw(gfx);
-
-            CabecalhoBloco.SetPosition(X, Y);
-            CabecalhoBloco.Width = Width;
-            CabecalhoBloco.Draw(gfx);    
+            Tabela.AdicionarLinha(linha);
         }
-
-
-        public RectangleF RetanguloTabela => BoundingBox.CutTop(CabecalhoBloco.Height);
-        public Boolean CompletamenteDesenhada => Tabela.LinhaAtual == ViewModel.Produtos.Count;
-        public override bool PossuiContono => false;
     }
+
+    public override void Draw(Gfx gfx)
+    {
+        base.Draw(gfx);
+
+        Tabela.SetPosition(RetanguloTabela.Location);
+        Tabela.SetSize(RetanguloTabela.Size);
+        Tabela.Draw(gfx);
+
+        CabecalhoBloco.SetPosition(X, Y);
+        CabecalhoBloco.Width = Width;
+        CabecalhoBloco.Draw(gfx);    
+    }
+
+
+    public RectangleF RetanguloTabela => BoundingBox.CutTop(CabecalhoBloco.Height);
+    public bool CompletamenteDesenhada => Tabela.LinhaAtual == ViewModel.Produtos.Count;
+    public override bool PossuiContono => false;
 }

@@ -2,16 +2,16 @@
 using DanfeNet.Esquemas;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DanfeNet.Test
+namespace DanfeNet.Test;
+
+[TestClass]
+public class DanfePdfTest
 {
-    [TestClass]
-    public class DanfePdfTest
-    {
 
      
-        [TestMethod]
-        public void RetratoSemIcmsInterestadual()
-        {
+    [TestMethod]
+    public void RetratoSemIcmsInterestadual()
+    {
             var model = FabricaFake.DanfeViewModel_1();
             model.Orientacao = Orientacao.Retrato;
             model.ExibirIcmsInterestadual = false;
@@ -20,9 +20,9 @@ namespace DanfeNet.Test
             d.SalvarTestPdf();
         }
 
-        [TestMethod]
-        public void PaisagemSemIcmsInterestadual()
-        {
+    [TestMethod]
+    public void PaisagemSemIcmsInterestadual()
+    {
             var model = FabricaFake.DanfeViewModel_1();
             model.Orientacao = Orientacao.Paisagem;
             model.ExibirIcmsInterestadual = false;
@@ -31,9 +31,9 @@ namespace DanfeNet.Test
             d.SalvarTestPdf();
         }       
 
-        [TestMethod]
-        public void Paisagem_2Canhotos()
-        {
+    [TestMethod]
+    public void Paisagem_2Canhotos()
+    {
             var model = FabricaFake.DanfeViewModel_1();
             model.Orientacao = Orientacao.Paisagem;
             model.QuantidadeCanhotos = 2;
@@ -42,9 +42,9 @@ namespace DanfeNet.Test
             d.SalvarTestPdf();
         }
 
-        [TestMethod]
-        public void Retrato_2Canhotos()
-        {
+    [TestMethod]
+    public void Retrato_2Canhotos()
+    {
             var model = FabricaFake.DanfeViewModel_1();
             model.Orientacao = Orientacao.Retrato;
             model.QuantidadeCanhotos = 2;
@@ -53,9 +53,9 @@ namespace DanfeNet.Test
             d.SalvarTestPdf();
         }
 
-        [TestMethod]
-        public void Paisagem_SemCanhoto()
-        {
+    [TestMethod]
+    public void Paisagem_SemCanhoto()
+    {
             var model = FabricaFake.DanfeViewModel_1();
             model.Orientacao = Orientacao.Paisagem;
             model.QuantidadeCanhotos = 0;
@@ -64,9 +64,9 @@ namespace DanfeNet.Test
             d.SalvarTestPdf();
         }
 
-        [TestMethod]
-        public void Retrato_SemCanhoto()
-        {
+    [TestMethod]
+    public void Retrato_SemCanhoto()
+    {
             var model = FabricaFake.DanfeViewModel_1();
             model.Orientacao = Orientacao.Retrato;
             model.QuantidadeCanhotos = 0;
@@ -75,9 +75,9 @@ namespace DanfeNet.Test
             d.SalvarTestPdf();
         }
 
-        [TestMethod]
-        public void Contingencia_SVC_AN()
-        {
+    [TestMethod]
+    public void Contingencia_SVC_AN()
+    {
             var model = FabricaFake.DanfeViewModel_1();
             model.TipoEmissao = FormaEmissao.ContingenciaSVCAN;
             model.ContingenciaDataHora = DateTimeOffset.Now;
@@ -88,9 +88,9 @@ namespace DanfeNet.Test
             d.SalvarTestPdf();
         }
 
-        [TestMethod]
-        public void Contingencia_SVC_RS()
-        {
+    [TestMethod]
+    public void Contingencia_SVC_RS()
+    {
             var model = FabricaFake.DanfeViewModel_1();
             model.TipoEmissao = FormaEmissao.ContingenciaSVCRS;
             model.ContingenciaDataHora = DateTimeOffset.Now;
@@ -101,9 +101,9 @@ namespace DanfeNet.Test
             d.SalvarTestPdf();
         }
 
-        [TestMethod]
-        public void Retrato()
-        {
+    [TestMethod]
+    public void Retrato()
+    {
             var model = FabricaFake.DanfeViewModel_1();
             model.Orientacao = Orientacao.Retrato;
             DanfePdf d = new DanfePdf(model);       
@@ -111,9 +111,9 @@ namespace DanfeNet.Test
             d.SalvarTestPdf();
         }
 
-        [TestMethod]
-        public void OpcaoPreferirEmitenteNomeFantasia_False()
-        {
+    [TestMethod]
+    public void OpcaoPreferirEmitenteNomeFantasia_False()
+    {
             var model = FabricaFake.DanfeViewModel_1();
             model.Orientacao = Orientacao.Retrato;
             model.PreferirEmitenteNomeFantasia = false;
@@ -122,9 +122,9 @@ namespace DanfeNet.Test
             d.SalvarTestPdf();
         }
 
-        [TestMethod]
-        public void Paisagem()
-        {
+    [TestMethod]
+    public void Paisagem()
+    {
             var model = FabricaFake.DanfeViewModel_1();
             model.Orientacao = Orientacao.Paisagem;
             DanfePdf d = new DanfePdf(model);
@@ -132,9 +132,9 @@ namespace DanfeNet.Test
             d.SalvarTestPdf();
         }
 
-        [TestMethod]
-        public void RetratoHomologacao()
-        {
+    [TestMethod]
+    public void RetratoHomologacao()
+    {
             var model = FabricaFake.DanfeViewModel_1();
             model.TipoAmbiente = 2;
             model.Orientacao = Orientacao.Retrato;
@@ -143,9 +143,9 @@ namespace DanfeNet.Test
             d.SalvarTestPdf();
         }
 
-        [TestMethod]
-        public void PaisagemHomologacao()
-        {
+    [TestMethod]
+    public void PaisagemHomologacao()
+    {
             var model = FabricaFake.DanfeViewModel_1();
             model.TipoAmbiente = 2;
             model.Orientacao = Orientacao.Paisagem;
@@ -154,9 +154,9 @@ namespace DanfeNet.Test
             d.SalvarTestPdf();
         }
 
-        [TestMethod]
-        public void ComBlocoLocalEntrega()
-        {
+    [TestMethod]
+    public void ComBlocoLocalEntrega()
+    {
             var model = FabricaFake.DanfeViewModel_1();
             model.LocalEntrega = FabricaFake.LocalEntregaRetiradaFake();
             DanfePdf d = new DanfePdf(model);
@@ -164,9 +164,9 @@ namespace DanfeNet.Test
             d.SalvarTestPdf();
         }
 
-        [TestMethod]
-        public void ComBlocoLocalRetirada()
-        {
+    [TestMethod]
+    public void ComBlocoLocalRetirada()
+    {
             var model = FabricaFake.DanfeViewModel_1();
             model.DataHoraEmissao = DateTimeOffset.UtcNow.DateTime;
             model.DataSaidaEntrada = DateTimeOffset.UtcNow.DateTime;
@@ -176,5 +176,4 @@ namespace DanfeNet.Test
             d.SalvarTestPdf();
         }
 
-    }
 }

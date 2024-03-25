@@ -1,15 +1,14 @@
 ﻿using DanfeNet.Elementos;
-using DanfeNet.Modelo;
+using DanfeNet.Models;
 
-namespace DanfeNet.Blocos.BlocoLocalEntregaRetirada
+namespace DanfeNet.Blocos.BlocoLocalEntregaRetirada;
+
+class BlocoLocalRetirada : BlocoLocalEntregaRetirada
 {
-    class BlocoLocalRetirada : BlocoLocalEntregaRetirada
+    public BlocoLocalRetirada(DanfeViewModel viewModel, Estilo estilo) 
+        : base(viewModel, estilo, viewModel.LocalRetirada)
     {
-        public BlocoLocalRetirada(DanfeViewModel viewModel, Estilo estilo) 
-            : base(viewModel, estilo, viewModel.LocalRetirada)
-        {
-        }
-
-        public override string Cabecalho => "Informações do local de retirada";
     }
+
+    public override string Cabecalho => "Informações do local de retirada";
 }

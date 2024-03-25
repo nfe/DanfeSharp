@@ -3,247 +3,246 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace DanfeNet
+namespace DanfeNet;
+
+/// <summary>
+/// Classe que ajuda na formatação de dados.
+/// </summary>
+public static class Formatador
 {
     /// <summary>
-    /// Classe que ajuda na formatação de dados.
+    /// Cultura pt-BR
     /// </summary>
-    public static class Formatador
+    public static readonly CultureInfo Cultura = new CultureInfo(1046);
+    private static TimeZoneInfo TimeZoneBrasilia = TimeZoneInfo.GetSystemTimeZones().Any(x => x.Id == "Eastern Standard Time") 
+        ? TimeZoneInfo.FindSystemTimeZoneById("E. South America Standard Time")
+        : TimeZoneInfo.FindSystemTimeZoneById("America/Sao_Paulo");
+
+    static Formatador()
     {
-        /// <summary>
-        /// Cultura pt-BR
-        /// </summary>
-        public static readonly CultureInfo Cultura = new CultureInfo(1046);
-        private static TimeZoneInfo TimeZoneBrasilia = TimeZoneInfo.GetSystemTimeZones().Any(x => x.Id == "Eastern Standard Time") 
-                                                        ? TimeZoneInfo.FindSystemTimeZoneById("E. South America Standard Time")
-                                                        : TimeZoneInfo.FindSystemTimeZoneById("America/Sao_Paulo");
+        Cultura.NumberFormat.CurrencyPositivePattern = 2;
+        Cultura.NumberFormat.CurrencyNegativePattern = 9;
+    }
 
-        static Formatador()
+    public const string FormatoNumeroNF = @"000\.000\.000";
+
+    public const string CEP = @"^(\d{5})\-?(\d{3})$";
+    public const string CNPJ = @"^(\d{2})\.?(\d{3})\.?(\d{3})\/?(\d{4})\-?(\d{2})$";
+    public const string CPF = @"^(\d{3})\.?(\d{3})\.?(\d{3})\-?(\d{2})$";
+    public const string Telefone = @"^\(?(\d{2})\)?\s*(\d{4,5})\s*\-?\s*(\d{4})$";
+    public const string Placa = @"^([A-Z]{3})\s*\-?\s*(\d{4})$";
+
+    public const string FormatoMoeda = "#,0.00##";
+    public const string FormatoNumero = "#,0.####";
+
+    private static string InternalRegexReplace(string input, string pattern, string replacement)
+    {
+        string result = input;
+
+        if (!string.IsNullOrWhiteSpace(input))
         {
-            Cultura.NumberFormat.CurrencyPositivePattern = 2;
-            Cultura.NumberFormat.CurrencyNegativePattern = 9;
-        }
+            input = input.Trim();
 
-        public const String FormatoNumeroNF = @"000\.000\.000";
+            Regex rgx = new Regex(pattern);
 
-        public const String CEP = @"^(\d{5})\-?(\d{3})$";
-        public const String CNPJ = @"^(\d{2})\.?(\d{3})\.?(\d{3})\/?(\d{4})\-?(\d{2})$";
-        public const String CPF = @"^(\d{3})\.?(\d{3})\.?(\d{3})\-?(\d{2})$";
-        public const String Telefone = @"^\(?(\d{2})\)?\s*(\d{4,5})\s*\-?\s*(\d{4})$";
-        public const String Placa = @"^([A-Z]{3})\s*\-?\s*(\d{4})$";
-
-        public const String FormatoMoeda = "#,0.00##";
-        public const String FormatoNumero = "#,0.####";
-
-        private static String InternalRegexReplace(String input, String pattern, String replacement)
-        {
-            String result = input;
-
-            if (!String.IsNullOrWhiteSpace(input))
+            if (rgx.IsMatch(input))
             {
-                input = input.Trim();
-
-                Regex rgx = new Regex(pattern);
-
-                if (rgx.IsMatch(input))
-                {
-                    result = rgx.Replace(input, replacement);
-                }
+                result = rgx.Replace(input, replacement);
             }
-
-            return result;
         }
 
-        /// <summary>
-        /// Formata a linha 1 do endereço. Ex. Floriano Peixoto, 512
-        /// </summary>
-        /// <param name="endereco"></param>
-        /// <param name="numero"></param>
-        /// <returns></returns>
-        public static String FormatarEnderecoLinha1(String endereco, int? numero, String complemento = null)
-        {
-            String sNumero = numero.HasValue ? numero.Value.ToString() : null;
-            return FormatarEnderecoLinha1(endereco, sNumero, complemento);
-        }
+        return result;
+    }
 
-        /// <summary>
-        /// Formata a linha 1 do endereço. Ex. Floriano Peixoto, 512
-        /// </summary>
-        /// <param name="endereco"></param>
-        /// <param name="numero"></param>
-        /// <returns></returns>
-        public static String FormatarEnderecoLinha1(String endereco, String numero = null, String complemento = null)
-        {
-            String linha1 = String.Empty;
+    /// <summary>
+    /// Formata a linha 1 do endereço. Ex. Floriano Peixoto, 512
+    /// </summary>
+    /// <param name="endereco"></param>
+    /// <param name="numero"></param>
+    /// <returns></returns>
+    public static string FormatarEnderecoLinha1(string endereco, int? numero, string complemento = null)
+    {
+        string sNumero = numero.HasValue ? numero.Value.ToString() : null;
+        return FormatarEnderecoLinha1(endereco, sNumero, complemento);
+    }
 
-            if (!String.IsNullOrWhiteSpace(endereco))
+    /// <summary>
+    /// Formata a linha 1 do endereço. Ex. Floriano Peixoto, 512
+    /// </summary>
+    /// <param name="endereco"></param>
+    /// <param name="numero"></param>
+    /// <returns></returns>
+    public static string FormatarEnderecoLinha1(string endereco, string numero = null, string complemento = null)
+    {
+        string linha1 = string.Empty;
+
+        if (!string.IsNullOrWhiteSpace(endereco))
+        {
+            linha1 = string.Format("{0}, {1}", endereco.Trim(), string.IsNullOrWhiteSpace(numero) ? "S/N" : numero.Trim());
+
+            if (!string.IsNullOrWhiteSpace(complemento))
             {
-                linha1 = String.Format("{0}, {1}", endereco.Trim(), String.IsNullOrWhiteSpace(numero) ? "S/N" : numero.Trim());
-
-                if (!String.IsNullOrWhiteSpace(complemento))
-                {
-                    linha1 += " - " + complemento.Trim();
-                }
+                linha1 += " - " + complemento.Trim();
             }
-
-            return linha1;
         }
 
-        /// <summary>
-        /// Formata um CEP
-        /// </summary>
-        /// <param name="cep">CEP</param>
-        /// <returns>CEP Formatado ou vazio caso cep inválido</returns>
-        public static String FormatarCEP(String cep)
+        return linha1;
+    }
+
+    /// <summary>
+    /// Formata um CEP
+    /// </summary>
+    /// <param name="cep">CEP</param>
+    /// <returns>CEP Formatado ou vazio caso cep inválido</returns>
+    public static string FormatarCEP(string cep)
+    {
+        return InternalRegexReplace(cep, CEP, "$1-$2");
+    }
+
+    public static string FormatarCEP(int cep)
+    {
+        if (cep < 0)
         {
-            return InternalRegexReplace(cep, CEP, "$1-$2");
+            throw new ArgumentOutOfRangeException("cep", "o cep não pode ser negativo.");
         }
 
-        public static String FormatarCEP(int cep)
+        return FormatarCEP(cep.ToString().PadLeft(8, '0'));
+    }
+
+    public static string FormatarCnpj(string cnpj)
+    {
+        return InternalRegexReplace(cnpj, CNPJ, "$1.$2.$3/$4-$5");
+    }
+
+    public static string FormatarCpf(string cpf)
+    {
+        return InternalRegexReplace(cpf, CPF, "$1.$2.$3-$4");
+    }
+
+    /// <summary>
+    /// Formata um número de documento
+    /// </summary>
+    /// <param name="cpfCnpj"></param>
+    /// <returns></returns>
+    public static string FormatarCpfCnpj(string cpfCnpj)
+    {
+        string result;
+
+        if (!string.IsNullOrWhiteSpace(cpfCnpj))
         {
-            if (cep < 0)
+            result = cpfCnpj.Trim();
+
+            if (Regex.IsMatch(result, CPF))
             {
-                throw new ArgumentOutOfRangeException("cep", "o cep não pode ser negativo.");
+                result = FormatarCpf(result);
             }
-
-            return FormatarCEP(cep.ToString().PadLeft(8, '0'));
-        }
-
-        public static String FormatarCnpj(String cnpj)
-        {
-            return InternalRegexReplace(cnpj, CNPJ, "$1.$2.$3/$4-$5");
-        }
-
-        public static String FormatarCpf(String cpf)
-        {
-            return InternalRegexReplace(cpf, CPF, "$1.$2.$3-$4");
-        }
-
-        /// <summary>
-        /// Formata um número de documento
-        /// </summary>
-        /// <param name="cpfCnpj"></param>
-        /// <returns></returns>
-        public static String FormatarCpfCnpj(String cpfCnpj)
-        {
-            String result;
-
-            if (!String.IsNullOrWhiteSpace(cpfCnpj))
+            else if (Regex.IsMatch(result, CNPJ))
             {
-                result = cpfCnpj.Trim();
-
-                if (Regex.IsMatch(result, CPF))
-                {
-                    result = FormatarCpf(result);
-                }
-                else if (Regex.IsMatch(result, CNPJ))
-                {
-                    result = FormatarCnpj(result);
-                }
+                result = FormatarCnpj(result);
             }
-            else
-            {
-                result = String.Empty;
-            }
-
-            return result;
         }
-
-        /// <summary>
-        /// Formata uma string de município com a uf, ex Caçapava do Sul - RS
-        /// </summary>
-        /// <param name="municipio">Município</param>
-        /// <param name="uf">UF</param>
-        /// <param name="separador">Separador</param>
-        /// <returns>String formatada.</returns>
-        public static String FormatarMunicipioUf(String municipio, String uf, String separador = " - ")
+        else
         {
-            String result = "";
-
-            if (!String.IsNullOrWhiteSpace(municipio) && !String.IsNullOrWhiteSpace(uf))
-            {
-                result = String.Format("{0}{1}{2}", municipio.Trim(), separador, uf.Trim());
-            }
-            else if (!String.IsNullOrWhiteSpace(municipio))
-            {
-                result = municipio.Trim();
-            }
-            else if (!String.IsNullOrWhiteSpace(uf))
-            {
-                result = uf.Trim();
-            }
-
-            return result;
+            result = string.Empty;
         }
 
-        public static String FormatarPlacaVeiculo(String placa)
+        return result;
+    }
+
+    /// <summary>
+    /// Formata uma string de município com a uf, ex Caçapava do Sul - RS
+    /// </summary>
+    /// <param name="municipio">Município</param>
+    /// <param name="uf">UF</param>
+    /// <param name="separador">Separador</param>
+    /// <returns>String formatada.</returns>
+    public static string FormatarMunicipioUf(string municipio, string uf, string separador = " - ")
+    {
+        string result = "";
+
+        if (!string.IsNullOrWhiteSpace(municipio) && !string.IsNullOrWhiteSpace(uf))
         {
-            return InternalRegexReplace(placa, Placa, "$1-$2");
+            result = string.Format("{0}{1}{2}", municipio.Trim(), separador, uf.Trim());
         }
-
-        public static String FormatarTelefone(String telefone)
+        else if (!string.IsNullOrWhiteSpace(municipio))
         {
-            return InternalRegexReplace(telefone, Telefone, "($1) $2-$3");
+            result = municipio.Trim();
         }
-
-        public static String FormatarChaveAcesso(String chaveAcesso)
+        else if (!string.IsNullOrWhiteSpace(uf))
         {
-            return Regex.Replace(chaveAcesso, ".{4}", "$0 ").TrimEnd();
+            result = uf.Trim();
         }
 
-        public static string FormatarNumeroNF(string numero) => InternalRegexReplace(numero, FormatoNumeroNF, "$1.$2.$3");
+        return result;
+    }
 
-        public static String Formatar(this Double number, String formato = FormatoMoeda)
-        {
-            return number.ToString(formato, Cultura);
-        }
+    public static string FormatarPlacaVeiculo(string placa)
+    {
+        return InternalRegexReplace(placa, Placa, "$1-$2");
+    }
 
-        public static String Formatar(this decimal number, String formato = FormatoMoeda)
-        {
-            return number.ToString(formato, Cultura);
-        }
+    public static string FormatarTelefone(string telefone)
+    {
+        return InternalRegexReplace(telefone, Telefone, "($1) $2-$3");
+    }
 
-        public static String Formatar(this int number, String formato = FormatoMoeda)
-        {
-            return number.ToString(formato, Cultura);
-        }
+    public static string FormatarChaveAcesso(string chaveAcesso)
+    {
+        return Regex.Replace(chaveAcesso, ".{4}", "$0 ").TrimEnd();
+    }
 
-        public static String Formatar(this int? number, String formato = FormatoMoeda)
-        {
-            return number.HasValue ? number.Value.Formatar(formato) : String.Empty;
-        }
+    public static string FormatarNumeroNF(string numero) => InternalRegexReplace(numero, FormatoNumeroNF, "$1.$2.$3");
 
-        public static String Formatar(this Double? number, String formato = FormatoMoeda)
-        {
-            return number.HasValue ? number.Value.Formatar(formato) : String.Empty;
-        }
+    public static string Formatar(this double number, string formato = FormatoMoeda)
+    {
+        return number.ToString(formato, Cultura);
+    }
 
-        public static String FormatarMoeda(this Double? number)
-        {
-            return number.HasValue ? number.Value.ToString("C", Cultura) : String.Empty;
-        }
+    public static string Formatar(this decimal number, string formato = FormatoMoeda)
+    {
+        return number.ToString(formato, Cultura);
+    }
 
-        public static String Formatar(this DateTime? dateTime)
-        {
-            return dateTime.HasValue ? dateTime.Value.ToString("dd/MM/yyyy") : String.Empty;
-        }
+    public static string Formatar(this int number, string formato = FormatoMoeda)
+    {
+        return number.ToString(formato, Cultura);
+    }
 
-        public static String FormatarDataHora(this DateTime? dateTime)
-        {
-            return dateTime.HasValue ? dateTime.Value.ToString("dd/MM/yyyy HH:mm:ss zzz") : String.Empty;
-            //return dateTime.HasValue ? dateTime.Value.ToString("dd/MM/yyyy")/*  ToShortDateString()*/ : String.Empty;
-        }
+    public static string Formatar(this int? number, string formato = FormatoMoeda)
+    {
+        return number.HasValue ? number.Value.Formatar(formato) : string.Empty;
+    }
 
-        public static String FormatarDataHora(this DateTimeOffset? dateTime)
-        {
-            return dateTime.HasValue ? dateTime.Value.ToString("dd/MM/yyyy hh:mm:ss a zzz") : String.Empty;
-        }
+    public static string Formatar(this double? number, string formato = FormatoMoeda)
+    {
+        return number.HasValue ? number.Value.Formatar(formato) : string.Empty;
+    }
 
-        public static String Formatar(this TimeSpan? timeSpan)
-        {
-            return timeSpan.HasValue ? 
-                     timeSpan.Value/*.Add(TimeSpan.FromHours(TimeZoneBrasilia.BaseUtcOffset.Hours))*/.ToString()
-                    : String.Empty;
-        }
+    public static string FormatarMoeda(this double? number)
+    {
+        return number.HasValue ? number.Value.ToString("C", Cultura) : string.Empty;
+    }
+
+    public static string Formatar(this DateTime? dateTime)
+    {
+        return dateTime.HasValue ? dateTime.Value.ToString("dd/MM/yyyy") : string.Empty;
+    }
+
+    public static string FormatarDataHora(this DateTime? dateTime)
+    {
+        return dateTime.HasValue ? dateTime.Value.ToString("dd/MM/yyyy HH:mm:ss zzz") : string.Empty;
+        //return dateTime.HasValue ? dateTime.Value.ToString("dd/MM/yyyy")/*  ToShortDateString()*/ : String.Empty;
+    }
+
+    public static string FormatarDataHora(this DateTimeOffset? dateTime)
+    {
+        return dateTime.HasValue ? dateTime.Value.ToString("dd/MM/yyyy hh:mm:ss a zzz") : string.Empty;
+    }
+
+    public static string Formatar(this TimeSpan? timeSpan)
+    {
+        return timeSpan.HasValue ? 
+            timeSpan.Value/*.Add(TimeSpan.FromHours(TimeZoneBrasilia.BaseUtcOffset.Hours))*/.ToString()
+            : string.Empty;
     }
 }
