@@ -5,7 +5,6 @@ using DanfeNet.Blocos.BlocoLocalEntregaRetirada;
 using DanfeNet.Blocos.Evento;
 using DanfeNet.Elementos;
 using DanfeNet.Models;
-using org.pdfclown.documents;
 using org.pdfclown.documents.contents.fonts;
 using org.pdfclown.files;
 
@@ -131,9 +130,11 @@ public class DanfePdf : DanfePdfBase
         return new Estilo(_FonteRegular, _FonteNegrito, _FonteItalico, tFonteCampoCabecalho, tFonteCampoConteudo);
     }
 
-    public void Gerar()
+    
+    public override void Generate()
     {
-        if (_FoiGerado) throw new InvalidOperationException("O Danfe já foi gerado.");
+        if (_FoiGerado) 
+            throw new InvalidOperationException("O Danfe já foi gerado.");
 
         IdentificacaoEmitente.Logo = _LogoObject;
         var tabela = new TabelaProdutosServicos(ViewModel, EstiloPadrao);
@@ -220,6 +221,6 @@ public class DanfePdf : DanfePdfBase
         }
     }
 
-      
-        
+
+
 }

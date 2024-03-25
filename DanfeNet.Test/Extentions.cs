@@ -9,10 +9,12 @@ public static class Extentions
 
     public static void SalvarTestPdf(this DanfePdf d, string outputName = null)
     {
-        if (!Directory.Exists(OutputDirectoryName)) Directory.CreateDirectory(OutputDirectoryName);
+        if (!Directory.Exists(OutputDirectoryName)) 
+            Directory.CreateDirectory(OutputDirectoryName);
 
-        if (outputName == null) outputName = new StackTrace().GetFrame(1).GetMethod().Name;
+        if (outputName == null) 
+            outputName = new StackTrace().GetFrame(1).GetMethod().Name;
 
-        d.Salvar(Path.Combine(OutputDirectoryName, outputName + ".pdf"));
+        d.SaveAs(Path.Combine(OutputDirectoryName, outputName + ".pdf"));
     }
 }

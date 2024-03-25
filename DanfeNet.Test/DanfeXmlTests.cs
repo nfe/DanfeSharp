@@ -19,10 +19,10 @@ public class DanfeXmlTests
     {
         var outPdfFilePath = Path.Combine(OutputDirectory, Path.GetFileNameWithoutExtension(xmlPath) + ".pdf");
         var model = DanfeFactory.FromXmlFilePath(Path.Combine(InputXmlDirectoryPrefix, xmlPath));
-        using (DanfePdf danfePdf = new DanfePdf(model))
+        using (var danfePdf = new DanfePdf(model))
         {
-            danfePdf.Gerar();
-            danfePdf.Salvar(outPdfFilePath);
+            danfePdf.Generate();
+            danfePdf.SaveAs(outPdfFilePath);
         }
     }
 

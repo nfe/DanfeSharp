@@ -87,9 +87,10 @@ public class DanfeNfcPdf : DanfePdfBase
         return new Estilo(_FonteRegular, _FonteNegrito, _FonteItalico, tFonteCampoCabecalho, tFonteCampoConteudo);
     }
 
-    public void Gerar()
+    public override void Generate()
     {
-        if (_FoiGerado) throw new InvalidOperationException("O Danfe já foi gerado.");
+        if (_FoiGerado) 
+            throw new InvalidOperationException("O Danfe já foi gerado.");
 
         var identificacaoEmitente = new BlocoIdentificacaoEmitenteNFC(ViewModel, EstiloPadrao, _primitiveComposer);
 

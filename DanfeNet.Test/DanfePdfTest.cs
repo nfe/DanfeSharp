@@ -16,7 +16,7 @@ public class DanfePdfTest
             model.Orientacao = Orientacao.Retrato;
             model.ExibirIcmsInterestadual = false;
             DanfePdf d = new DanfePdf(model);
-            d.Gerar();
+            d.Generate();
             d.SalvarTestPdf();
         }
 
@@ -27,7 +27,7 @@ public class DanfePdfTest
             model.Orientacao = Orientacao.Paisagem;
             model.ExibirIcmsInterestadual = false;
             DanfePdf d = new DanfePdf(model);
-            d.Gerar();
+            d.Generate();
             d.SalvarTestPdf();
         }       
 
@@ -38,7 +38,7 @@ public class DanfePdfTest
             model.Orientacao = Orientacao.Paisagem;
             model.QuantidadeCanhotos = 2;
             DanfePdf d = new DanfePdf(model);
-            d.Gerar();
+            d.Generate();
             d.SalvarTestPdf();
         }
 
@@ -49,7 +49,7 @@ public class DanfePdfTest
             model.Orientacao = Orientacao.Retrato;
             model.QuantidadeCanhotos = 2;
             DanfePdf d = new DanfePdf(model);
-            d.Gerar();
+            d.Generate();
             d.SalvarTestPdf();
         }
 
@@ -60,7 +60,7 @@ public class DanfePdfTest
             model.Orientacao = Orientacao.Paisagem;
             model.QuantidadeCanhotos = 0;
             DanfePdf d = new DanfePdf(model);
-            d.Gerar();
+            d.Generate();
             d.SalvarTestPdf();
         }
 
@@ -71,7 +71,7 @@ public class DanfePdfTest
             model.Orientacao = Orientacao.Retrato;
             model.QuantidadeCanhotos = 0;
             DanfePdf d = new DanfePdf(model);
-            d.Gerar();
+            d.Generate();
             d.SalvarTestPdf();
         }
 
@@ -84,7 +84,7 @@ public class DanfePdfTest
             model.ContingenciaJustificativa = "Aqui vai o motivo da contingência";
             model.Orientacao = Orientacao.Retrato;
             DanfePdf d = new DanfePdf(model);
-            d.Gerar();
+            d.Generate();
             d.SalvarTestPdf();
         }
 
@@ -97,7 +97,7 @@ public class DanfePdfTest
             model.ContingenciaJustificativa = "Aqui vai o motivo da contingência";
             model.Orientacao = Orientacao.Retrato;
             DanfePdf d = new DanfePdf(model);
-            d.Gerar();
+            d.Generate();
             d.SalvarTestPdf();
         }
 
@@ -107,7 +107,7 @@ public class DanfePdfTest
             var model = FabricaFake.DanfeViewModel_1();
             model.Orientacao = Orientacao.Retrato;
             DanfePdf d = new DanfePdf(model);       
-            d.Gerar();
+            d.Generate();
             d.SalvarTestPdf();
         }
 
@@ -118,7 +118,7 @@ public class DanfePdfTest
             model.Orientacao = Orientacao.Retrato;
             model.PreferirEmitenteNomeFantasia = false;
             DanfePdf d = new DanfePdf(model);
-            d.Gerar();
+            d.Generate();
             d.SalvarTestPdf();
         }
 
@@ -128,7 +128,7 @@ public class DanfePdfTest
             var model = FabricaFake.DanfeViewModel_1();
             model.Orientacao = Orientacao.Paisagem;
             DanfePdf d = new DanfePdf(model);
-            d.Gerar();
+            d.Generate();
             d.SalvarTestPdf();
         }
 
@@ -139,7 +139,7 @@ public class DanfePdfTest
             model.TipoAmbiente = 2;
             model.Orientacao = Orientacao.Retrato;
             DanfePdf d = new DanfePdf(model);
-            d.Gerar();
+            d.Generate();
             d.SalvarTestPdf();
         }
 
@@ -150,7 +150,7 @@ public class DanfePdfTest
             model.TipoAmbiente = 2;
             model.Orientacao = Orientacao.Paisagem;
             DanfePdf d = new DanfePdf(model);
-            d.Gerar();
+            d.Generate();
             d.SalvarTestPdf();
         }
 
@@ -160,7 +160,7 @@ public class DanfePdfTest
             var model = FabricaFake.DanfeViewModel_1();
             model.LocalEntrega = FabricaFake.LocalEntregaRetiradaFake();
             DanfePdf d = new DanfePdf(model);
-            d.Gerar();
+            d.Generate();
             d.SalvarTestPdf();
         }
 
@@ -172,7 +172,7 @@ public class DanfePdfTest
             model.DataSaidaEntrada = DateTimeOffset.UtcNow.DateTime;
             model.LocalRetiradaInfo = FabricaFake.LocalEntregaRetiradaFake();
             DanfePdf d = new DanfePdf(model);
-            d.Gerar();
+            d.Generate();
             d.SalvarTestPdf();
         }
 
