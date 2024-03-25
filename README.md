@@ -1,17 +1,17 @@
-# DanfeSharp
+# DanfeNet
 
-DanfeSharp é uma biblioteca em C# que permite a geração do DANFE em formato PDF.
+DanfeNet é uma biblioteca em C# que permite a geração do DANFE em formato PDF.
 
 A biblioteca PDF Clown é utilizada para a escrita dos arquivos em PDF.
 
 Exemplo de uso:
 ```csharp
 
-using DanfeSharp;
-using DanfeSharp.Models;
+using DanfeNet;
+using DanfeNet.Models;
 
 //Cria o modelo a partir do arquivo Xml da NF-e.
-var danfe = DanfeFactory.FromXmlFilePath("c:\nfe.xml");
+var danfe = DanfeFactory.FromXmlFilePath(@"c:\nfe.xml");
 
 
 //O modelo também pode ser criado e preenchido de outra forma.
@@ -23,7 +23,7 @@ var danfe = new Danfe()
     Emitente = new EmpresaInfo()
     {
         CnpjCpf = "123456...",
-        Nome = "DanfeSharp Ltda",    
+        Nome = "Espresas JJ Ltda",    
 	...
 
 
@@ -31,7 +31,7 @@ var danfe = new Danfe()
 using (var pdf = new DanfePdf(danfe))
 {
 	pdf.Generate();
-	pdf.SalveAs("C:\danfe.pdf");
+	pdf.SalveAs(@"C:\danfe.pdf");
 }
 ```
 
