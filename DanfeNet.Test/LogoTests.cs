@@ -19,7 +19,7 @@ namespace DanfeNet.Test
         {
             var model = FabricaFake.DanfeViewModel_1();
             model.Orientacao = Orientacao.Retrato;
-            using (Danfe d = new Danfe(model))
+            using (DanfePdf d = new DanfePdf(model))
             {
                 if (logoPath.EndsWith(".pdf", StringComparison.InvariantCultureIgnoreCase))
                 {

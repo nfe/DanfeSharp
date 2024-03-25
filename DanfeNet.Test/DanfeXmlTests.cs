@@ -20,11 +20,11 @@ namespace DanfeNet.Test
         public void TestXml(String xmlPath)
         {
             var outPdfFilePath = Path.Combine(OutputDirectory, Path.GetFileNameWithoutExtension(xmlPath) + ".pdf");
-            var model = DanfeViewModelCreator.CriarDeArquivoXml(Path.Combine(InputXmlDirectoryPrefix, xmlPath));
-            using (Danfe danfe = new Danfe(model))
+            var model = DanfeFactory.CriarDeArquivoXml(Path.Combine(InputXmlDirectoryPrefix, xmlPath));
+            using (DanfePdf danfePdf = new DanfePdf(model))
             {
-                danfe.Gerar();
-                danfe.Salvar(outPdfFilePath);
+                danfePdf.Gerar();
+                danfePdf.Salvar(outPdfFilePath);
             }
         }
 

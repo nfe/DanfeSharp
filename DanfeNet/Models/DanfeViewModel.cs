@@ -294,7 +294,7 @@ namespace DanfeNet.Modelo
 
         public static DanfeViewModel CreateFromXmlString(String xml)
         {
-            return DanfeViewModelCreator.CreateFromXmlString(xml);
+            return DanfeFactory.CreateFromXmlString(xml);
         }
 
         public virtual String TextoRecebimento

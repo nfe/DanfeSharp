@@ -128,7 +128,7 @@
     <Compile Include="FabricaFake.cs" />
     <Compile Include="LogoTests.cs" />
     <Compile Include="SimplePdfPageTester.cs" />
-    <Compile Include="DanfeTest.cs" />
+    <Compile Include="DanfePdfTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils_Test.cs" />
   </ItemGroup>

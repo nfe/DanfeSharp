@@ -7,7 +7,7 @@ namespace DanfeNet.Test
     {
         public const string OutputDirectoryName = "Output";
 
-        public static void SalvarTestPdf(this Danfe d, string outputName = null)
+        public static void SalvarTestPdf(this DanfePdf d, string outputName = null)
         {
             if (!Directory.Exists(OutputDirectoryName)) Directory.CreateDirectory(OutputDirectoryName);
 

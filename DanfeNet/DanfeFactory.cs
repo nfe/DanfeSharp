@@ -6,12 +6,13 @@ using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 using DanfeNet.Esquemas;
+using DanfeNet.Modelo;
 
-namespace DanfeNet.Modelo
+namespace DanfeNet
 {
-    public static class DanfeViewModelCreator
+    public static class DanfeFactory
     {
-        public readonly static IEnumerable<FormaEmissao> FormasEmissaoSuportadas = new FormaEmissao[]{ FormaEmissao.Normal, FormaEmissao.ContingenciaSVCAN, FormaEmissao.ContingenciaSVCRS };
+
 
         private static XmlSerializer ProcNFeSerializer = new XmlSerializer(typeof(ProcNFe));
 

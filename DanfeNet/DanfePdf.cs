@@ -11,14 +11,21 @@ using org.pdfclown.files;
 
 namespace DanfeNet
 {
-    public class Danfe : IDisposable
+    public class DanfePdf : IDisposable
     {
-        public DanfeViewModel ViewModel { get; private set; }
-        public File File { get; private set; }
+        private readonly StandardType1Font _FonteRegular;
+        private readonly StandardType1Font _FonteNegrito;
+        private readonly StandardType1Font _FonteItalico;
+        private readonly StandardType1Font.FamilyEnum _FonteFamilia;
+
+        private Boolean _FoiGerado;
+        
+        private org.pdfclown.documents.contents.xObjects.XObject _LogoObject;
+        
         internal Document PdfDocument { get; private set; }
 
         internal BlocoCanhoto Canhoto { get; private set; }
-        internal BlocoIdentificacaoEmitente IdentificacaoEmitente { get; private set; }
+        internal BlocoIdentificacaoEmitente IdentificacaoEmitente { get;  }
         internal List<BlocoEventoBase> Blocos { get; private set; }
 
         internal List<BlocoBase> _Blocos;
@@ -26,22 +33,15 @@ namespace DanfeNet
 
         internal List<DanfePagina> Paginas { get; private set; }
 
-        private readonly StandardType1Font _FonteRegular;
-        private readonly StandardType1Font _FonteNegrito;
-        private readonly StandardType1Font _FonteItalico;
-        private readonly StandardType1Font.FamilyEnum _FonteFamilia;
-
-        private Boolean _FoiGerado;
-        private readonly string _creditos;
-        private readonly string _metadataCriador;
-
-        private org.pdfclown.documents.contents.xObjects.XObject _LogoObject = null;
-
-        public Danfe(DanfeViewModel viewModel, string creditos = null, string metadataCriador = null)
+        
+        
+        public DanfeViewModel ViewModel { get; }
+        public File File { get;  }
+        public string Creditos { get; set; }
+        public string MetadataCriador { get; set; }
+        
+        public DanfePdf(DanfeViewModel viewModel)
         {
-            _creditos = creditos;
-            _metadataCriador = metadataCriador ?? String.Format("{0} {1} - {2}", "DanfeNet", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version, "https://github.com/SilverCard/DanfeNet");
-
             ViewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
 
             _Blocos = new List<BlocoBase>();
@@ -128,7 +128,7 @@ namespace DanfeNet
             info[new org.pdfclown.objects.PdfName("TipoDocumento")] = "DANFE";
             info.CreationDate = DateTime.Now;
             info.Title = "DANFE (Documento auxiliar da NFe)";
-            info.Creator = _metadataCriador;
+            info.Creator = MetadataCriador;
         }
 
         private Estilo CriarEstilo(float tFonteCampoCabecalho = 6, float tFonteCampoConteudo = 10)
@@ -170,9 +170,9 @@ namespace DanfeNet
 
             p.DesenharBlocos(Paginas.Count == 1);
 
-            if (string.IsNullOrWhiteSpace(_creditos) == false)
+            if (string.IsNullOrWhiteSpace(Creditos) == false)
             {
-                p.DesenharCreditos(_creditos);
+                p.DesenharCreditos(Creditos);
             }
 
             // Ambiente de homologação

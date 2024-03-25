@@ -11,7 +11,7 @@ namespace DanfeNet
 {
     internal class DanfePagina
     {
-        public Danfe Danfe { get; private set; }
+        public DanfePdf DanfePdf { get; private set; }
         public Page PdfPage { get; private set; }
         public PrimitiveComposer PrimitiveComposer { get; private set; }
         public Gfx Gfx { get; private set; }
@@ -21,48 +21,48 @@ namespace DanfeNet
         public RectangleF RetanguloCreditos { get; private set; }
         public RectangleF Retangulo { get; private set; }
 
-        public DanfePagina(Danfe danfe)
+        public DanfePagina(DanfePdf danfePdf)
         {
-            Danfe = danfe ?? throw new ArgumentNullException(nameof(danfe));
-            PdfPage = new Page(Danfe.PdfDocument);
-            Danfe.PdfDocument.Pages.Add(PdfPage);
+            DanfePdf = danfePdf ?? throw new ArgumentNullException(nameof(danfePdf));
+            PdfPage = new Page(DanfePdf.PdfDocument);
+            DanfePdf.PdfDocument.Pages.Add(PdfPage);
          
             PrimitiveComposer = new PrimitiveComposer(PdfPage);
             Gfx = new Gfx(PrimitiveComposer);
 
-            if (Danfe.ViewModel.Orientacao == Orientacao.Retrato)            
+            if (DanfePdf.ViewModel.Orientacao == Orientacao.Retrato)            
                 Retangulo = new RectangleF(0, 0, Constantes.A4Largura, Constantes.A4Altura);            
             else            
                 Retangulo = new RectangleF(0, 0, Constantes.A4Altura, Constantes.A4Largura);
             
-            RetanguloDesenhavel = Retangulo.InflatedRetangle(Danfe.ViewModel.Margem);
-            RetanguloCreditos = new RectangleF(RetanguloDesenhavel.X, RetanguloDesenhavel.Bottom + Danfe.EstiloPadrao.PaddingSuperior, RetanguloDesenhavel.Width, Retangulo.Height - RetanguloDesenhavel.Height - Danfe.EstiloPadrao.PaddingSuperior);
+            RetanguloDesenhavel = Retangulo.InflatedRetangle(DanfePdf.ViewModel.Margem);
+            RetanguloCreditos = new RectangleF(RetanguloDesenhavel.X, RetanguloDesenhavel.Bottom + DanfePdf.EstiloPadrao.PaddingSuperior, RetanguloDesenhavel.Width, Retangulo.Height - RetanguloDesenhavel.Height - DanfePdf.EstiloPadrao.PaddingSuperior);
             PdfPage.Size = new SizeF(Retangulo.Width.ToPoint(), Retangulo.Height.ToPoint());    
         }
 
         public void DesenharCreditos(string creditos)
         {
-            Gfx.DrawString(creditos, RetanguloCreditos, Danfe.EstiloPadrao.CriarFonteItalico(6), AlinhamentoHorizontal.Direita);
+            Gfx.DrawString(creditos, RetanguloCreditos, DanfePdf.EstiloPadrao.CriarFonteItalico(6), AlinhamentoHorizontal.Direita);
         }
 
         private void DesenharCanhoto()
         {
-            if (Danfe.ViewModel.QuantidadeCanhotos == 0) return;
+            if (DanfePdf.ViewModel.QuantidadeCanhotos == 0) return;
 
-            var canhoto = Danfe.Canhoto;
+            var canhoto = DanfePdf.Canhoto;
             canhoto.SetPosition(RetanguloDesenhavel.Location);
 
-            if (Danfe.ViewModel.Orientacao == Orientacao.Retrato)
+            if (DanfePdf.ViewModel.Orientacao == Orientacao.Retrato)
             {           
                 canhoto.Width = RetanguloDesenhavel.Width;
 
-                for (int i = 0; i < Danfe.ViewModel.QuantidadeCanhotos; i++)
+                for (int i = 0; i < DanfePdf.ViewModel.QuantidadeCanhotos; i++)
                 {
                     canhoto.Draw(Gfx);
                     canhoto.Y += canhoto.Height;
                 }
 
-                RetanguloDesenhavel = RetanguloDesenhavel.CutTop(canhoto.Height * Danfe.ViewModel.QuantidadeCanhotos);
+                RetanguloDesenhavel = RetanguloDesenhavel.CutTop(canhoto.Height * DanfePdf.ViewModel.QuantidadeCanhotos);
             }
             else
             {
@@ -70,14 +70,14 @@ namespace DanfeNet
                 Gfx.PrimitiveComposer.BeginLocalState();
                 Gfx.PrimitiveComposer.Rotate(90, new PointF(0, canhoto.Width + canhoto.X + canhoto.Y).ToPointMeasure());
 
-                for (int i = 0; i < Danfe.ViewModel.QuantidadeCanhotos; i++)
+                for (int i = 0; i < DanfePdf.ViewModel.QuantidadeCanhotos; i++)
                 {
                     canhoto.Draw(Gfx);
                     canhoto.Y += canhoto.Height;
                 }              
 
                 Gfx.PrimitiveComposer.End();
-                RetanguloDesenhavel = RetanguloDesenhavel.CutLeft(canhoto.Height * Danfe.ViewModel.QuantidadeCanhotos);
+                RetanguloDesenhavel = RetanguloDesenhavel.CutLeft(canhoto.Height * DanfePdf.ViewModel.QuantidadeCanhotos);
 
             }
         }
@@ -88,15 +88,15 @@ namespace DanfeNet
             if (total <= 0) throw new ArgumentOutOfRangeException(nameof(n));
             if (n > total) throw new ArgumentOutOfRangeException("O número da página atual deve ser menor que o total.");
 
-            Gfx.DrawString($"Folha {n}/{total}", RetanguloNumeroFolhas, Danfe.EstiloPadrao.FonteNumeroFolhas, AlinhamentoHorizontal.Centro);
+            Gfx.DrawString($"Folha {n}/{total}", RetanguloNumeroFolhas, DanfePdf.EstiloPadrao.FonteNumeroFolhas, AlinhamentoHorizontal.Centro);
             Gfx.Flush();
         }
 
         public void DesenharAvisoHomologacao()
         {
             TextStack ts = new TextStack(RetanguloCorpo) { AlinhamentoVertical = AlinhamentoVertical.Centro, AlinhamentoHorizontal = AlinhamentoHorizontal.Centro, LineHeightScale = 0.9F }
-                        .AddLine("SEM VALOR FISCAL", Danfe.EstiloPadrao.CriarFonteRegular(48))
-                        .AddLine("AMBIENTE DE HOMOLOGAÇÃO", Danfe.EstiloPadrao.CriarFonteRegular(30));
+                        .AddLine("SEM VALOR FISCAL", DanfePdf.EstiloPadrao.CriarFonteRegular(48))
+                        .AddLine("AMBIENTE DE HOMOLOGAÇÃO", DanfePdf.EstiloPadrao.CriarFonteRegular(30));
 
             Gfx.PrimitiveComposer.BeginLocalState();
             Gfx.PrimitiveComposer.SetFillColor(new org.pdfclown.documents.contents.colorSpaces.DeviceRGBColor(0.35, 0.35, 0.35));
@@ -106,9 +106,9 @@ namespace DanfeNet
 
         public void DesenharBlocos(bool isPrimeirapagina = false)
         {
-            if (isPrimeirapagina && Danfe.ViewModel.QuantidadeCanhotos > 0) DesenharCanhoto();
+            if (isPrimeirapagina && DanfePdf.ViewModel.QuantidadeCanhotos > 0) DesenharCanhoto();
 
-            var blocos = isPrimeirapagina ? Danfe._Blocos : Danfe._Blocos.Where(x => x.VisivelSomentePrimeiraPagina == false);
+            var blocos = isPrimeirapagina ? DanfePdf._Blocos : DanfePdf._Blocos.Where(x => x.VisivelSomentePrimeiraPagina == false);
 
             foreach (var bloco in blocos)
             {
