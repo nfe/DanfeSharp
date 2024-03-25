@@ -1,13 +1,14 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using DanfeNet.Elementos;
 using DanfeNet.Graphics;
 using org.pdfclown.documents;
 using org.pdfclown.documents.contents.composition;
 using org.pdfclown.documents.contents.fonts;
 using org.pdfclown.files;
+using File = org.pdfclown.files.File;
 
-namespace DanfeNet.Test;
+
+namespace DanfeNet.Tests;
 
 internal class SimplePdfPageTester : IDisposable
 {

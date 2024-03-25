@@ -1,6 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace DanfeNet.Test;
+﻿namespace DanfeNet.Tests;
 
 [TestClass]
 public class Utils_Test

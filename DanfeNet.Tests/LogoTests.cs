@@ -1,9 +1,6 @@
-﻿using System;
-using System.IO;
-using System.Runtime.CompilerServices;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Runtime.CompilerServices;
 
-namespace DanfeNet.Test;
+namespace DanfeNet.Tests;
 
 [TestClass]
 public class LogoTests
