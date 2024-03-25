@@ -1,6 +1,4 @@
 using System;
-using org.pdfclown.documents;
-using org.pdfclown.documents.contents.fonts;
 using org.pdfclown.files;
 
 namespace DanfeNet;

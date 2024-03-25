@@ -1,5 +1,4 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using DanfeNet.Graphics;
 using DanfeNet.Models;
 using org.pdfclown.documents.contents.xObjects;
