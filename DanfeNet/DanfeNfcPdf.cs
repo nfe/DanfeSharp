@@ -12,28 +12,23 @@ using org.pdfclown.files;
 
 namespace DanfeNet;
 
-public class DanfeNFC : IDisposable
+public class DanfeNfcPdf : DanfePdfBase
 {
     private readonly StandardType1Font _FonteRegular;
     private readonly StandardType1Font _FonteNegrito;
     private readonly StandardType1Font _FonteItalico;
     private readonly StandardType1Font.FamilyEnum _FonteFamilia;
     private bool _FoiGerado;
-    private readonly string _creditos;
-    private readonly string _metadataCriador;
     private readonly SizeF _size;
     private Page _page;
     private PrimitiveComposer _primitiveComposer;
-    public DanfeViewModel ViewModel { get; private set; }
-    public File File { get; private set; }
-    internal Document PdfDocument { get; private set; }
-    internal BlocoIdentificacaoEmitenteNFC IdentificacaoEmitente { get; private set; }
+    public Danfe ViewModel { get; private set; }
+    
     internal List<BlocoBase> _Blocos;
     internal Estilo EstiloPadrao { get; private set; }
 
-    private org.pdfclown.documents.contents.xObjects.XObject _LogoObject = null;
 
-    public DanfeNFC(DanfeViewModel viewModel, string creditos = null, string metadataCriador = null)
+    public DanfeNfcPdf(Danfe viewModel)
     {
         ViewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
 
@@ -64,9 +59,6 @@ public class DanfeNFC : IDisposable
         // 2. Create a content composer for the page!
         _primitiveComposer = new PrimitiveComposer(_page);
 
-        _creditos = creditos ?? "Impresso com DanfeNet";
-        _metadataCriador = metadataCriador ?? string.Format("{0} {1} - {2}", "DanfeNet", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version, "https://github.com/SilverCard/DanfeNet");
-
         // De acordo com o item 7.7, a fonte deve ser Times New Roman ou Courier New.
         _FonteFamilia = StandardType1Font.FamilyEnum.Helvetica;
         _FonteRegular = new StandardType1Font(PdfDocument, _FonteFamilia, false, false);
@@ -80,45 +72,6 @@ public class DanfeNFC : IDisposable
         _FoiGerado = false;
     }
 
-    public void AdicionarLogoImagem(System.IO.Stream stream)
-    {
-        if (stream == null) throw new ArgumentNullException(nameof(stream));
-
-        var img = org.pdfclown.documents.contents.entities.Image.Get(stream);
-        if (img == null) throw new InvalidOperationException("O logotipo não pode ser carregado, certifique-se que a imagem esteja no formato JPEG não progressivo.");
-        _LogoObject = img.ToXObject(PdfDocument);
-    }
-
-    public void AdicionarLogoPdf(System.IO.Stream stream)
-    {
-        if (stream == null) throw new ArgumentNullException(nameof(stream));
-
-        using (var pdfFile = new org.pdfclown.files.File(new org.pdfclown.bytes.Stream(stream)))
-        {
-            _LogoObject = pdfFile.Document.Pages[0].ToXObject(PdfDocument);
-        }
-    }
-
-    public void AdicionarLogoImagem(string path)
-    {
-        if (string.IsNullOrWhiteSpace(path)) throw new ArgumentException(nameof(path));
-
-        using (var fs = new System.IO.FileStream(path, System.IO.FileMode.Open, System.IO.FileAccess.Read))
-        {
-            AdicionarLogoImagem(fs);
-        }
-    }
-
-    public void AdicionarLogoPdf(string path)
-    {
-        if (string.IsNullOrWhiteSpace(path)) throw new ArgumentException(nameof(path));
-
-        using (var fs = new System.IO.FileStream(path, System.IO.FileMode.Open, System.IO.FileAccess.Read))
-        {
-            AdicionarLogoPdf(fs);
-        }
-    }
-
     private void AdicionarMetadata()
     {
         var info = PdfDocument.Information;
@@ -126,7 +79,7 @@ public class DanfeNFC : IDisposable
         info[new org.pdfclown.objects.PdfName("TipoDocumento")] = "DANFE";
         info.CreationDate = DateTime.Now;
         info.Title = "DANFE (Documento auxiliar da NFe)";
-        info.Creator = _metadataCriador;
+        info.Creator = MetadataInfo;
     }
 
     private Estilo CriarEstilo(float tFonteCampoCabecalho = 9, float tFonteCampoConteudo = 8)
@@ -134,9 +87,10 @@ public class DanfeNFC : IDisposable
         return new Estilo(_FonteRegular, _FonteNegrito, _FonteItalico, tFonteCampoCabecalho, tFonteCampoConteudo);
     }
 
-    public void Gerar()
+    public override void Generate()
     {
-        if (_FoiGerado) throw new InvalidOperationException("O Danfe já foi gerado.");
+        if (_FoiGerado) 
+            throw new InvalidOperationException("O Danfe já foi gerado.");
 
         var identificacaoEmitente = new BlocoIdentificacaoEmitenteNFC(ViewModel, EstiloPadrao, _primitiveComposer);
 
@@ -162,52 +116,4 @@ public class DanfeNFC : IDisposable
         _FoiGerado = true;
     }
 
-    public void Salvar(string path)
-    {
-        if (string.IsNullOrWhiteSpace(path)) throw new ArgumentException(nameof(path));
-
-        File.Save(path, SerializationModeEnum.Incremental);
-    }
-
-    public void Salvar(System.IO.Stream stream)
-    {
-        if (stream == null) throw new ArgumentNullException(nameof(stream));
-
-        File.Save(new org.pdfclown.bytes.Stream(stream), SerializationModeEnum.Incremental);
-    }
-
-    #region IDisposable Support
-    private bool disposedValue = false; // To detect redundant calls
-
-    protected virtual void Dispose(bool disposing)
-    {
-        if (!disposedValue)
-        {
-            if (disposing)
-            {
-                File.Dispose();
-            }
-
-            // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
-            // TODO: set large fields to null.
-
-            disposedValue = true;
-        }
-    }
-
-    // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
-    // ~Danfe() {
-    //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-    //   Dispose(false);
-    // }
-
-    // This code added to correctly implement the disposable pattern.
-    public void Dispose()
-    {
-        // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-        Dispose(true);
-        // TODO: uncomment the following line if the finalizer is overridden above.
-        // GC.SuppressFinalize(this);
-    }
-    #endregion
 }

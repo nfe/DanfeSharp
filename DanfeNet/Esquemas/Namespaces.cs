@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DanfeNet.Esquemas;
+﻿namespace DanfeNet.Esquemas;
 
 public static class Namespaces
 {

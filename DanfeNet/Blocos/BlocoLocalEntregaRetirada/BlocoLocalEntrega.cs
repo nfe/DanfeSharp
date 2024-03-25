@@ -5,7 +5,7 @@ namespace DanfeNet.Blocos.BlocoLocalEntregaRetirada;
 
 class BlocoLocalEntrega : BlocoLocalEntregaRetirada
 {
-    public BlocoLocalEntrega(DanfeViewModel viewModel, Estilo estilo) 
+    public BlocoLocalEntrega(Danfe viewModel, Estilo estilo) 
         : base(viewModel, estilo, viewModel.LocalEntrega)
     {
     }

@@ -7,7 +7,7 @@ namespace DanfeNet.Blocos.NFC;
 
 internal class BlocoConsultaChaveNFC : ElementoBase
 {
-    public BlocoConsultaChaveNFC(DanfeViewModel viewModel, Estilo estilo, PrimitiveComposer primitiveComposer, float y) : base(estilo)
+    public BlocoConsultaChaveNFC(Danfe viewModel, Estilo estilo, PrimitiveComposer primitiveComposer, float y) : base(estilo)
     {
         primitiveComposer.BeginLocalState();
         primitiveComposer.SetFont(estilo.FonteCampoConteudo.FonteInterna, estilo.FonteCampoConteudo.Tamanho);

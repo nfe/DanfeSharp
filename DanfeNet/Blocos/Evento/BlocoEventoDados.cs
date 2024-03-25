@@ -7,7 +7,7 @@ internal class BlocoEventoDados : BlocoEventoBase
 {
     #region Constructors
 
-    public BlocoEventoDados(DanfeEventoViewModel viewModel, Estilo estilo) : base(viewModel, estilo)
+    public BlocoEventoDados(DanfeEvento viewModel, Estilo estilo) : base(viewModel, estilo)
     {
         var ambiente = viewModel.TipoAmbiente == 1 ? "PRODUÇÃO" : "HOMOLOGAÇÃO - SEM VALOR FISCAL";
 

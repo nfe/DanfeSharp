@@ -1,6 +1,6 @@
 ﻿namespace DanfeNet.Models;
 
-public class CalculoImpostoViewModel
+public class CalculoImposto
 {
     /// <summary>
     /// <para>Base de Cálculo do ICMS</para>

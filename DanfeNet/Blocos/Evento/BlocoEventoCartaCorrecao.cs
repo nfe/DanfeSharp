@@ -7,7 +7,7 @@ internal class BlocoEventoCartaCorrecao : BlocoEventoBase
 {
     #region Constructors
 
-    public BlocoEventoCartaCorrecao(DanfeEventoViewModel viewModel, Estilo estilo) : base(viewModel, estilo)
+    public BlocoEventoCartaCorrecao(DanfeEvento viewModel, Estilo estilo) : base(viewModel, estilo)
     {
         var correcao = new CampoMultilinha("", viewModel.Correcao, estilo, AlinhamentoHorizontal.Esquerda, true) {Height = AlturaCorrecao};
         var linha = new FlexibleLine {Height = AlturaCorrecao};

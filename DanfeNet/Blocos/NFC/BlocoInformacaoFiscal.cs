@@ -7,7 +7,7 @@ namespace DanfeNet.Blocos.NFC;
 
 internal class BlocoInformacaoFiscal : ElementoBase
 {
-    public BlocoInformacaoFiscal(DanfeViewModel viewModel, Estilo estilo, PrimitiveComposer primitiveComposer, float y) : base(estilo)
+    public BlocoInformacaoFiscal(Danfe viewModel, Estilo estilo, PrimitiveComposer primitiveComposer, float y) : base(estilo)
     {
         if (viewModel.TipoAmbiente == 2)
         {

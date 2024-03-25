@@ -1,20 +1,22 @@
 using System;
-using org.pdfclown.documents;
-using org.pdfclown.documents.contents.fonts;
 using org.pdfclown.files;
+using org.pdfclown.documents;
 
 namespace DanfeNet;
 
 public abstract class DanfePdfBase : IDisposable
 {
-
+    internal Document PdfDocument { get; set; }
+    
     public File File { get; internal set; }
         
     public string CreditsInfo { get;  set; }
     public string MetadataInfo { get; set; }
-        
-        
-    public void Salvar(System.IO.Stream stream)
+
+
+    public abstract void Generate();
+    
+    public void SaveAs(System.IO.Stream stream)
     {
         if (stream == null) 
             throw new ArgumentNullException(nameof(stream));
@@ -22,7 +24,7 @@ public abstract class DanfePdfBase : IDisposable
         File.Save(new org.pdfclown.bytes.Stream(stream), SerializationModeEnum.Incremental);
     }
         
-    public void Salvar(string path)
+    public void SaveAs(string path)
     {
         if (string.IsNullOrWhiteSpace(path)) 
             throw new ArgumentException(nameof(path));

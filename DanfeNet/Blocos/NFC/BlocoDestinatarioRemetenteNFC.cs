@@ -7,7 +7,7 @@ namespace DanfeNet.Blocos.NFC;
 
 internal class BlocoDestinatarioRemetenteNFC : BlocoBase
 {
-    public BlocoDestinatarioRemetenteNFC(DanfeViewModel viewModel, Estilo estilo, PrimitiveComposer primitiveComposer, float y) : base(viewModel, estilo)
+    public BlocoDestinatarioRemetenteNFC(Danfe viewModel, Estilo estilo, PrimitiveComposer primitiveComposer, float y) : base(viewModel, estilo)
     {
         primitiveComposer.BeginLocalState();
         primitiveComposer.SetFont(estilo.FonteCampoConteudo.FonteInterna, estilo.FonteCampoConteudo.Tamanho);

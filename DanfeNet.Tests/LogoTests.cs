@@ -29,8 +29,8 @@ public class LogoTests
                 model.Emitente.NomeFantasia = "Logo Raster Ltda.";
             }
 
-            d.Gerar();
-            d.Salvar(Path.Combine(OutputDirectoryName, pdfName + ".pdf"));
+            d.Generate();
+            d.SaveAs(Path.Combine(OutputDirectoryName, pdfName + ".pdf"));
         }
     }
         

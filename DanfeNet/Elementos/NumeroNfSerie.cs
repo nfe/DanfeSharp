@@ -1,5 +1,4 @@
-﻿using System;
-using DanfeNet.Graphics;
+﻿using DanfeNet.Graphics;
 
 namespace DanfeNet.Elementos;
 

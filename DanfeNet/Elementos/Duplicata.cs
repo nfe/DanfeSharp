@@ -1,7 +1,6 @@
 ﻿using System;
 using DanfeNet.Atributos;
 using DanfeNet.Graphics;
-using DanfeNet.Models;
 
 namespace DanfeNet.Elementos;
 
@@ -10,11 +9,11 @@ internal class Duplicata : ElementoBase
 {
     public Fonte FonteA { get; private set; }
     public Fonte FonteB { get; private set; }
-    public DuplicataViewModel ViewModel { get; private set; }
+    public Models.DuplicataInfo ViewModel { get; private set; }
 
     private static readonly string[] Chaves = { "Número", "Vencimento:", "Valor:" };
 
-    public Duplicata(Estilo estilo, DuplicataViewModel viewModel) : base(estilo)
+    public Duplicata(Estilo estilo, Models.DuplicataInfo viewModel) : base(estilo)
     {
         ViewModel = viewModel;
         FonteA = estilo.CriarFonteRegular(7.5F);

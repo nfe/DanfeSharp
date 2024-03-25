@@ -1,4 +1,8 @@
-﻿namespace DanfeNet.Tests;
+using System;
+using System.IO;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace DanfeNet.Test;
 
 [TestClass]
 public class DanfeXmlTests
@@ -15,11 +19,11 @@ public class DanfeXmlTests
     public void TestXml(string xmlPath)
     {
         var outPdfFilePath = Path.Combine(OutputDirectory, Path.GetFileNameWithoutExtension(xmlPath) + ".pdf");
-        var model = DanfeFactory.CriarDeArquivoXml(Path.Combine(InputXmlDirectoryPrefix, xmlPath));
-        using (DanfePdf danfePdf = new DanfePdf(model))
+        var model = DanfeFactory.FromXmlFilePath(Path.Combine(InputXmlDirectoryPrefix, xmlPath));
+        using (var danfePdf = new DanfePdf(model))
         {
-            danfePdf.Gerar();
-            danfePdf.Salvar(outPdfFilePath);
+            danfePdf.Generate();
+            danfePdf.SaveAs(outPdfFilePath);
         }
     }
 

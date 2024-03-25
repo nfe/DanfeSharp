@@ -5,7 +5,6 @@ using DanfeNet.Blocos.BlocoLocalEntregaRetirada;
 using DanfeNet.Blocos.Evento;
 using DanfeNet.Elementos;
 using DanfeNet.Models;
-using org.pdfclown.documents;
 using org.pdfclown.documents.contents.fonts;
 using org.pdfclown.files;
 
@@ -21,8 +20,6 @@ public class DanfePdf : DanfePdfBase
     private bool _FoiGerado;
         
     private org.pdfclown.documents.contents.xObjects.XObject _LogoObject;
-        
-    internal Document PdfDocument { get; private set; }
 
     internal BlocoCanhoto Canhoto { get; private set; }
     internal BlocoIdentificacaoEmitente IdentificacaoEmitente { get;  }
@@ -34,10 +31,10 @@ public class DanfePdf : DanfePdfBase
     internal List<DanfePagina> Paginas { get; private set; }
 
         
-    public DanfeViewModel ViewModel { get; }
+    public Danfe ViewModel { get; }
         
         
-    public DanfePdf(DanfeViewModel viewModel)
+    public DanfePdf(Danfe viewModel)
     {
         ViewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
 
@@ -58,7 +55,7 @@ public class DanfePdf : DanfePdfBase
         IdentificacaoEmitente = AdicionarBloco<BlocoIdentificacaoEmitente>();
         AdicionarBloco<BlocoDestinatarioRemetente>();
 
-        if (ViewModel.LocalRetirada != null && ViewModel.ExibirBlocoLocalRetirada)
+        if (ViewModel.LocalRetiradaInfo != null && ViewModel.ExibirBlocoLocalRetirada)
             AdicionarBloco<BlocoLocalRetirada>();
 
         if (ViewModel.LocalEntrega != null && ViewModel.ExibirBlocoLocalEntrega)
@@ -133,9 +130,11 @@ public class DanfePdf : DanfePdfBase
         return new Estilo(_FonteRegular, _FonteNegrito, _FonteItalico, tFonteCampoCabecalho, tFonteCampoConteudo);
     }
 
-    public void Gerar()
+    
+    public override void Generate()
     {
-        if (_FoiGerado) throw new InvalidOperationException("O Danfe já foi gerado.");
+        if (_FoiGerado) 
+            throw new InvalidOperationException("O Danfe já foi gerado.");
 
         IdentificacaoEmitente.Logo = _LogoObject;
         var tabela = new TabelaProdutosServicos(ViewModel, EstiloPadrao);
@@ -222,6 +221,6 @@ public class DanfePdf : DanfePdfBase
         }
     }
 
-      
-        
+
+
 }

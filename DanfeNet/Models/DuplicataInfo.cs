@@ -2,7 +2,7 @@
 
 namespace DanfeNet.Models;
 
-public class FaturaViewModel
+public class DuplicataInfo
 {
     /// <summary>
     /// <para>Número da Duplicata</para>

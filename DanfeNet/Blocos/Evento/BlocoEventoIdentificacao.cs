@@ -11,7 +11,7 @@ internal class BlocoEventoIdentificacao : BlocoEventoBase
 
     #region Constructors
 
-    public BlocoEventoIdentificacao(DanfeEventoViewModel viewModel, Estilo estilo) : base(viewModel, estilo)
+    public BlocoEventoIdentificacao(DanfeEvento viewModel, Estilo estilo) : base(viewModel, estilo)
     {
         #region Propriedades
 

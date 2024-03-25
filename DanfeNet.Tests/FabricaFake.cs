@@ -6,9 +6,9 @@ public static class FabricaFake
 {
     public const double v = 1234.56;
 
-    public static LocalEntregaRetiradaViewModel LocalEntregaRetiradaFake()
+    public static LocalEntregaRetiradaInfo LocalEntregaRetiradaFake()
     {
-        return new LocalEntregaRetiradaViewModel()
+        return new LocalEntregaRetiradaInfo()
         {
             NomeRazaoSocial = "Umbrella Corp",
             Endereco = "Rua João Augusto Morais, 267",
@@ -22,9 +22,9 @@ public static class FabricaFake
         };
     }
 
-    public static CalculoImpostoViewModel CalculoImpostoViewModel()
+    public static CalculoImposto CalculoImpostoViewModel()
     {
-        return new CalculoImpostoViewModel
+        return new CalculoImposto
         {
             BaseCalculoIcms = v,
             BaseCalculoIcmsSt = v,
@@ -47,9 +47,9 @@ public static class FabricaFake
         };
     }
 
-    public static CalculoIssqnViewModel CalculoIssqnViewModel()
+    public static CalculoIssqn CalculoIssqnViewModel()
     {
-        return new CalculoIssqnViewModel
+        return new CalculoIssqn
         {
             BaseIssqn = v,
             InscricaoMunicipal = "123456789",
@@ -59,14 +59,14 @@ public static class FabricaFake
         };
     }
 
-    public static DanfeViewModel DanfeViewModel_1()
+    public static Danfe DanfeViewModel_1()
     {
-        var m = new DanfeViewModel()
+        var m = new Danfe()
         {
             NfNumero = 888888888,
             NfSerie = 888,
             ChaveAcesso = new string('0', 44),
-            Emitente = new EmpresaViewModel()
+            Emitente = new EmpresaInfo()
             {
                 CnpjCpf = new string('0', 14),
                 RazaoSocial = "Abstergo do Brasil Indústria de Tecnologia Ltda.",
@@ -85,7 +85,7 @@ public static class FabricaFake
                 Telefone = "0000000000",
                 CRT = "3"
             },
-            Destinatario = new EmpresaViewModel()
+            Destinatario = new EmpresaInfo()
             {
                 CnpjCpf = new string('1', 14),
                 RazaoSocial = "Umbrella Corp Ltda",
@@ -102,7 +102,7 @@ public static class FabricaFake
                 IM = "45454",
                 Telefone = "0000000000"
             },
-            Transportadora = new TransportadoraViewModel()
+            Transportadora = new Transportadora()
             {
                 RazaoSocial = "Correios",
                 CnpjCpf = new string('8', 14),
@@ -128,11 +128,11 @@ public static class FabricaFake
         m.CalculoImposto = CalculoImpostoViewModel();
         m.CalculoIssqn = CalculoIssqnViewModel();
 
-        m.Duplicatas = new List<DuplicataViewModel>();
+        m.Duplicatas = new List<DuplicataInfo>();
 
         for (int i = 1; i <= 10; i++)
         {
-            var d = new DuplicataViewModel()
+            var d = new DuplicataInfo()
             {
                 Numero = i.ToString(),
                 Valor = i * Math.PI,
@@ -142,11 +142,11 @@ public static class FabricaFake
             m.Duplicatas.Add(d);
         }
 
-        m.Produtos = new List<ProdutoViewModel>();
+        m.Produtos = new List<ProdutoInfo>();
 
         for (int i = 1; i <= 100; i++)
         {
-            var p = new ProdutoViewModel()
+            var p = new ProdutoInfo()
             {
                 Descricao = $"Produto da linha {i}",
                 Codigo = i.ToString(),

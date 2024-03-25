@@ -1,6 +1,6 @@
 ﻿namespace DanfeNet.Models;
 
-public class CalculoIssqnViewModel
+public class CalculoIssqn
 {
     public string InscricaoMunicipal { get; set; }
 
@@ -27,7 +27,7 @@ public class CalculoIssqnViewModel
     /// </summary>
     public bool Mostrar { get; set; }
 
-    public CalculoIssqnViewModel()
+    public CalculoIssqn()
     {
         Mostrar = false;
     }

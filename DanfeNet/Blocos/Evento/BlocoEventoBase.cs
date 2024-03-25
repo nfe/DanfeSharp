@@ -12,7 +12,7 @@ internal abstract class BlocoEventoBase : ElementoBase
 {
     #region Constructors
 
-    protected BlocoEventoBase(DanfeEventoViewModel viewModel, Estilo estilo) : base(estilo)
+    protected BlocoEventoBase(DanfeEvento viewModel, Estilo estilo) : base(estilo)
     {
         MainVerticalStack = new VerticalStack();
         ViewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
@@ -24,7 +24,7 @@ internal abstract class BlocoEventoBase : ElementoBase
 
     #region Properties
 
-    public DanfeEventoViewModel ViewModel { get; private set; }
+    public DanfeEvento ViewModel { get; private set; }
 
     public abstract PosicaoBloco Posicao { get; }
 

@@ -12,7 +12,7 @@ public static class DanfeEventoViewModelCreator
 
     private static XmlSerializer ProcNFeSerializer = new XmlSerializer(typeof(NFeProcEvento));
 
-    internal static DanfeEventoViewModel CreateFromXmlString(string xml)
+    internal static DanfeEvento CreateFromXmlString(string xml)
     {
         NFeProcEvento nfe = null;
         try
@@ -32,7 +32,7 @@ public static class DanfeEventoViewModelCreator
     /// <summary>
     ///     Cria o modelo a partir de uma string xml.
     /// </summary>
-    public static DanfeEventoViewModel CriarDeStringXml(string str)
+    public static DanfeEvento CriarDeStringXml(string str)
     {
         if (string.IsNullOrWhiteSpace(str)) throw new ArgumentNullException(nameof(str));
         return CreateFromXmlString(str);
@@ -43,7 +43,7 @@ public static class DanfeEventoViewModelCreator
     /// </summary>
     /// <param name="caminho"></param>
     /// <returns></returns>
-    public static DanfeEventoViewModel CriarDeArquivoXml(string caminho)
+    public static DanfeEvento CriarDeArquivoXml(string caminho)
     {
         using (var sr = new StreamReader(caminho, true))
         {
@@ -51,7 +51,7 @@ public static class DanfeEventoViewModelCreator
         }
     }
 
-    public static DanfeEventoViewModel CriarDeArquivoXml(Stream stream)
+    public static DanfeEvento CriarDeArquivoXml(Stream stream)
     {
         if (stream == null) throw new ArgumentNullException(nameof(stream));
 
@@ -61,7 +61,7 @@ public static class DanfeEventoViewModelCreator
         }
     }
 
-    private static DanfeEventoViewModel CriarDeArquivoXmlInternal(TextReader reader)
+    private static DanfeEvento CriarDeArquivoXmlInternal(TextReader reader)
     {
         NFeProcEvento nfe = null;
 
@@ -92,11 +92,11 @@ public static class DanfeEventoViewModelCreator
     //    return CreateFromXmlStream(stream);
     //}
 
-    public static DanfeEventoViewModel CreateFromXml(NFeProcEvento procEvento)
+    public static DanfeEvento CreateFromXml(NFeProcEvento procEvento)
     {
         var infEvento = procEvento.evento.infEvento;
         var retInfEvento = procEvento.retEvento.infEvento;
-        var model = new DanfeEventoViewModel
+        var model = new DanfeEvento
         {
             ChaveAcesso = infEvento.chNFe,
             Orgao = (int)infEvento.cOrgao,

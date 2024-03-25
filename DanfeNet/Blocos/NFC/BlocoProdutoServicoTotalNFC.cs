@@ -7,7 +7,7 @@ namespace DanfeNet.Blocos.NFC;
 
 internal class BlocoProdutoServicoTotalNFC : ElementoBase
 {
-    public BlocoProdutoServicoTotalNFC(DanfeViewModel viewModel, Estilo estilo, PrimitiveComposer primitiveComposer, float y) : base(estilo)
+    public BlocoProdutoServicoTotalNFC(Danfe viewModel, Estilo estilo, PrimitiveComposer primitiveComposer, float y) : base(estilo)
     {
         primitiveComposer.BeginLocalState();
 

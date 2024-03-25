@@ -7,7 +7,7 @@ namespace DanfeNet.Blocos.NFC;
 
 internal class TabelaProdutosServicosNFC : ElementoBase
 {
-    public TabelaProdutosServicosNFC(DanfeViewModel viewModel, Estilo estilo, PrimitiveComposer primitiveComposer, float y) : base(estilo)
+    public TabelaProdutosServicosNFC(Danfe viewModel, Estilo estilo, PrimitiveComposer primitiveComposer, float y) : base(estilo)
     {
         if (y == 40)
             Y_NFC = 100;

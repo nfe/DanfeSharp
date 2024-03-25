@@ -7,7 +7,7 @@ namespace DanfeNet.Blocos.NFC;
 
 internal class BlocoIdentificacaoNFC : ElementoBase
 {
-    public BlocoIdentificacaoNFC(DanfeViewModel viewModel, Estilo estilo, PrimitiveComposer primitiveComposer, float y) : base(estilo)
+    public BlocoIdentificacaoNFC(Danfe viewModel, Estilo estilo, PrimitiveComposer primitiveComposer, float y) : base(estilo)
     {
         primitiveComposer.BeginLocalState();
             
