@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DanfeNet</RootNamespace>
+    <FileAlignment>512</FileAlignment>
+    <PackageId>DanfeNet</PackageId>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="PdfClown.NetStandard" Version="0.2.0-beta" />
+    <PackageReference Include="QRCoder" Version="1.4.3" />
+  </ItemGroup>
+
+</Project>
