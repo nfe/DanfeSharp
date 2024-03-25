@@ -11,7 +11,7 @@ using DanfeNet;
 using DanfeNet.Models;
 
 //Cria o modelo a partir do arquivo Xml da NF-e.
-var danfe = DanfeFactory.FromXmlFilePath("c:\nfe.xml");
+var danfe = DanfeFactory.FromXmlFilePath(@"c:\nfe.xml");
 
 
 //O modelo também pode ser criado e preenchido de outra forma.
@@ -31,7 +31,7 @@ var danfe = new Danfe()
 using (var pdf = new DanfePdf(danfe))
 {
 	pdf.Generate();
-	pdf.SalveAs("C:\danfe.pdf");
+	pdf.SalveAs(@"C:\danfe.pdf");
 }
 ```
 
