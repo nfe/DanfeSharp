@@ -118,12 +118,12 @@ public class Danfe
     /// <summary>
     /// Dados do Emitente
     /// </summary>
-    public Empresa Emitente { get; set; }
+    public EmpresaInfo Emitente { get; set; }
 
     /// <summary>
     /// Dados do Destinatário
     /// </summary>
-    public Empresa Destinatario { get; set; }
+    public EmpresaInfo Destinatario { get; set; }
 
     /// <summary>
     /// <para>Tipo de Emissão da NF-e
@@ -154,7 +154,7 @@ public class Danfe
     /// <summary>
     /// Faturas da Nota Fiscal
     /// </summary>
-    public List<Duplicata> Duplicatas { get; set; }
+    public List<DuplicataInfo> Duplicatas { get; set; }
 
     /// <summary>
     /// Dados da Transportadora
@@ -169,7 +169,7 @@ public class Danfe
     /// <summary>
     /// Produtos da Nota Fiscal
     /// </summary>
-    public List<Produto> Produtos { get; set; }
+    public List<ProdutoInfo> Produtos { get; set; }
 
     /// <summary>
     /// View Model do Bloco Cálculo do Issqn
@@ -198,9 +198,9 @@ public class Danfe
 
     #region Local Retirada e Entrega
 
-    public LocalEntregaRetirada LocalRetirada { get; set; }
+    public LocalEntregaRetiradaInfo LocalRetiradaInfo { get; set; }
 
-    public LocalEntregaRetirada LocalEntrega { get; set; }
+    public LocalEntregaRetiradaInfo LocalEntrega { get; set; }
 
     #endregion
 
@@ -272,10 +272,10 @@ public class Danfe
         Margem = 4;
         Orientacao = Orientacao.Retrato;
         CalculoImposto = new CalculoImposto();
-        Emitente = new Empresa();
-        Destinatario = new Empresa();
-        Duplicatas = new List<Duplicata>();
-        Produtos = new List<Produto>();
+        Emitente = new EmpresaInfo();
+        Destinatario = new EmpresaInfo();
+        Duplicatas = new List<DuplicataInfo>();
+        Produtos = new List<ProdutoInfo>();
         Transportadora = new Transportadora();
         CalculoIssqn = new CalculoIssqn();
         Pagamento = new List<Pagamento>();

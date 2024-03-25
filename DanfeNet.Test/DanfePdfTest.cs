@@ -170,7 +170,7 @@ public class DanfePdfTest
             var model = FabricaFake.DanfeViewModel_1();
             model.DataHoraEmissao = DateTimeOffset.UtcNow.DateTime;
             model.DataSaidaEntrada = DateTimeOffset.UtcNow.DateTime;
-            model.LocalRetirada = FabricaFake.LocalEntregaRetiradaFake();
+            model.LocalRetiradaInfo = FabricaFake.LocalEntregaRetiradaFake();
             DanfePdf d = new DanfePdf(model);
             d.Gerar();
             d.SalvarTestPdf();

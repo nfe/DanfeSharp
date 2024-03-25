@@ -6,9 +6,9 @@ namespace DanfeNet.Blocos.BlocoLocalEntregaRetirada;
 
 abstract class BlocoLocalEntregaRetirada : BlocoBase
 {
-    public LocalEntregaRetirada Model { get; private set; }
+    public LocalEntregaRetiradaInfo Model { get; private set; }
 
-    public BlocoLocalEntregaRetirada(Danfe viewModel, Estilo estilo, LocalEntregaRetirada localModel) : base(viewModel, estilo)
+    public BlocoLocalEntregaRetirada(Danfe viewModel, Estilo estilo, LocalEntregaRetiradaInfo localModel) : base(viewModel, estilo)
     {
         Model = localModel ?? throw new ArgumentNullException(nameof(localModel));
             

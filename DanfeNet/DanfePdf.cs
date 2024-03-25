@@ -58,7 +58,7 @@ public class DanfePdf : DanfePdfBase
         IdentificacaoEmitente = AdicionarBloco<BlocoIdentificacaoEmitente>();
         AdicionarBloco<BlocoDestinatarioRemetente>();
 
-        if (ViewModel.LocalRetirada != null && ViewModel.ExibirBlocoLocalRetirada)
+        if (ViewModel.LocalRetiradaInfo != null && ViewModel.ExibirBlocoLocalRetirada)
             AdicionarBloco<BlocoLocalRetirada>();
 
         if (ViewModel.LocalEntrega != null && ViewModel.ExibirBlocoLocalEntrega)

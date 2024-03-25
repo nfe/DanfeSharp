@@ -2,7 +2,7 @@
 
 namespace DanfeNet.Models;
 
-public class Empresa
+public class EmpresaInfo
 {
     /// <summary>
     /// <para>Razão Social ou Nome</para>

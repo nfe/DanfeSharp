@@ -10,11 +10,11 @@ internal class Duplicata : ElementoBase
 {
     public Fonte FonteA { get; private set; }
     public Fonte FonteB { get; private set; }
-    public Models.Duplicata ViewModel { get; private set; }
+    public Models.DuplicataInfo ViewModel { get; private set; }
 
     private static readonly string[] Chaves = { "Número", "Vencimento:", "Valor:" };
 
-    public Duplicata(Estilo estilo, Models.Duplicata viewModel) : base(estilo)
+    public Duplicata(Estilo estilo, Models.DuplicataInfo viewModel) : base(estilo)
     {
         ViewModel = viewModel;
         FonteA = estilo.CriarFonteRegular(7.5F);

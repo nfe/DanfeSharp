@@ -6,19 +6,15 @@ using System.Xml;
 using System.Xml.Serialization;
 using DanfeNet.Esquemas;
 using DanfeNet.Models;
-using Duplicata = DanfeNet.Models.Duplicata;
-using Empresa = DanfeNet.Models.Empresa;
-using LocalEntregaRetirada = DanfeNet.Models.LocalEntregaRetirada;
-using Produto = DanfeNet.Models.Produto;
 
 namespace DanfeNet;
 
 public static class DanfeFactory
 {
 
-    private static Empresa CreateEmpresaFrom(Esquemas.Empresa empresa)
+    private static EmpresaInfo CreateEmpresaFrom(Empresa empresa)
     {
-        Empresa model = new Empresa();
+        EmpresaInfo model = new EmpresaInfo();
 
         model.RazaoSocial = empresa.xNome;
         model.CnpjCpf = !string.IsNullOrWhiteSpace(empresa.CNPJ) ? empresa.CNPJ : empresa.CPF;
@@ -278,7 +274,7 @@ public static class DanfeFactory
         // Divisão 3 - Informações de detalhes de produtos/serviços
         foreach (var det in infNfe.det)
         {
-            var produto = new Produto();
+            var produto = new ProdutoInfo();
             produto.Codigo = det.prod.cProd;
             produto.Descricao = det.prod.xProd;
             produto.Unidade = det.prod.uCom;
@@ -410,7 +406,7 @@ public static class DanfeFactory
         // Local retirada e entrega 
         if (infNfe.retirada != null)
         {
-            model.LocalRetirada = CreateLocalRetiradaEntrega(infNfe.retirada);
+            model.LocalRetiradaInfo = CreateLocalRetiradaEntrega(infNfe.retirada);
         }
 
         if (infNfe.entrega != null)
@@ -430,16 +426,16 @@ public static class DanfeFactory
 
         foreach (var det in infNfe.det)
         {
-            Produto produto = new Produto();
-            produto.Codigo = det.prod.cProd;
-            produto.Descricao = det.prod.xProd;
-            produto.Ncm = det.prod.NCM;
-            produto.Cfop = det.prod.CFOP;
-            produto.Unidade = det.prod.uCom;
-            produto.Quantidade = det.prod.qCom;
-            produto.ValorUnitario = det.prod.vUnCom;
-            produto.ValorTotal = det.prod.vProd;
-            produto.InformacoesAdicionais = det?.infAdProd?.Replace("\\n", "\n");
+            ProdutoInfo produtoInfo = new ProdutoInfo();
+            produtoInfo.Codigo = det.prod.cProd;
+            produtoInfo.Descricao = det.prod.xProd;
+            produtoInfo.Ncm = det.prod.NCM;
+            produtoInfo.Cfop = det.prod.CFOP;
+            produtoInfo.Unidade = det.prod.uCom;
+            produtoInfo.Quantidade = det.prod.qCom;
+            produtoInfo.ValorUnitario = det.prod.vUnCom;
+            produtoInfo.ValorTotal = det.prod.vProd;
+            produtoInfo.InformacoesAdicionais = det?.infAdProd?.Replace("\\n", "\n");
 
             var imposto = det.imposto;
 
@@ -451,11 +447,11 @@ public static class DanfeFactory
 
                     if (icms != null)
                     {
-                        produto.ValorIcms = icms.vICMS;
-                        produto.BaseIcms = icms.vBC;
-                        produto.AliquotaIcms = icms.pICMS;
-                        produto.OCst = icms.orig + icms.CST + icms.CSOSN;
-                        produto.BaseIcmsST = icms.vBCST;
+                        produtoInfo.ValorIcms = icms.vICMS;
+                        produtoInfo.BaseIcms = icms.vBC;
+                        produtoInfo.AliquotaIcms = icms.pICMS;
+                        produtoInfo.OCst = icms.orig + icms.CST + icms.CSOSN;
+                        produtoInfo.BaseIcmsST = icms.vBCST;
                     }
                 }
 
@@ -465,25 +461,25 @@ public static class DanfeFactory
 
                     if (ipi != null)
                     {
-                        produto.ValorIpi = ipi.vIPI;
-                        produto.AliquotaIpi = ipi.pIPI;
+                        produtoInfo.ValorIpi = ipi.vIPI;
+                        produtoInfo.AliquotaIpi = ipi.pIPI;
                     }
                 }
             }
 
-            model.Produtos.Add(produto);
+            model.Produtos.Add(produtoInfo);
         }
 
         if (infNfe.cobr != null)
         {
             foreach (var item in infNfe.cobr.dup)
             {
-                Duplicata duplicata = new Duplicata();
-                duplicata.Numero = item.nDup;
-                duplicata.Valor = item.vDup;
-                duplicata.Vecimento = item.dVenc;
+                DuplicataInfo duplicataInfo = new DuplicataInfo();
+                duplicataInfo.Numero = item.nDup;
+                duplicataInfo.Valor = item.vDup;
+                duplicataInfo.Vecimento = item.dVenc;
 
-                model.Duplicatas.Add(duplicata);
+                model.Duplicatas.Add(duplicataInfo);
             }
         }
 
@@ -556,9 +552,9 @@ public static class DanfeFactory
         return model;
     }
 
-    private static LocalEntregaRetirada CreateLocalRetiradaEntrega(Esquemas.LocalEntregaRetirada local)
+    private static LocalEntregaRetiradaInfo CreateLocalRetiradaEntrega(Esquemas.LocalEntregaRetirada local)
     {
-        var m = new LocalEntregaRetirada()
+        var m = new LocalEntregaRetiradaInfo()
         {
             NomeRazaoSocial = local.xNome,
             CnpjCpf = !string.IsNullOrWhiteSpace(local.CNPJ) ? local.CNPJ : local.CPF,

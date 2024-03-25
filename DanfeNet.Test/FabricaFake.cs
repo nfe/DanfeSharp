@@ -9,9 +9,9 @@ public static class FabricaFake
 {
     public const double v = 1234.56;
 
-    public static LocalEntregaRetirada LocalEntregaRetiradaFake()
+    public static LocalEntregaRetiradaInfo LocalEntregaRetiradaFake()
     {
-        return new LocalEntregaRetirada()
+        return new LocalEntregaRetiradaInfo()
         {
             NomeRazaoSocial = "Umbrella Corp",
             Endereco = "Rua João Augusto Morais, 267",
@@ -69,7 +69,7 @@ public static class FabricaFake
             NfNumero = 888888888,
             NfSerie = 888,
             ChaveAcesso = new string('0', 44),
-            Emitente = new Empresa()
+            Emitente = new EmpresaInfo()
             {
                 CnpjCpf = new string('0', 14),
                 RazaoSocial = "Abstergo do Brasil Indústria de Tecnologia Ltda.",
@@ -88,7 +88,7 @@ public static class FabricaFake
                 Telefone = "0000000000",
                 CRT = "3"
             },
-            Destinatario = new Empresa()
+            Destinatario = new EmpresaInfo()
             {
                 CnpjCpf = new string('1', 14),
                 RazaoSocial = "Umbrella Corp Ltda",
@@ -131,11 +131,11 @@ public static class FabricaFake
         m.CalculoImposto = CalculoImpostoViewModel();
         m.CalculoIssqn = CalculoIssqnViewModel();
 
-        m.Duplicatas = new List<Duplicata>();
+        m.Duplicatas = new List<DuplicataInfo>();
 
         for (int i = 1; i <= 10; i++)
         {
-            var d = new Duplicata()
+            var d = new DuplicataInfo()
             {
                 Numero = i.ToString(),
                 Valor = i * Math.PI,
@@ -145,11 +145,11 @@ public static class FabricaFake
             m.Duplicatas.Add(d);
         }
 
-        m.Produtos = new List<Produto>();
+        m.Produtos = new List<ProdutoInfo>();
 
         for (int i = 1; i <= 100; i++)
         {
-            var p = new Produto()
+            var p = new ProdutoInfo()
             {
                 Descricao = $"Produto da linha {i}",
                 Codigo = i.ToString(),

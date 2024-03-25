@@ -1,6 +1,6 @@
 ﻿namespace DanfeNet.Models;
 
-public class LocalEntregaRetirada
+public class LocalEntregaRetiradaInfo
 {
     public string NomeRazaoSocial { get; set; }
     public string CnpjCpf { get; set; }
