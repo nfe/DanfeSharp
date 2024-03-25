@@ -29,14 +29,12 @@ namespace DanfeSharp
         private readonly StandardType1Font.FamilyEnum _FonteFamilia;
 
         private Boolean _FoiGerado;
-        private readonly string _creditos;
         private readonly string _metadataCriador;
 
         private org.pdfclown.documents.contents.xObjects.XObject _LogoObject = null;
 
         public Danfe(DanfeViewModel viewModel, string creditos = null, string metadataCriador = null)
         {
-            _creditos = creditos ?? "Impresso com DanfeSharp";
             _metadataCriador = metadataCriador ?? String.Format("{0} {1} - {2}", "DanfeSharp", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version, "https://github.com/SilverCard/DanfeSharp");
 
             ViewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
@@ -167,11 +165,6 @@ namespace DanfeSharp
             
             p.DesenharBlocos(Paginas.Count == 1);
 
-            if (string.IsNullOrWhiteSpace(_creditos) == false)
-            {
-                p.DesenharCreditos(_creditos);
-            } 
-
             // Ambiente de homologação
             // 7. O DANFE emitido para representar NF-e cujo uso foi autorizado em ambiente de
             // homologação sempre deverá conter a frase “SEM VALOR FISCAL” no quadro “Informações
@@ -248,26 +241,17 @@ namespace DanfeSharp
                     File.Dispose();
                 }
 
-                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
-                // TODO: set large fields to null.
-
                 disposedValue = true;
             }
         }
 
-        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
-        // ~Danfe() {
-        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-        //   Dispose(false);
-        // }
+        
 
         // This code added to correctly implement the disposable pattern.
         public void Dispose()
         {
             // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
             Dispose(true);
-            // TODO: uncomment the following line if the finalizer is overridden above.
-            // GC.SuppressFinalize(this);
         }
         #endregion
     }
