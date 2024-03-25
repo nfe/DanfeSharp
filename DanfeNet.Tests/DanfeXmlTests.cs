@@ -1,8 +1,4 @@
-using System;
-using System.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace DanfeNet.Test;
+namespace DanfeNet.Tests;
 
 [TestClass]
 public class DanfeXmlTests
