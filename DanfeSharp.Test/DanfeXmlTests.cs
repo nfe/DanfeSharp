@@ -1,11 +1,7 @@
 ﻿using DanfeSharp.Modelo;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DanfeSharp.Test
 {
@@ -46,5 +42,12 @@ namespace DanfeSharp.Test
 
         [TestMethod]
         public void v4_ComLocalRetirada() => TestXml("v4.00/v4_ComLocalRetirada.xml");
+
+        [TestMethod]
+        public void v4_Default() => TestXml("v4.00/v4_Default.xml");
+
+        [TestMethod]
+        public void v4_SKUSize() => TestXml("v4.00/v4_SKUSize.xml");
+
     }
 }
