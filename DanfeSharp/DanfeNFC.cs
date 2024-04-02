@@ -153,7 +153,17 @@ namespace DanfeSharp
 
             var identificacaoNFC = new BlocoIdentificacaoNFC(ViewModel, EstiloPadrao, _primitiveComposer, destinatarioRemetente.Y_NFC);
 
-            var qrCodeNFC = new BlocoQrCodeNFC(ViewModel, EstiloPadrao, _primitiveComposer, identificacaoNFC.Y_NFC, PdfDocument);
+            var identificacaoContingencia = default(BlocoIdentificacaoContingencia);
+            var qrCodeNFC = default(BlocoQrCodeNFC);
+            if (!string.IsNullOrWhiteSpace(ViewModel.ContingenciaJustificativa))
+            {
+                identificacaoContingencia = new BlocoIdentificacaoContingencia(ViewModel, EstiloPadrao, _primitiveComposer, identificacaoNFC.Y_NFC);
+                qrCodeNFC = new BlocoQrCodeNFC(ViewModel, EstiloPadrao, _primitiveComposer, identificacaoContingencia.Y_NFC, PdfDocument);
+            }
+            else
+            {
+                qrCodeNFC = new BlocoQrCodeNFC(ViewModel, EstiloPadrao, _primitiveComposer, identificacaoNFC.Y_NFC, PdfDocument);
+            }
 
             // 4. Flush the contents into the page!
             _primitiveComposer.Flush();

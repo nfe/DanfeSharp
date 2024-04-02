@@ -266,9 +266,15 @@ namespace DanfeSharp.Modelo
                 throw new Exception("Modelo da nota difere de 65");
             }
 
-            if (ide.tpEmis != FormaEmissao.Normal && ide.tpEmis != FormaEmissao.ContingenciaDPEC && ide.tpEmis != FormaEmissao.ContingenciaFSDA && ide.tpEmis != FormaEmissao.ContingenciaSVCAN && ide.tpEmis != FormaEmissao.ContingenciaSVCRS)
+            if (ide.tpEmis != FormaEmissao.Normal && ide.tpEmis != FormaEmissao.ContingenciaOffLineNFCe && ide.tpEmis != FormaEmissao.ContingenciaDPEC && ide.tpEmis != FormaEmissao.ContingenciaFSDA && ide.tpEmis != FormaEmissao.ContingenciaSVCAN && ide.tpEmis != FormaEmissao.ContingenciaSVCRS)
             {
                 throw new Exception("Somente o tpEmis==1 está implementado.");
+            }
+
+            if(ide.tpEmis == FormaEmissao.ContingenciaOffLineNFCe)
+            {
+                model.ContingenciaDataHora = ide.dhCont;
+                model.ContingenciaJustificativa = ide.xJust;
             }
 
             // Divisão 1 - Informações do Cabeçalho
