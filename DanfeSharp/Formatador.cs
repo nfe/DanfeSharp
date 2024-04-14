@@ -243,9 +243,7 @@ namespace DanfeSharp
 
         public static String Formatar(this TimeSpan? timeSpan)
         {
-            return timeSpan.HasValue ? 
-                     timeSpan.Value/*.Add(TimeSpan.FromHours(TimeZoneBrasilia.BaseUtcOffset.Hours))*/.ToString()
-                    : String.Empty;
+            return timeSpan?.ToString(@"hh\:mm\:ss") ?? String.Empty;
         }
     }
 }
