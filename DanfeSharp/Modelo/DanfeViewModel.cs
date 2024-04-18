@@ -320,11 +320,11 @@ namespace DanfeSharp.Modelo
                 _ => throw new NotImplementedException()
             };
 
-            var contingencyDateTimeString = ContingenciaDataHora!.Value.ToString("yyyy-MM-ddTHH:mm:sszzz");
+            var contingencyDateTime = ContingenciaDataHora!.Value.ToString("yyyy-MM-ddTHH:mm:sszzz");
 
             return $"""
                 CONTINGÊNCIA {contingencyType}
-                Início: {contingencyDateTimeString}
+                Início: {contingencyDateTime}
                 Justificativa: {ContingenciaJustificativa}
                 """;
         }
