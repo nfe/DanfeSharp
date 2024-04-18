@@ -307,10 +307,7 @@ namespace DanfeSharp.Modelo
 
         public virtual String TextoReservadoFisco()
         {
-            if (TipoEmissao is not (FormaEmissao.ContingenciaDPEC
-                or FormaEmissao.ContingenciaFSDA
-                or FormaEmissao.ContingenciaSVCAN
-                or FormaEmissao.ContingenciaSVCRS))
+            if (TipoEmissao is FormaEmissao.Normal)
             {
                 return string.Empty;
             }
@@ -320,7 +317,7 @@ namespace DanfeSharp.Modelo
                 FormaEmissao.ContingenciaFSDA => "FSDA",
                 FormaEmissao.ContingenciaSVCAN => "SVC-AN",
                 FormaEmissao.ContingenciaSVCRS => "SVC-RS",
-                _ => throw new ArgumentOutOfRangeException()
+                _ => throw new NotImplementedException()
             };
 
             var contingencyDateTimeString = ContingenciaDataHora!.Value.ToString("yyyy-MM-ddTHH:mm:sszzz");
