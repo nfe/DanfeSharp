@@ -1,6 +1,5 @@
 ﻿using DanfeSharp.Modelo;
 using org.pdfclown.documents.contents.composition;
-using System;
 using System.Drawing;
 
 namespace DanfeSharp.Blocos.NFC
