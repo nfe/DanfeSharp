@@ -18,7 +18,7 @@ namespace DanfeSharp.Blocos
             if (ViewModel.ExibirIcmsInterestadual)
             {
                 l.ComCampoNumerico("V. ICMS UF REMET.", m.vICMSUFRemet)
-                 .ComCampoNumerico("VALOR DO FCP", m.vFCPUFDest);
+                 .ComCampoNumerico("VALOR DO FCP", m.ValorFcp);
             }
 
             if (ViewModel.ExibirPisConfins)

@@ -507,9 +507,9 @@ namespace DanfeSharp.Esquemas.NFe
         public double? vICMSUFRemet { get; set; }
 
         /// <summary>
-        /// Valor total do ICMS relativo Fundo de Combate à Pobreza(FCP) da UF de destino
+        /// Valor total do ICMS relativo Fundo de Combate à Pobreza (FCP)
         /// </summary>
-        public double? vFCPUFDest { get; set; }
+        public double? vFCP { get; set; }
 
         /// <summary>
         /// Base de Cálculo do ICMS ST 

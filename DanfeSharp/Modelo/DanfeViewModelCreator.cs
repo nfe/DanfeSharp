@@ -246,7 +246,7 @@ namespace DanfeSharp.Modelo
                 ValorCofins = i.vCOFINS,
                 OutrasDespesas = i.vOutro,
                 ValorTotalNota = i.vNF,
-                vFCPUFDest = i.vFCPUFDest,
+                ValorFcp = i.vFCP,
                 vICMSUFDest = i.vICMSUFDest,
                 vICMSUFRemet = i.vICMSUFRemet
             };
