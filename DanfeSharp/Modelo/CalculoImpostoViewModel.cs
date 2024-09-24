@@ -20,6 +20,11 @@
         public double? vICMSUFDest { get; set; }
 
         /// <summary>
+        ///     Valor do ICMS relativo ao Fundo de Combate à Pobreza (FCP) da UF de destino (vFCPUFDest
+        /// </summary>
+        public decimal? vFCPUFDest { get; set; }
+
+        /// <summary>
         /// <para>Tag vICMSUFRemet</para>
         /// </summary>
         public double? vICMSUFRemet { get; set; }
