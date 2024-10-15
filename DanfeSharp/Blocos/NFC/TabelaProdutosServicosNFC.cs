@@ -30,7 +30,7 @@ namespace DanfeSharp.Blocos.NFC
             primitiveComposer.SetLineDash(new org.pdfclown.documents.contents.LineDash(new double[] { 3, 2 }));
 
             primitiveComposer.SetFont(estilo.FonteCampoConteudo.FonteInterna, estilo.FonteCampoConteudo.Tamanho);
-            primitiveComposer.ShowText("CÓDIGO", new PointF(60, Y_NFC), XAlignmentEnum.Right, YAlignmentEnum.Middle, 0);
+            primitiveComposer.ShowText("CÓDIGO", new PointF(65, Y_NFC), XAlignmentEnum.Right, YAlignmentEnum.Middle, 0);
             primitiveComposer.ShowText("DESCRIÇÃO", new PointF(70, Y_NFC), XAlignmentEnum.Left, YAlignmentEnum.Middle, 0);
 
             Y_NFC += 10;
@@ -51,7 +51,7 @@ namespace DanfeSharp.Blocos.NFC
 
                 primitiveComposer.SetFont(estilo.FonteCampoConteudo.FonteInterna, estilo.FonteCampoConteudo.Tamanho);
                 primitiveComposer.ShowText(produto.Codigo.Length > 15 ? produto.Codigo.Substring(0, 10) : produto.Codigo,
-                    new PointF(60, Y_NFC), XAlignmentEnum.Right, YAlignmentEnum.Middle, 0);
+                    new PointF(65, Y_NFC), XAlignmentEnum.Right, YAlignmentEnum.Middle, 0);
                 primitiveComposer.ShowText(produto.Descricao.Length > 40 ? produto.Descricao.Substring(0, 40) : produto.Descricao,
                     new PointF(70, Y_NFC), XAlignmentEnum.Left, YAlignmentEnum.Middle, 0);
 
