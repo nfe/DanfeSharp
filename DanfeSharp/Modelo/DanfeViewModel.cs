@@ -315,6 +315,7 @@ namespace DanfeSharp.Modelo
             var contingencyType = TipoEmissao switch             {
                 FormaEmissao.ContingenciaDPEC => "DPEC",
                 FormaEmissao.ContingenciaFSDA => "FSDA",
+                FormaEmissao.ContingenciaFS => "FSIA",
                 FormaEmissao.ContingenciaSVCAN => "SVC-AN",
                 FormaEmissao.ContingenciaSVCRS => "SVC-RS",
                 _ => throw new NotImplementedException()
