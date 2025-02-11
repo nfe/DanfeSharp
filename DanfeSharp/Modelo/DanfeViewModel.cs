@@ -322,7 +322,7 @@ namespace DanfeSharp.Modelo
                 _ => throw new NotImplementedException()
             };
 
-            var contingencyDateTime = ContingenciaDataHora == null ? null : ContingenciaDataHora!.Value.ToString("yyyy-MM-ddTHH:mm:sszzz");
+            var contingencyDateTime = ContingenciaDataHora?.ToString("yyyy-MM-ddTHH:mm:sszzz");
 
             return $"""
                 CONTINGÊNCIA {contingencyType}
