@@ -318,10 +318,11 @@ namespace DanfeSharp.Modelo
                 FormaEmissao.ContingenciaFS => "FSIA",
                 FormaEmissao.ContingenciaSVCAN => "SVC-AN",
                 FormaEmissao.ContingenciaSVCRS => "SVC-RS",
+                FormaEmissao.ContingenciaSCAN => "SCAN",
                 _ => throw new NotImplementedException()
             };
 
-            var contingencyDateTime = ContingenciaDataHora!.Value.ToString("yyyy-MM-ddTHH:mm:sszzz");
+            var contingencyDateTime = ContingenciaDataHora == null ? null : ContingenciaDataHora!.Value.ToString("yyyy-MM-ddTHH:mm:sszzz");
 
             return $"""
                 CONTINGÊNCIA {contingencyType}
