@@ -28,6 +28,7 @@ namespace DanfeSharp
             {"fpTransferenciabancaria", "Transferência bancária, Carteira Digital" },
             {"fpProgramadefidelidade", "Programa de fidelidade, Cashback, Crédito Virtualo" },
             {"fpSemPagamento", "Sem pagamento" },
+            {"fpPagamentoEletronicoNaoInformado", "Pagamento eletrônico não informado" },
             {"fpOutro", "Outros" }
         };
 
