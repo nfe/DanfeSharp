@@ -181,6 +181,10 @@ namespace DanfeSharp
                 p.DesenharAvisoHomologacao();
             }
 
+            // NF-e cancelada
+            if (ViewModel.CodigoStatusReposta == 101)
+                p.DesenharAvisoCancelamento();
+
             return p;
         }
 
