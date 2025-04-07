@@ -44,7 +44,7 @@ namespace DanfeSharp
             else if (viewModel.Produtos.Count <= 40)
                 _size = new SizeF(280, viewModel.Produtos.Count * 14 + 600);
             else if (viewModel.Produtos.Count <= 75)
-                _size = new SizeF(280, viewModel.Produtos.Count * 12 + 600);
+                _size = new SizeF(280, viewModel.Produtos.Count * 20 + 600);
             else if (viewModel.Produtos.Count <= 150)
                 _size = new SizeF(280, viewModel.Produtos.Count * 11 + 600);
             else if (viewModel.Produtos.Count <= 250)
