@@ -336,7 +336,13 @@ namespace DanfeSharp.Modelo
             StringBuilder sb = new StringBuilder();
 
             if (!String.IsNullOrEmpty(InformacoesComplementares))
-                sb.AppendChaveValor("Inf. Contribuinte", InformacoesComplementares).Replace(";", "\r\n");
+            {
+                sb.Append("Inf. Contribuinte: ");
+                sb.Append(InformacoesComplementares);
+                sb.Replace(";", "\r\n").Replace("||", "\r\n");
+            }
+                
+
 
             if (!String.IsNullOrEmpty(Destinatario.Email))
             {
