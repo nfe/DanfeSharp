@@ -487,8 +487,8 @@ namespace DanfeSharp.Esquemas
         /// <summary>
         ///     28 - Sergipe
         /// </summary>
-        [XmlEnum("28")]
-        [Description("SE")] ES = 32,
+        [XmlEnum("32")]
+        [Description("ES")] ES = 32,
 
         /// <summary>
         ///     33 - Rio de Janeiro
