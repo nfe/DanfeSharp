@@ -485,7 +485,7 @@ namespace DanfeSharp.Esquemas
         [Description("mg")] MG = 31,
 
         /// <summary>
-        ///     28 - Sergipe
+        ///     32 - Espirito Santo
         /// </summary>
         [XmlEnum("32")]
         [Description("ES")] ES = 32,
