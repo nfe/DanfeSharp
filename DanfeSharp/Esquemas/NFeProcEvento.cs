@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using DanfeSharp.Esquemas.NFe;
+using System;
 using System.ComponentModel;
-using System.Text;
-using System.IO;
-using DanfeSharp.Esquemas.NFe;
-using System.Reflection;
 using System.Linq;
-using System.Xml.Linq;
-using System.Security.Cryptography.X509Certificates;
+using System.Reflection;
 using System.Xml.Serialization;
 
 namespace DanfeSharp.Esquemas
@@ -388,16 +383,70 @@ namespace DanfeSharp.Esquemas
     public enum CodigoUF
     {
         /// <summary>
+        ///     11 - Rondônia
+        /// </summary>
+        [XmlEnum("11")]
+        [Description("RO")] RO = 11,
+
+        /// <summary>
         ///     12 - Acre
         /// </summary>
         [XmlEnum("12")]
         [Description("AC")] AC = 12,
 
         /// <summary>
-        ///     27 - Alagoas
+        ///     13 - Amazonas
         /// </summary>
-        [XmlEnum("27")]
-        [Description("AL")] AL = 27,
+        [XmlEnum("13")]
+        [Description("AM")] AM = 13,
+
+        /// <summary>
+        ///     14 - Roraima
+        /// </summary>
+        [XmlEnum("14")]
+        [Description("RR")] RR = 14,
+
+        /// <summary>
+        ///     15 - Pará
+        /// </summary>
+        [XmlEnum("15")]
+        [Description("PA")] PA = 15,
+
+        /// <summary>
+        ///     16 - Amapá
+        /// </summary>
+        [XmlEnum("16")]
+        [Description("AP")] AP = 16,
+
+        /// <summary>
+        ///     17 - Tocantins
+        /// </summary>
+        [XmlEnum("17")]
+        [Description("TO")] TO = 17,
+
+        /// <summary>
+        ///     21 - Maranhão
+        /// </summary>
+        [XmlEnum("21")]
+        [Description("MA")] MA = 21,
+
+        /// <summary>
+        ///     22 - Piauí
+        /// </summary>
+        [XmlEnum("22")]
+        [Description("PI")] PI = 22,
+
+        /// <summary>
+        ///     23 - Ceará
+        /// </summary>
+        [XmlEnum("23")]
+        [Description("CE")] CE = 23,
+
+        /// <summary>
+        ///     24 - Rio Grande do Norte
+        /// </summary>
+        [XmlEnum("24")]
+        [Description("RN")] RN = 24,
 
         /// <summary>
         ///     25 - Paraíba
@@ -412,52 +461,10 @@ namespace DanfeSharp.Esquemas
         [Description("PE")] PE = 26,
 
         /// <summary>
-        ///     22 - Piauí
+        ///     27 - Alagoas
         /// </summary>
-        [XmlEnum("22")]
-        [Description("PI")] PI = 22,
-
-        /// <summary>
-        ///     41 - Paraná
-        /// </summary>
-        [XmlEnum("41")]
-        [Description("PR")] PR = 41,
-
-        /// <summary>
-        ///     33 - Rio de Janeiro
-        /// </summary>
-        [XmlEnum("33")]
-        [Description("RJ")] RJ = 33,
-
-        /// <summary>
-        ///     24 - Rio Grande do Norte
-        /// </summary>
-        [XmlEnum("24")]
-        [Description("RN")] RN = 24,
-
-        /// <summary>
-        ///     11 - Rondônia
-        /// </summary>
-        [XmlEnum("11")]
-        [Description("RO")] RO = 11,
-
-        /// <summary>
-        ///     14 - Roraima
-        /// </summary>
-        [XmlEnum("14")]
-        [Description("RR")] RR = 14,
-
-        /// <summary>
-        ///     43 - Rio Grande do Sul
-        /// </summary>
-        [XmlEnum("43")]
-        [Description("RS")] RS = 43,
-
-        /// <summary>
-        ///     42 - Santa Catarina
-        /// </summary>
-        [XmlEnum("42")]
-        [Description("SC")] SC = 42,
+        [XmlEnum("27")]
+        [Description("AL")] AL = 27,
 
         /// <summary>
         ///     28 - Sergipe
@@ -466,16 +473,76 @@ namespace DanfeSharp.Esquemas
         [Description("SE")] SE = 28,
 
         /// <summary>
+        ///     29 - Bahia
+        /// </summary>
+        [XmlEnum("29")]
+        [Description("BA")] BA = 29,
+
+        /// <summary>
+        ///     31 - Minas Gerais
+        /// </summary>
+        [XmlEnum("31")]
+        [Description("mg")] MG = 31,
+
+        /// <summary>
+        ///     32 - Espirito Santo
+        /// </summary>
+        [XmlEnum("32")]
+        [Description("ES")] ES = 32,
+
+        /// <summary>
+        ///     33 - Rio de Janeiro
+        /// </summary>
+        [XmlEnum("33")]
+        [Description("RJ")] RJ = 33,
+
+        /// <summary>
         ///     35 - São Paulo
         /// </summary>
         [XmlEnum("35")]
         [Description("SP")] SP = 35,
 
         /// <summary>
-        ///     17 - Tocantins
+        ///     41 - Paraná
         /// </summary>
-        [XmlEnum("17")]
-        [Description("TO")] TO = 17,
+        [XmlEnum("41")]
+        [Description("PR")] PR = 41,
+
+        /// <summary>
+        ///     42 - Santa Catarina
+        /// </summary>
+        [XmlEnum("42")]
+        [Description("SC")] SC = 42,
+
+        /// <summary>
+        ///     43 - Rio Grande do Sul
+        /// </summary>
+        [XmlEnum("43")]
+        [Description("RS")] RS = 43,
+
+        /// <summary>
+        ///     50 - Mato Grosso do Sul
+        /// </summary>
+        [XmlEnum("50")]
+        [Description("MS")] MS = 50,
+
+        /// <summary>
+        ///     51 - Mato Grosso
+        /// </summary>
+        [XmlEnum("51")]
+        [Description("MT")] MT = 51,
+
+        /// <summary>
+        ///     52 - Goiás
+        /// </summary>
+        [XmlEnum("52")]
+        [Description("GO")] GO = 52,
+
+        /// <summary>
+        ///     53 - Distrito Federal
+        /// </summary>
+        [XmlEnum("53")]
+        [Description("DF")] DF = 53,
 
         /// <summary>
         ///     91 - Ambiente Nacional

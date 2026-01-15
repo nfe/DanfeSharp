@@ -305,101 +305,30 @@ namespace DanfeSharp.Modelo
             }
         }
 
-        public virtual String TextoAdicionalFisco()
-        {
-            StringBuilder sb = new StringBuilder();
-
-            if (TipoEmissao == FormaEmissao.ContingenciaSVCAN || TipoEmissao == FormaEmissao.ContingenciaSVCRS)
-            {
-                sb.Append("Contingência ");
-
-                if (TipoEmissao == FormaEmissao.ContingenciaSVCAN)
-                    sb.Append("SVC-AN");
-
-                if (TipoEmissao == FormaEmissao.ContingenciaSVCRS)
-                    sb.Append("SVC-RS");
-
-                if (ContingenciaDataHora.HasValue)
-                {
-                    sb.Append($" - {ContingenciaDataHora.FormatarDataHora()/*Value.ToString("yyyy-MM-ddThh:mm:sszzz")*/}");
-                }
-
-                if (!String.IsNullOrWhiteSpace(ContingenciaJustificativa))
-                {
-                    sb.Append($" - {ContingenciaJustificativa}");
-                }
-
-                sb.Append(".");
-
-            }
-
-            return sb.ToString();
-        }
-
-        //public virtual String TextoAdicionalFisco()
-        //{
-        //    StringBuilder sb = new StringBuilder();
-
-        //    if (TipoEmissao == FormaEmissao.ContingenciaSVCAN || TipoEmissao == FormaEmissao.ContingenciaSVCRS)
-        //    {
-        //        sb.Append("Contingência ");
-
-        //        if (TipoEmissao == FormaEmissao.ContingenciaSVCAN)
-        //            sb.Append("SVC-AN");
-
-        //        if (TipoEmissao == FormaEmissao.ContingenciaSVCRS)
-        //            sb.Append("SVC-RS");
-
-        //        if (ContingenciaDataHora.HasValue)
-        //        {
-        //            sb.Append($" - {ContingenciaDataHora.FormatarDataHora()}");
-        //        }
-
-        //        if (!String.IsNullOrWhiteSpace(ContingenciaJustificativa))
-        //        {
-        //            sb.Append($" - {ContingenciaJustificativa}");
-        //        }
-
-        //        sb.Append(".");
-
-        //    }
-
-        //    return sb.ToString();
-        //}
-
         public virtual String TextoReservadoFisco()
         {
-            StringBuilder sb = new StringBuilder();
+            if (TipoEmissao is FormaEmissao.Normal)
+            {
+                return string.Empty;
+            }
 
-            // 4 = Contingência DPEC
-            if (TipoEmissao == FormaEmissao.ContingenciaDPEC)
-            {
-                sb.Append("CONTINGÊNCIA DPEC");
-                sb.AppendChaveValor("Entrada em contingência", ContingenciaDataHora.Value.ToString("yyyy-MM-ddThh:mm:sszzz")); // data hora
-                sb.AppendChaveValor("Justificativa", ContingenciaJustificativa); // just
-            }
-            // 5 = Contingência FSDA
-            if (TipoEmissao == FormaEmissao.ContingenciaFSDA)
-            {
-                sb.Append("CONTINGÊNCIA FSDA");
-                sb.AppendChaveValor("Entrada em contingência", ContingenciaDataHora.Value.ToString("yyyy-MM-ddThh:mm:sszzz")); // data hora
-                sb.AppendChaveValor("Justificativa", ContingenciaJustificativa); // just
-            }
-            // 6 = Contingência SVC-AN
-            else if (TipoEmissao == FormaEmissao.ContingenciaSVCAN)
-            {
-                sb.Append("CONTINGÊNCIA SVC-AN");
-                sb.AppendChaveValor("Entrada em contingência", ContingenciaDataHora.Value.ToString("yyyy-MM-ddThh:mm:sszzz")); // data hora
-                sb.AppendChaveValor("Justificativa", ContingenciaJustificativa); // just
-            }
-            // 7 = Contingência SVC-RS
-            else if (TipoEmissao == FormaEmissao.ContingenciaSVCRS)
-            {
-                sb.Append("CONTINGÊNCIA SVC-RS");
-                sb.AppendChaveValor("Entrada em contingência", ContingenciaDataHora.Value.ToString("yyyy-MM-ddThh:mm:sszzz")); // data hora
-                sb.AppendChaveValor("Justificativa", ContingenciaJustificativa); // just
-            }
-            return sb.ToString();
+            var contingencyType = TipoEmissao switch             {
+                FormaEmissao.ContingenciaDPEC => "DPEC",
+                FormaEmissao.ContingenciaFSDA => "FSDA",
+                FormaEmissao.ContingenciaFS => "FSIA",
+                FormaEmissao.ContingenciaSVCAN => "SVC-AN",
+                FormaEmissao.ContingenciaSVCRS => "SVC-RS",
+                FormaEmissao.ContingenciaSCAN => "SCAN",
+                _ => throw new NotImplementedException()
+            };
+
+            var contingencyDateTime = ContingenciaDataHora?.ToString("yyyy-MM-ddTHH:mm:sszzz");
+
+            return $"""
+                CONTINGÊNCIA {contingencyType}
+                Início: {contingencyDateTime}
+                Justificativa: {ContingenciaJustificativa}
+                """;
         }
 
         public virtual String TextoAdicional()
@@ -407,7 +336,13 @@ namespace DanfeSharp.Modelo
             StringBuilder sb = new StringBuilder();
 
             if (!String.IsNullOrEmpty(InformacoesComplementares))
-                sb.AppendChaveValor("Inf. Contribuinte", InformacoesComplementares).Replace(";", "\r\n");
+            {
+                sb.Append("Inf. Contribuinte: ");
+                sb.Append(InformacoesComplementares);
+                sb.Replace(";", "\r\n").Replace("||", "\r\n");
+            }
+                
+
 
             if (!String.IsNullOrEmpty(Destinatario.Email))
             {

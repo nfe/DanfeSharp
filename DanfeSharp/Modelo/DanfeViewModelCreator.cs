@@ -246,7 +246,7 @@ namespace DanfeSharp.Modelo
                 ValorCofins = i.vCOFINS,
                 OutrasDespesas = i.vOutro,
                 ValorTotalNota = i.vNF,
-                vFCPUFDest = i.vFCPUFDest,
+                ValorFcp = i.vFCP,
                 vICMSUFDest = i.vICMSUFDest,
                 vICMSUFRemet = i.vICMSUFRemet
             };
@@ -399,11 +399,11 @@ namespace DanfeSharp.Modelo
                 throw new NotSupportedException("Somente o mod==55 está implementado.");
             }
 
-            if(!FormasEmissaoSuportadas.Contains(model.TipoEmissao))
+            //if(!FormasEmissaoSuportadas.Contains(model.TipoEmissao))
             //if (ide.tpEmis != FormaEmissao.Normal && ide.tpEmis != FormaEmissao.ContingenciaDPEC && ide.tpEmis != FormaEmissao.ContingenciaFSDA && ide.tpEmis != FormaEmissao.ContingenciaSVCAN && ide.tpEmis != FormaEmissao.ContingenciaSVCRS)
-            {
-                throw new NotSupportedException($"O tpEmis {ide.tpEmis} não é suportado.");
-            }
+            //{
+            //    throw new NotSupportedException($"O tpEmis {ide.tpEmis} não é suportado.");
+            //}
 
             // comentamos essa linha, pois o PDF modelo paisagem falhava por conta do uso do netcore2.0
             // model.Orientacao = ide.tpImp == 1 ? Orientacao.Retrato : Orientacao.Paisagem;
@@ -569,13 +569,8 @@ namespace DanfeSharp.Modelo
 
             ExtrairDatas(model, infNfe);
 
-            // Contingência SVC-AN e SVC-RS
-            if (model.TipoEmissao == FormaEmissao.ContingenciaSVCAN || model.TipoEmissao == FormaEmissao.ContingenciaSVCRS)
-            {
-
-                model.ContingenciaDataHora = ide.dhCont;
-                model.ContingenciaJustificativa = ide.xJust;
-            }
+            model.ContingenciaDataHora = ide.dhCont;
+            model.ContingenciaJustificativa = ide.xJust;
 
             return model;
         }

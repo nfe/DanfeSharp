@@ -236,6 +236,13 @@ namespace DanfeSharp
             //return dateTime.HasValue ? dateTime.Value.ToString("dd/MM/yyyy")/*  ToShortDateString()*/ : String.Empty;
         }
 
+        public static String FormatarDataHoraWithoutGMT(this DateTime? dateTime)
+        {
+            return $"{dateTime:dd/MM/yyyy HH:mm:ss}";
+            //return dateTime.HasValue ? dateTime.Value.ToString("dd/MM/yyyy HH:mm:ss") : String.Empty;
+            //return dateTime.HasValue ? dateTime.Value.ToString("dd/MM/yyyy")/*  ToShortDateString()*/ : String.Empty;
+        }
+
         public static String FormatarDataHora(this DateTimeOffset? dateTime)
         {
             return dateTime.HasValue ? dateTime.Value.ToString("dd/MM/yyyy hh:mm:ss a zzz") : String.Empty;
@@ -243,9 +250,7 @@ namespace DanfeSharp
 
         public static String Formatar(this TimeSpan? timeSpan)
         {
-            return timeSpan.HasValue ? 
-                     timeSpan.Value/*.Add(TimeSpan.FromHours(TimeZoneBrasilia.BaseUtcOffset.Hours))*/.ToString()
-                    : String.Empty;
+            return timeSpan?.ToString(@"hh\:mm\:ss") ?? String.Empty;
         }
     }
 }

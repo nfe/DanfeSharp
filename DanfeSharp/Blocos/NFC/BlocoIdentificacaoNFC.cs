@@ -14,7 +14,7 @@ namespace DanfeSharp.Blocos.NFC
             primitiveComposer.ShowText($"Nº: {viewModel?.NfNumero}  Série: {viewModel?.NfSerie}", new PointF(140, y + 10), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
 
             primitiveComposer.SetFont(estilo.FonteCampoConteudoNegrito.FonteInterna, estilo.FonteCampoConteudoNegrito.Tamanho);
-            primitiveComposer.ShowText($"{viewModel?.DataHoraEmissao} - Via Consumidor", new PointF(140, y + 20), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
+            primitiveComposer.ShowText($"{viewModel?.DataHoraEmissao.FormatarDataHoraWithoutGMT()} - Via Consumidor", new PointF(140, y + 20), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
 
             primitiveComposer.SetFont(estilo.FonteCampoConteudo.FonteInterna, estilo.FonteCampoConteudo.Tamanho);
             primitiveComposer.ShowText("PROTOCOLO DE AUTORIZAÇÃO", new PointF(140, y + 30), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
