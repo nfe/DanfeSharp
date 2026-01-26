@@ -39,22 +39,35 @@ namespace DanfeSharp
             File = new File();
             PdfDocument = File.Document;
 
+            const float Width = 280;
+            const float Height = 600;
+
             if (viewModel.Produtos.Count <= 20)
-                _size = new SizeF(280, viewModel.Produtos.Count * 30 + 600);
+                _size = new SizeF(Width, Height + viewModel.Produtos.Count * 30);
             else if (viewModel.Produtos.Count <= 40)
-                _size = new SizeF(280, viewModel.Produtos.Count * 14 + 600);
+                _size = new SizeF(Width, Height + viewModel.Produtos.Count * 14);
             else if (viewModel.Produtos.Count <= 75)
-                _size = new SizeF(280, viewModel.Produtos.Count * 20 + 600);
+                _size = new SizeF(Width, Height + viewModel.Produtos.Count * 20);
             else if (viewModel.Produtos.Count <= 150)
-                _size = new SizeF(280, viewModel.Produtos.Count * 11 + 600);
+                _size = new SizeF(Width, Height + viewModel.Produtos.Count * 11);
             else if (viewModel.Produtos.Count <= 250)
-                _size = new SizeF(280, viewModel.Produtos.Count * 10.5F + 600);
+                _size = new SizeF(Width, Height + viewModel.Produtos.Count * 10.5F);
             else if (viewModel.Produtos.Count <= 400)
-                _size = new SizeF(280, viewModel.Produtos.Count * 10.2F + 600);
+                _size = new SizeF(Width, Height + viewModel.Produtos.Count * 10.2F);
             else if (viewModel.Produtos.Count <= 480)
-                _size = new SizeF(280, viewModel.Produtos.Count * 10.1F + 600);
+                _size = new SizeF(Width, Height + viewModel.Produtos.Count * 10.1F);
             else if (viewModel.Produtos.Count <= 700)
-                _size = new SizeF(280, viewModel.Produtos.Count * 9.8F + 600);
+                _size = new SizeF(Width, Height + viewModel.Produtos.Count * 9.8F);
+
+            if (viewModel.CalculoImposto.ValorAproximadoTributos > 0)
+            {
+                _size.Height += 30;
+            }
+
+            if (!string.IsNullOrWhiteSpace(viewModel.InformacoesComplementares))
+            {
+                _size.Height += 20;
+            }
 
             // 1. Add the page to the document!
             _page = new Page(PdfDocument, _size); // Instantiates the page inside the document context.
