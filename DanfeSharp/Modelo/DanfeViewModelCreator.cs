@@ -1,11 +1,11 @@
-﻿using System;
+﻿using DanfeSharp.Esquemas.NFe;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
-using DanfeSharp.Esquemas.NFe;
 
 namespace DanfeSharp.Modelo
 {
@@ -378,9 +378,9 @@ namespace DanfeSharp.Modelo
 
             // Divisão 9 - Mensagem de Interesse do Contribuinte
             model.CalculoImposto.ValorAproximadoTributos = infNfe.total.ICMSTot.vICMS + infNfe.total.ICMSTot.vST + infNfe.total.ICMSTot.vII + infNfe.total.ICMSTot.vIPI + infNfe.total.ICMSTot.vPIS + infNfe.total.ICMSTot.vCOFINS;
-
             model.CalculoImposto.ValorAproximadoTributosEstaduais = infNfe.total.ICMSTot.vICMS + infNfe.total.ICMSTot.vST;
             model.CalculoImposto.ValorAproximadoTributosFederais = infNfe.total.ICMSTot.vII + infNfe.total.ICMSTot.vIPI + infNfe.total.ICMSTot.vPIS + infNfe.total.ICMSTot.vCOFINS;
+            model.InformacoesComplementares = infNfe.infAdic?.infCpl;
 
             return model;
         }
