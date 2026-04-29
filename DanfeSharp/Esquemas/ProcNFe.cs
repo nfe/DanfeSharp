@@ -917,6 +917,22 @@ namespace DanfeSharp.Esquemas.NFe
         [XmlElementAttribute("NFref")]
         public List<NFReferenciada> NFref { get; set; }
 
+        /// <summary>
+        /// Finalidade de emissão da NF-e (1=Normal; 2=Complementar; 3=Ajuste;
+        /// 4=Devolução; 5=Nota de Crédito — Ajustes SINIEF 49/25 + 8/26).
+        /// Nullable pois XMLs antigos podem não conter o campo.
+        /// </summary>
+        public int? finNFe { get; set; }
+
+        /// <summary>
+        /// Tipo da Nota de Crédito (tpNFCredito), aplicável quando finNFe=5.
+        /// 01..05 conforme Ajuste 49/25, 06=Recusa Parcial conforme Ajuste 8/26.
+        /// </summary>
+        public string tpNFCredito { get; set; }
+
+        public bool ShouldSerializefinNFe() => finNFe.HasValue;
+        public bool ShouldSerializetpNFCredito() => !string.IsNullOrEmpty(tpNFCredito);
+
         public Identificacao()
         {
             NFref = new List<NFReferenciada>();

@@ -418,6 +418,12 @@ namespace DanfeSharp.Modelo
             model.NaturezaOperacao = ide.natOp;
             model.ChaveAcesso = procNfe.NFe.infNFe.Id.Substring(3);
             model.TipoNF = (int)ide.tpNF;
+            model.Finalidade = ide.finNFe;
+
+            if (!string.IsNullOrEmpty(ide.tpNFCredito) && int.TryParse(ide.tpNFCredito, out var tpCredito))
+            {
+                model.TipoNotaCredito = tpCredito;
+            }
 
             model.TipoEmissao = ide.tpEmis;
             model.ContingenciaDataHora = ide.dhCont;

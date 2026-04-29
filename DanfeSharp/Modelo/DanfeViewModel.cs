@@ -147,6 +147,25 @@ namespace DanfeSharp.Modelo
         public int TipoNF { get; set; }
 
         /// <summary>
+        /// Finalidade de emissão da NF-e (tag finNFe).
+        /// 1=Normal; 2=Complementar; 3=Ajuste; 4=Devolução;
+        /// 5=Nota de Crédito (Ajustes SINIEF 49/25 + 8/26).
+        /// Quando 5, o cabeçalho do DANFE é renderizado como
+        /// "NOTA DE CRÉDITO" no lugar de "DANFE".
+        /// </summary>
+        public int? Finalidade { get; set; }
+
+        /// <summary>
+        /// Tipo da Nota de Crédito (tag tpNFCredito), aplicável quando
+        /// <see cref="Finalidade"/> = 5.
+        /// 01=Multa e juros; 02=Apropriação de crédito presumido (ZFM);
+        /// 03=Recusa total ou não localização do destinatário;
+        /// 04=Redução de valores; 05=Transferência de crédito na sucessão;
+        /// 06=Recusa parcial na entrega (Ajuste SINIEF 8/26).
+        /// </summary>
+        public int? TipoNotaCredito { get; set; }
+
+        /// <summary>
         /// Numero do protocolo com sua data e hora
         /// </summary>
         public String ProtocoloAutorizacao { get; set; }
