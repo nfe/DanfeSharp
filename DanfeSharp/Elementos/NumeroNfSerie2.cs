@@ -39,9 +39,14 @@ namespace DanfeSharp
             var rp1 = BoundingBox.InflatedRetangle(1F, 0.5F, paddingHorizontal);
             var rp2 = rp1;
 
-            var f1 = Estilo.CriarFonteNegrito(12);
+            // Cabeçalho: "DANFE" para NF-e regular, "NOTA DE CRÉDITO" quando
+            // finNFe=5 (Ajustes SINIEF 49/25 + 8/26). Tamanho de fonte ajustado
+            // para acomodar o título mais longo no mesmo retângulo.
+            bool isNotaCredito = ViewModel.Finalidade == 5;
+            string tituloCabecalho = isNotaCredito ? "NOTA DE CRÉDITO" : "DANFE";
+            var f1 = Estilo.CriarFonteNegrito(isNotaCredito ? 10 : 12);
             var f1h = f1.AlturaLinha;
-            gfx.DrawString("DANFE", rp2, f1, AlinhamentoHorizontal.Centro);
+            gfx.DrawString(tituloCabecalho, rp2, f1, AlinhamentoHorizontal.Centro);
 
             rp2 = rp2.CutTop(f1h + 0.5F);
 
@@ -55,9 +60,27 @@ namespace DanfeSharp
             .AddLine("Documento Auxiliar da", f2)
             .AddLine("Nota Fiscal Eletrônica", f2);
 
+            // Para Nota de Crédito por Recusa, exibe o subtipo (Total / Parcial)
+            // logo abaixo do bloco descritivo. Quando presente, o TextStack
+            // ganha uma 3ª linha — o cálculo do CutTop precisa refletir isso
+            // para não sobrepor o bloco "ENTRADA/SAÍDA" abaixo.
+            float subtipoLineHeight = 0F;
+            if (isNotaCredito && ViewModel.TipoNotaCredito.HasValue)
+            {
+                string subtipo = ViewModel.TipoNotaCredito.Value switch
+                {
+                    3 => "(Recusa Total / Não Localização)",
+                    6 => "(Recusa Parcial)",
+                    _ => $"(tpNFCredito={ViewModel.TipoNotaCredito.Value:D2})"
+                };
+                var fSubtipo = Estilo.CriarFonteNegrito(7F);
+                ts.AddLine(subtipo, fSubtipo);
+                subtipoLineHeight = (float)fSubtipo.AlturaLinha * TextStack.DefaultLineHeightScale;
+            }
+
             ts.Draw(gfx);
 
-            rp2 = rp2.CutTop(2F * f2h + 1.5F);
+            rp2 = rp2.CutTop(2F * f2h + subtipoLineHeight + 1.5F);
 
 
             ts = new TextStack(rp2)

@@ -341,8 +341,41 @@ namespace DanfeSharp.Esquemas.NFe
         public ProdutoImposto imposto { get; set; }
         public string infAdProd { get; set; }
 
+        /// <summary>
+        /// Grupo de Documento Fiscal Eletrônico Referenciado (det/DFeReferenciado).
+        /// Usado em Nota de Crédito por Recusa Parcial (tpNFCredito=06, Ajuste
+        /// SINIEF 8/26) para indicar a NF-e original e o item específico a que
+        /// o item da Nota de Crédito faz referência.
+        /// </summary>
+        public DFeReferenciado DFeReferenciado { get; set; }
+
+        public bool ShouldSerializeDFeReferenciado() => DFeReferenciado != null;
+
         [XmlAttribute]
         public string nItem { get; set; }
+    }
+
+    /// <summary>
+    /// Grupo de Documento Fiscal Eletrônico Referenciado por item.
+    /// Conforme Ajuste SINIEF 8/26 (Nota de Crédito por Recusa Parcial,
+    /// tpNFCredito=06), cada item da NF-e de crédito pode referenciar o item
+    /// específico da NF-e original que está sendo recusado parcialmente.
+    /// </summary>
+    [Serializable]
+    [XmlType(AnonymousType = true, Namespace = Namespaces.NFe)]
+    public class DFeReferenciado
+    {
+        /// <summary>
+        /// Chave de Acesso da NF-e original referenciada (44 dígitos).
+        /// </summary>
+        public string chaveAcesso { get; set; }
+
+        /// <summary>
+        /// Número do item específico na NF-e original referenciada.
+        /// </summary>
+        public int? nItem { get; set; }
+
+        public bool ShouldSerializenItem() => nItem.HasValue;
     }
 
     /// <summary>
@@ -916,6 +949,22 @@ namespace DanfeSharp.Esquemas.NFe
         /// </summary>
         [XmlElementAttribute("NFref")]
         public List<NFReferenciada> NFref { get; set; }
+
+        /// <summary>
+        /// Finalidade de emissão da NF-e (1=Normal; 2=Complementar; 3=Ajuste;
+        /// 4=Devolução; 5=Nota de Crédito — Ajustes SINIEF 49/25 + 8/26).
+        /// Nullable pois XMLs antigos podem não conter o campo.
+        /// </summary>
+        public int? finNFe { get; set; }
+
+        /// <summary>
+        /// Tipo da Nota de Crédito (tpNFCredito), aplicável quando finNFe=5.
+        /// 01..05 conforme Ajuste 49/25, 06=Recusa Parcial conforme Ajuste 8/26.
+        /// </summary>
+        public string tpNFCredito { get; set; }
+
+        public bool ShouldSerializefinNFe() => finNFe.HasValue;
+        public bool ShouldSerializetpNFCredito() => !string.IsNullOrEmpty(tpNFCredito);
 
         public Identificacao()
         {

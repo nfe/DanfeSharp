@@ -418,6 +418,12 @@ namespace DanfeSharp.Modelo
             model.NaturezaOperacao = ide.natOp;
             model.ChaveAcesso = procNfe.NFe.infNFe.Id.Substring(3);
             model.TipoNF = (int)ide.tpNF;
+            model.Finalidade = ide.finNFe;
+
+            if (!string.IsNullOrEmpty(ide.tpNFCredito) && int.TryParse(ide.tpNFCredito, out var tpCredito))
+            {
+                model.TipoNotaCredito = tpCredito;
+            }
 
             model.TipoEmissao = ide.tpEmis;
             model.ContingenciaDataHora = ide.dhCont;
@@ -459,6 +465,16 @@ namespace DanfeSharp.Modelo
                 produto.ValorUnitario = det.prod.vUnCom;
                 produto.ValorTotal = det.prod.vProd;
                 produto.InformacoesAdicionais = det?.infAdProd?.Replace("\\n", "\n");
+
+                // Para Nota de Crédito por Recusa Parcial (Ajuste SINIEF 8/26),
+                // cada item pode referenciar um item específico da NF-e original
+                // via det/DFeReferenciado. Quando presente, esses dados são
+                // anexados à DescricaoCompleta para aparecer no DANFE.
+                if (det?.DFeReferenciado != null)
+                {
+                    produto.ChaveAcessoReferenciada = det.DFeReferenciado.chaveAcesso;
+                    produto.NumeroItemReferenciado = det.DFeReferenciado.nItem;
+                }
 
                 var imposto = det.imposto;
 

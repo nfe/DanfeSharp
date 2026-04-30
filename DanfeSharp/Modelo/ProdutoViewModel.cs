@@ -105,6 +105,21 @@ namespace DanfeSharp.Modelo
         /// </summary>
         public double? ValorAproximadoTributos { get; set; }
 
+        /// <summary>
+        /// <para>Chave de acesso (44 dígitos) da NF-e original referenciada por este item.</para>
+        /// <para>Aplicável apenas em Notas de Crédito por Recusa Parcial
+        /// (<c>finNFe=5</c> + <c>tpNFCredito=06</c>, Ajuste SINIEF 8/26).
+        /// Mapeia para <c>det/DFeReferenciado/chaveAcesso</c>.</para>
+        /// </summary>
+        public String ChaveAcessoReferenciada { get; set; }
+
+        /// <summary>
+        /// <para>Número do item específico no documento referenciado.</para>
+        /// <para>Aplicável apenas em Notas de Crédito por Recusa Parcial.
+        /// Mapeia para <c>det/DFeReferenciado/nItem</c>.</para>
+        /// </summary>
+        public int? NumeroItemReferenciado { get; set; }
+
         public ProdutoViewModel()
         {
             AliquotaIpi = null;
@@ -120,6 +135,18 @@ namespace DanfeSharp.Modelo
                 if (!String.IsNullOrWhiteSpace(InformacoesAdicionais))
                 {
                     descriCaoCompleta += "\r\n" + InformacoesAdicionais;
+                }
+
+                // Para Nota de Crédito por Recusa Parcial: anexa a referência
+                // ao item recusado da NF-e original na descrição (sem coluna
+                // dedicada, mantendo o layout do DANFE clássico).
+                if (!String.IsNullOrWhiteSpace(ChaveAcessoReferenciada))
+                {
+                    descriCaoCompleta += "\r\nNF-e ref.: " + ChaveAcessoReferenciada;
+                    if (NumeroItemReferenciado.HasValue)
+                    {
+                        descriCaoCompleta += " — item " + NumeroItemReferenciado.Value;
+                    }
                 }
 
                 return descriCaoCompleta;
