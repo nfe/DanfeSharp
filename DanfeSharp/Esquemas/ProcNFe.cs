@@ -341,8 +341,41 @@ namespace DanfeSharp.Esquemas.NFe
         public ProdutoImposto imposto { get; set; }
         public string infAdProd { get; set; }
 
+        /// <summary>
+        /// Grupo de Documento Fiscal Eletrônico Referenciado (det/DFeReferenciado).
+        /// Usado em Nota de Crédito por Recusa Parcial (tpNFCredito=06, Ajuste
+        /// SINIEF 8/26) para indicar a NF-e original e o item específico a que
+        /// o item da Nota de Crédito faz referência.
+        /// </summary>
+        public DFeReferenciado DFeReferenciado { get; set; }
+
+        public bool ShouldSerializeDFeReferenciado() => DFeReferenciado != null;
+
         [XmlAttribute]
         public string nItem { get; set; }
+    }
+
+    /// <summary>
+    /// Grupo de Documento Fiscal Eletrônico Referenciado por item.
+    /// Conforme Ajuste SINIEF 8/26 (Nota de Crédito por Recusa Parcial,
+    /// tpNFCredito=06), cada item da NF-e de crédito pode referenciar o item
+    /// específico da NF-e original que está sendo recusado parcialmente.
+    /// </summary>
+    [Serializable]
+    [XmlType(AnonymousType = true, Namespace = Namespaces.NFe)]
+    public class DFeReferenciado
+    {
+        /// <summary>
+        /// Chave de Acesso da NF-e original referenciada (44 dígitos).
+        /// </summary>
+        public string chaveAcesso { get; set; }
+
+        /// <summary>
+        /// Número do item específico na NF-e original referenciada.
+        /// </summary>
+        public int? nItem { get; set; }
+
+        public bool ShouldSerializenItem() => nItem.HasValue;
     }
 
     /// <summary>

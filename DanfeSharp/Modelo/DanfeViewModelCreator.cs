@@ -466,6 +466,16 @@ namespace DanfeSharp.Modelo
                 produto.ValorTotal = det.prod.vProd;
                 produto.InformacoesAdicionais = det?.infAdProd?.Replace("\\n", "\n");
 
+                // Para Nota de Crédito por Recusa Parcial (Ajuste SINIEF 8/26),
+                // cada item pode referenciar um item específico da NF-e original
+                // via det/DFeReferenciado. Quando presente, esses dados são
+                // anexados à DescricaoCompleta para aparecer no DANFE.
+                if (det?.DFeReferenciado != null)
+                {
+                    produto.ChaveAcessoReferenciada = det.DFeReferenciado.chaveAcesso;
+                    produto.NumeroItemReferenciado = det.DFeReferenciado.nItem;
+                }
+
                 var imposto = det.imposto;
 
                 if (imposto != null)

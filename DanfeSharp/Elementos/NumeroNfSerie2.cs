@@ -61,7 +61,10 @@ namespace DanfeSharp
             .AddLine("Nota Fiscal Eletrônica", f2);
 
             // Para Nota de Crédito por Recusa, exibe o subtipo (Total / Parcial)
-            // logo abaixo do bloco descritivo.
+            // logo abaixo do bloco descritivo. Quando presente, o TextStack
+            // ganha uma 3ª linha — o cálculo do CutTop precisa refletir isso
+            // para não sobrepor o bloco "ENTRADA/SAÍDA" abaixo.
+            float subtipoLineHeight = 0F;
             if (isNotaCredito && ViewModel.TipoNotaCredito.HasValue)
             {
                 string subtipo = ViewModel.TipoNotaCredito.Value switch
@@ -70,12 +73,14 @@ namespace DanfeSharp
                     6 => "(Recusa Parcial)",
                     _ => $"(tpNFCredito={ViewModel.TipoNotaCredito.Value:D2})"
                 };
-                ts.AddLine(subtipo, Estilo.CriarFonteNegrito(7F));
+                var fSubtipo = Estilo.CriarFonteNegrito(7F);
+                ts.AddLine(subtipo, fSubtipo);
+                subtipoLineHeight = (float)fSubtipo.AlturaLinha * TextStack.DefaultLineHeightScale;
             }
 
             ts.Draw(gfx);
 
-            rp2 = rp2.CutTop(2F * f2h + 1.5F);
+            rp2 = rp2.CutTop(2F * f2h + subtipoLineHeight + 1.5F);
 
 
             ts = new TextStack(rp2)
