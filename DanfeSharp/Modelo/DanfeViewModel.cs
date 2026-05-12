@@ -149,9 +149,12 @@ namespace DanfeSharp.Modelo
         /// <summary>
         /// Finalidade de emissão da NF-e (tag finNFe).
         /// 1=Normal; 2=Complementar; 3=Ajuste; 4=Devolução;
-        /// 5=Nota de Crédito (Ajustes SINIEF 49/25 + 8/26).
+        /// 5=Nota de Crédito (Ajustes SINIEF 49/25 + 8/26);
+        /// 6=Nota de Débito (Ajuste SINIEF 49/25).
         /// Quando 5, o cabeçalho do DANFE é renderizado como
         /// "NOTA DE CRÉDITO" no lugar de "DANFE".
+        /// Quando 6, o cabeçalho do DANFE é renderizado como
+        /// "NOTA DE DÉBITO" no lugar de "DANFE".
         /// </summary>
         public int? Finalidade { get; set; }
 
@@ -164,6 +167,17 @@ namespace DanfeSharp.Modelo
         /// 06=Recusa parcial na entrega (Ajuste SINIEF 8/26).
         /// </summary>
         public int? TipoNotaCredito { get; set; }
+
+        /// <summary>
+        /// Tipo da Nota de Débito (tag tpNFDebito), aplicável quando
+        /// <see cref="Finalidade"/> = 6.
+        /// 01=Transferência de créditos para cooperativas;
+        /// 02=Cancelamento de créditos; 03=Débitos não processados;
+        /// 04=Multas/juros; 05=Sucessão; 06=Pagamento antecipado;
+        /// 07=Perda de estoque; 08=Desenquadramento do Simples Nacional
+        /// (Ajuste SINIEF 49/25).
+        /// </summary>
+        public int? TipoNotaDebito { get; set; }
 
         /// <summary>
         /// Numero do protocolo com sua data e hora

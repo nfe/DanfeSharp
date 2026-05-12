@@ -425,6 +425,11 @@ namespace DanfeSharp.Modelo
                 model.TipoNotaCredito = tpCredito;
             }
 
+            if (!string.IsNullOrEmpty(ide.tpNFDebito) && int.TryParse(ide.tpNFDebito, out var tpDebito))
+            {
+                model.TipoNotaDebito = tpDebito;
+            }
+
             model.TipoEmissao = ide.tpEmis;
             model.ContingenciaDataHora = ide.dhCont;
             model.ContingenciaJustificativa = ide.xJust;
