@@ -952,7 +952,8 @@ namespace DanfeSharp.Esquemas.NFe
 
         /// <summary>
         /// Finalidade de emissão da NF-e (1=Normal; 2=Complementar; 3=Ajuste;
-        /// 4=Devolução; 5=Nota de Crédito — Ajustes SINIEF 49/25 + 8/26).
+        /// 4=Devolução; 5=Nota de Crédito — Ajustes SINIEF 49/25 + 8/26;
+        /// 6=Nota de Débito — Ajuste SINIEF 49/25).
         /// Nullable pois XMLs antigos podem não conter o campo.
         /// </summary>
         public int? finNFe { get; set; }
@@ -963,8 +964,18 @@ namespace DanfeSharp.Esquemas.NFe
         /// </summary>
         public string tpNFCredito { get; set; }
 
+        /// <summary>
+        /// Tipo da Nota de Débito (tpNFDebito), aplicável quando finNFe=6.
+        /// 01..08 conforme Ajuste 49/25 (transferência de créditos para
+        /// cooperativas, cancelamento de créditos, débitos não processados,
+        /// multas/juros, sucessão, pagamento antecipado, perda de estoque,
+        /// desenquadramento Simples Nacional).
+        /// </summary>
+        public string tpNFDebito { get; set; }
+
         public bool ShouldSerializefinNFe() => finNFe.HasValue;
         public bool ShouldSerializetpNFCredito() => !string.IsNullOrEmpty(tpNFCredito);
+        public bool ShouldSerializetpNFDebito() => !string.IsNullOrEmpty(tpNFDebito);
 
         public Identificacao()
         {

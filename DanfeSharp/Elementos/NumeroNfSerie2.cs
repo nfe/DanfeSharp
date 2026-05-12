@@ -40,11 +40,16 @@ namespace DanfeSharp
             var rp2 = rp1;
 
             // Cabeçalho: "DANFE" para NF-e regular, "NOTA DE CRÉDITO" quando
-            // finNFe=5 (Ajustes SINIEF 49/25 + 8/26). Tamanho de fonte ajustado
-            // para acomodar o título mais longo no mesmo retângulo.
+            // finNFe=5 (Ajustes SINIEF 49/25 + 8/26), "NOTA DE DÉBITO" quando
+            // finNFe=6 (Ajuste SINIEF 49/25). Tamanho de fonte ajustado para
+            // acomodar o título mais longo no mesmo retângulo.
             bool isNotaCredito = ViewModel.Finalidade == 5;
-            string tituloCabecalho = isNotaCredito ? "NOTA DE CRÉDITO" : "DANFE";
-            var f1 = Estilo.CriarFonteNegrito(isNotaCredito ? 10 : 12);
+            bool isNotaDebito = ViewModel.Finalidade == 6;
+            string tituloCabecalho;
+            if (isNotaCredito) tituloCabecalho = "NOTA DE CRÉDITO";
+            else if (isNotaDebito) tituloCabecalho = "NOTA DE DÉBITO";
+            else tituloCabecalho = "DANFE";
+            var f1 = Estilo.CriarFonteNegrito(isNotaCredito || isNotaDebito ? 10 : 12);
             var f1h = f1.AlturaLinha;
             gfx.DrawString(tituloCabecalho, rp2, f1, AlinhamentoHorizontal.Centro);
 
@@ -60,7 +65,7 @@ namespace DanfeSharp
             .AddLine("Documento Auxiliar da", f2)
             .AddLine("Nota Fiscal Eletrônica", f2);
 
-            // Para Nota de Crédito por Recusa, exibe o subtipo (Total / Parcial)
+            // Para Nota de Crédito por Recusa / Nota de Débito, exibe o subtipo
             // logo abaixo do bloco descritivo. Quando presente, o TextStack
             // ganha uma 3ª linha — o cálculo do CutTop precisa refletir isso
             // para não sobrepor o bloco "ENTRADA/SAÍDA" abaixo.
@@ -72,6 +77,24 @@ namespace DanfeSharp
                     3 => "(Recusa Total / Não Localização)",
                     6 => "(Recusa Parcial)",
                     _ => $"(tpNFCredito={ViewModel.TipoNotaCredito.Value:D2})"
+                };
+                var fSubtipo = Estilo.CriarFonteNegrito(7F);
+                ts.AddLine(subtipo, fSubtipo);
+                subtipoLineHeight = (float)fSubtipo.AlturaLinha * TextStack.DefaultLineHeightScale;
+            }
+            else if (isNotaDebito && ViewModel.TipoNotaDebito.HasValue)
+            {
+                string subtipo = ViewModel.TipoNotaDebito.Value switch
+                {
+                    1 => "(Transferência de Créditos p/ Cooperativa)",
+                    2 => "(Cancelamento de Créditos)",
+                    3 => "(Débitos Não Processados)",
+                    4 => "(Multas / Juros)",
+                    5 => "(Sucessão)",
+                    6 => "(Pagamento Antecipado)",
+                    7 => "(Perda de Estoque)",
+                    8 => "(Desenquadramento Simples Nacional)",
+                    _ => $"(tpNFDebito={ViewModel.TipoNotaDebito.Value:D2})"
                 };
                 var fSubtipo = Estilo.CriarFonteNegrito(7F);
                 ts.AddLine(subtipo, fSubtipo);
