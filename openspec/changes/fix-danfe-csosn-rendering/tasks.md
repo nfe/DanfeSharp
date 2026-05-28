@@ -1,41 +1,35 @@
 ## 1. Investigação de uso externo (pre-flight)
 
-- [ ] 1.1 Buscar consumidores internos do NFe.io que lêem `ProdutoViewModel.OCst` para confirmar que ninguém depende do formato concatenado antigo (`"120"`). Se algum consumidor faz parsing, listar no PR e propor migração.
-- [ ] 1.2 Confirmar com o cliente Revenda Mais (via @Carolina Fagundes) que o separador esperado é `/` e não outro caractere (`-`, espaço, etc.).
+- [ ] 1.1 Buscar consumidores internos do NFe.io que lêem `ProdutoViewModel.OCst` para confirmar que ninguém depende do formato concatenado antigo (`"120"`). Se algum consumidor faz parsing, listar no PR e propor migração. _(Pendente — requer acesso a outros repos do NFe.io fora deste working tree.)_
+- [ ] 1.2 Confirmar com o cliente Revenda Mais (via @Carolina Fagundes) que o separador esperado é `/` e não outro caractere (`-`, espaço, etc.). _(Pendente — comunicação externa; default `/` aplicado conforme convenção MOC.)_
 
 ## 2. Modelo de dados — `ProdutoViewModel`
 
-- [ ] 2.1 Adicionar propriedade pública `Origem` (`string`, nullable) em `DanfeSharp/Modelo/ProdutoViewModel.cs`, com XML doc `/// <summary>Origem da mercadoria (tag &lt;orig&gt;)</summary>`.
-- [ ] 2.2 Adicionar propriedade pública `Cst` (`string`, nullable) com XML doc apontando para tag `<CST>` do grupo `<ICMS*>`.
-- [ ] 2.3 Adicionar propriedade pública `Csosn` (`string`, nullable) com XML doc apontando para tag `<CSOSN>` do grupo `<ICMSSN*>`.
-- [ ] 2.4 Transformar `OCst` em propriedade calculada (getter-only ou setter privado) que retorna `string.Join("/", new[] { Origem, Cst ?? Csosn }.Where(s => !string.IsNullOrEmpty(s)))`, conforme regra da spec `danfe-icms-column` (cell rendering).
+- [x] 2.1 Adicionar propriedade pública `Origem` (`string`, nullable) em `DanfeSharp/Modelo/ProdutoViewModel.cs`, com XML doc `/// <summary>Origem da mercadoria (tag &lt;orig&gt;)</summary>`.
+- [x] 2.2 Adicionar propriedade pública `Cst` (`string`, nullable) com XML doc apontando para tag `<CST>` do grupo `<ICMS*>`.
+- [x] 2.3 Adicionar propriedade pública `Csosn` (`string`, nullable) com XML doc apontando para tag `<CSOSN>` do grupo `<ICMSSN*>`.
+- [x] 2.4 Transformar `OCst` em propriedade calculada (getter-only) que retorna a composição `Origem/codigo` conforme regra da spec `danfe-icms-column` (cell rendering). Implementado em `ProdutoViewModel.cs` com tratamento explícito de origem-only, código-only, e ambos vazios.
 
 ## 3. Producer — `DanfeViewModelCreator`
 
-- [ ] 3.1 Em `DanfeSharp/Modelo/DanfeViewModelCreator.cs:497`, substituir `produto.OCst = icms.orig + icms.CST + icms.CSOSN;` por três atribuições: `produto.Origem = icms.orig; produto.Cst = icms.CST; produto.Csosn = icms.CSOSN;`.
-- [ ] 3.2 Verificar se há outras chamadas a `icms.orig`, `icms.CST` ou `icms.CSOSN` em `DanfeViewModelCreator.cs` que precisam ser revisadas (busca local por `icms.orig`, `\.CST\b`, `\.CSOSN\b`).
-- [ ] 3.3 Garantir que valores nulos vindos do XML deserializer (`<orig>` ausente etc.) viram `null` (não `""`), para que a regra de composição do `OCst` funcione corretamente. Se o deserializer retorna `""` por padrão, normalizar para `null` na atribuição.
+- [x] 3.1 Em `DanfeSharp/Modelo/DanfeViewModelCreator.cs:497`, substituída `produto.OCst = icms.orig + icms.CST + icms.CSOSN;` por três atribuições explícitas a `Origem`/`Cst`/`Csosn`.
+- [x] 3.2 Verificadas outras chamadas a `icms.orig`/`icms.CST`/`icms.CSOSN` em todo o repo — só este ponto em `DanfeViewModelCreator.cs` lia esses três campos para produto. Confirmado via `grep`.
+- [x] 3.3 Normalização aplicada: `String.IsNullOrEmpty(icms.orig) ? null : icms.orig` (idem CST e CSOSN). Cobre o caso do `XmlSerializer` retornar `""` para tags ausentes; o `OCst` computado também trata `""` como ausente por defesa em profundidade (test `OCst_OrigemEmString_TrataComoAusente`).
 
 ## 4. Renderer — `TabelaProdutosServicos`
 
-- [ ] 4.1 Em `DanfeSharp/Blocos/TabelaProdutosServicos.cs:25`, substituir `String cabecalho4 = ViewModel.Emitente.CRT == "3" ? "O/CST" : "O/CSOSN";` por lógica que inspeciona os itens do `ViewModel.Produtos`:
-   ```csharp
-   bool hasCst = ViewModel.Produtos.Any(p => !string.IsNullOrEmpty(p.Cst));
-   bool hasCsosn = ViewModel.Produtos.Any(p => !string.IsNullOrEmpty(p.Csosn));
-   String cabecalho4 = hasCst ? "O/CST" : (hasCsosn ? "O/CSOSN" : "O/CST");
-   ```
-   Adicionar `using System.Linq;` se ainda não estiver no arquivo.
-- [ ] 4.2 Confirmar que a linha 75 (`p.OCst`) continua renderizando a célula corretamente — `OCst` agora é a propriedade calculada que entrega o valor formatado `"1/20"`. Nenhuma mudança necessária neste ponto.
-- [ ] 4.3 Verificar se a coluna tem largura suficiente para `1/20` (4 chars) sem truncar — o layout antigo cabia `120` (3 chars). Se necessário, ajustar largura no objeto `Tabela` (provavelmente em `BlocoBase`/Setup).
+- [x] 4.1 Em `DanfeSharp/Blocos/TabelaProdutosServicos.cs:25`, substituir a expressão `ViewModel.Emitente.CRT == "3" ? "O/CST" : "O/CSOSN"` por chamada ao helper estático `ProdutoViewModel.CalcularCabecalhoColunaIcms(ViewModel.Produtos)` — lógica extraída para método puro testável.
+- [x] 4.2 Verificar que a linha 75 (`p.OCst`) continua renderizando a célula corretamente — `OCst` agora é a propriedade calculada que entrega o valor formatado `"1/20"`. Confirmado: nenhuma mudança necessária neste ponto.
+- [ ] 4.3 Verificar visualmente se a coluna tem largura suficiente para `1/20` (4 chars) sem truncar — o layout antigo cabia `120` (3 chars). _(Validação manual pendente: §6 cobre.)_
 
 ## 5. Testes unitários
 
-- [ ] 5.1 Em `DanfeSharp.Test/`, adicionar teste cobrindo Regime Normal: XML com `<orig>1</orig><CST>20</CST>` → `ProdutoViewModel.OCst == "1/20"` e cabeçalho da tabela `"O/CST"`.
-- [ ] 5.2 Adicionar teste para Simples Nacional: XML com `<orig>0</orig><CSOSN>102</CSOSN>` → `OCst == "0/102"` e cabeçalho `"O/CSOSN"`.
-- [ ] 5.3 Adicionar teste para ausência de `<orig>`: XML com apenas `<CST>40</CST>` → `OCst == "40"` (sem barra solta).
-- [ ] 5.4 Adicionar teste para `<emit><CRT>` ausente: XML sem CRT no emitente mas com `<CST>` nos itens → cabeçalho derivado dos itens é `"O/CST"`.
-- [ ] 5.5 Adicionar teste de regressão garantindo que XML sem `<orig>` `<CST>` `<CSOSN>` não quebra (fallback determinístico de cabeçalho `"O/CST"`, célula vazia).
-- [ ] 5.6 Rodar `dotnet test` na solution e confirmar 0 falhas.
+- [x] 5.1 Regime Normal: `Origem="1"`, `Cst="20"` → `OCst == "1/20"` e cabeçalho `"O/CST"`. Cobertura em `ProdutoIcmsColumnTests.OCst_RegimeNormal_OrigemComCst_RetornaOrigemBarraCst` + `Cabecalho_TodosItensComCst_RetornaOCST`.
+- [x] 5.2 Simples Nacional: `Origem="0"`, `Csosn="102"` → `OCst == "0/102"` e cabeçalho `"O/CSOSN"`. Cobertura em `OCst_SimplesNacional_OrigemComCsosn_RetornaOrigemBarraCsosn` + `Cabecalho_TodosItensComCsosn_RetornaOCSOSN`.
+- [x] 5.3 Ausência de origem: apenas `Cst="40"` → `OCst == "40"` (sem barra solta). Cobertura em `OCst_SemOrigem_ApenasCst_RetornaCodigoSemBarra` + `OCst_SemOrigem_ApenasCsosn_RetornaCodigoSemBarra`.
+- [x] 5.4 Cenário do bug reportado (CRT ausente mas itens com CST): cabeçalho derivado dos itens é `"O/CST"`. Cobertura em `Cabecalho_RegressaoBug38_RevendaMaisComCstESemEmitenteCRT`.
+- [x] 5.5 Fallback total (nada estruturado no XML): célula vazia, cabeçalho `"O/CST"`. Cobertura em `OCst_TodosNull_RetornaStringVazia` + `Cabecalho_NenhumItemComCodigo_RetornaOCSTFallback` + `Cabecalho_ProdutosNull_RetornaOCSTFallback` + `Cabecalho_ListaVazia_RetornaOCSTFallback`.
+- [x] 5.6 `dotnet vstest DanfeSharp.Test.dll --TestCaseFilter:"FullyQualifiedName~ProdutoIcmsColumnTests"` → **15/15 aprovados, 0 falhas, 297 ms**. As 21 falhas restantes na suite completa (LogoTests, demais DanfeTest) são pré-existentes em `DanfeViewModel.TextoReservadoFisco():355` lançando `NotImplementedException` — fora do escopo de #38.
 
 ## 6. Validação visual (manual)
 
@@ -45,8 +39,8 @@
 
 ## 7. Documentação e changelog
 
-- [ ] 7.1 Adicionar entrada no README/CHANGELOG (se o repo mantém um) explicando o bug fix, o impacto em `OCst`, e a nova lógica do cabeçalho.
-- [ ] 7.2 Documentar publicamente em comentário XML doc do `OCst` que o formato é agora `"<origem>/<código>"`, separador `/`.
+- [x] 7.1 Repo não mantém CHANGELOG.md — alterações são documentadas em commit message + body da PR. Esta task fica satisfeita pelo body de PR #41.
+- [x] 7.2 XML doc do `OCst` atualizado em `ProdutoViewModel.cs` explicando o formato `"<origem>/<código>"` e a regra de omissão de componentes vazios.
 
 ## 8. PR e revisão
 

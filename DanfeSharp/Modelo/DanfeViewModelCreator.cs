@@ -494,7 +494,9 @@ namespace DanfeSharp.Modelo
                             produto.ValorIcms = icms.vICMS;
                             produto.BaseIcms = icms.vBC;
                             produto.AliquotaIcms = icms.pICMS;
-                            produto.OCst = icms.orig + icms.CST + icms.CSOSN;
+                            produto.Origem = String.IsNullOrEmpty(icms.orig) ? null : icms.orig;
+                            produto.Cst = String.IsNullOrEmpty(icms.CST) ? null : icms.CST;
+                            produto.Csosn = String.IsNullOrEmpty(icms.CSOSN) ? null : icms.CSOSN;
                             produto.BaseIcmsST = icms.vBCST;
                         }
                     }

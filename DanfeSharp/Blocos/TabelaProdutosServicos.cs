@@ -22,7 +22,7 @@ namespace DanfeSharp.Blocos
             var ae = AlinhamentoHorizontal.Esquerda;
 
             Tabela = new Tabela(Estilo);
-            String cabecalho4 = ViewModel.Emitente.CRT == "3" ? "O/CST" : "O/CSOSN";
+            String cabecalho4 = ProdutoViewModel.CalcularCabecalhoColunaIcms(ViewModel.Produtos);
 
             if (ViewModel.IsRetrato)
             { 

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DanfeSharp.Modelo
 {
@@ -29,10 +31,42 @@ namespace DanfeSharp.Modelo
         public String Ncm { get; set; }
 
         /// <summary>
-        /// <para>Origem da mercadoria + Tributação do ICMS</para>
-        /// <para>Tag orig e CST</para>
+        /// <para>Origem da mercadoria.</para>
+        /// <para>Tag <c>orig</c> do grupo <c>ICMS*</c>.</para>
         /// </summary>
-        public String OCst { get; set; }
+        public String Origem { get; set; }
+
+        /// <summary>
+        /// <para>Código de Tributação do ICMS para emitente do Regime Normal.</para>
+        /// <para>Tag <c>CST</c> do grupo <c>ICMS*</c>. Mutuamente exclusivo com <see cref="Csosn"/>.</para>
+        /// </summary>
+        public String Cst { get; set; }
+
+        /// <summary>
+        /// <para>Código de Tributação do ICMS para emitente do Simples Nacional.</para>
+        /// <para>Tag <c>CSOSN</c> do grupo <c>ICMSSN*</c>. Mutuamente exclusivo com <see cref="Cst"/>.</para>
+        /// </summary>
+        public String Csosn { get; set; }
+
+        /// <summary>
+        /// <para>Composição "Origem/Código" exibida na coluna ICMS da DANFE.</para>
+        /// <para>Computado a partir de <see cref="Origem"/> + (<see cref="Cst"/> ?? <see cref="Csosn"/>),
+        /// separados por <c>/</c>. Omite componentes vazios — XMLs sem <c>orig</c>
+        /// exibem só o código (sem barra solta no início).</para>
+        /// </summary>
+        public String OCst
+        {
+            get
+            {
+                String codigo = !String.IsNullOrEmpty(Cst) ? Cst : Csosn;
+                Boolean temOrigem = !String.IsNullOrEmpty(Origem);
+                Boolean temCodigo = !String.IsNullOrEmpty(codigo);
+                if (temOrigem && temCodigo) return Origem + "/" + codigo;
+                if (temOrigem) return Origem;
+                if (temCodigo) return codigo;
+                return String.Empty;
+            }
+        }
 
         /// <summary>
         /// <para>Código Fiscal de Operações e Prestações</para>
@@ -124,6 +158,20 @@ namespace DanfeSharp.Modelo
         {
             AliquotaIpi = null;
             ValorIpi = null;
+        }
+
+        /// <summary>
+        /// Calcula o cabeçalho da coluna ICMS na tabela de produtos da DANFE
+        /// (<c>"O/CST"</c> ou <c>"O/CSOSN"</c>) a partir do conteúdo dos itens
+        /// — abordagem mais robusta que confiar em <c>Emitente.CRT</c>.
+        /// Ver <c>openspec/changes/fix-danfe-csosn-rendering/design.md</c> (Decision 1).
+        /// </summary>
+        public static String CalcularCabecalhoColunaIcms(IEnumerable<ProdutoViewModel> produtos)
+        {
+            if (produtos == null) return "O/CST";
+            Boolean temCst = produtos.Any(p => !String.IsNullOrEmpty(p.Cst));
+            Boolean temCsosn = produtos.Any(p => !String.IsNullOrEmpty(p.Csosn));
+            return temCst ? "O/CST" : (temCsosn ? "O/CSOSN" : "O/CST");
         }
 
         public String DescricaoCompleta
