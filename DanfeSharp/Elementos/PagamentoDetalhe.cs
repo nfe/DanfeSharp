@@ -19,7 +19,9 @@ namespace DanfeSharp
         public Fonte FonteB { get; private set; }
         public DetalheViewModel ViewModel { get; private set; }
 
-        private static readonly String[] Chaves = { "FORMA PAGAMENTO", "VALOR" };
+        // Title Case espelhando o padrão de Duplicata.cs (Chaves = {"Número",
+        // "Vencimento:", "Valor:"}) — primeira label sem ':', segunda com.
+        private static readonly String[] Chaves = { "Forma de Pagamento", "Valor:" };
 
         public PagamentoDetalhe(Estilo estilo, DetalheViewModel viewModel) : base(estilo)
         {
