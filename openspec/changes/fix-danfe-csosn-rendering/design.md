@@ -77,6 +77,10 @@ A propriedade `OCst` continua existindo (backward compat) mas passa a ser **calc
 
 ### Decision 3: Formato exato da célula e do cabeçalho
 
+**Base normativa**
+
+A coluna `CST` é **obrigatória** no quadro "Dados dos Produtos/Serviços" do DANFE, conforme [MOC 7.0 — Anexo II, §3.1.7](https://www.confaz.fazenda.gov.br/legislacao/arquivo-manuais/moc7-anexo-ii-manual-especificacoes-tecnicas-danfe-codigo-barras.pdf) (página 11). O domínio do campo `<orig>` (origem da mercadoria: 0–8) está definido no schema do XML, em [MOC 7.0 — Anexo I](https://www.confaz.fazenda.gov.br/legislacao/arquivo-manuais/moc7-anexo-i-leiaute-e-rv.pdf), grupo `<ICMS>`. **O MOC não manda literalmente o formato combinado `O/CST` com separador `/`** — esse é convenção de mercado universalmente adotada (TOTVS, SAP, SmartGo, eMissor, etc.) por compactação visual e familiaridade dos receptores fiscais. A correção deste change alinha o `nfe/DanfeSharp` com essa convenção, restaurando o comportamento que receptores fiscais esperam ver e mantendo origem + CST/CSOSN visualmente distinguíveis.
+
 **Célula** (na linha de cada produto):
 
 | `Origem` | `Cst` | `Csosn` | Resultado |
@@ -95,7 +99,7 @@ Regra: `string.Join("/", [Origem, Cst ?? Csosn].Where(s => !string.IsNullOrEmpty
 - senão `"O/CSOSN"` se qualquer item tem `Csosn` não-vazio
 - senão `"O/CST"` (fallback determinístico)
 
-A coluna mista (alguns itens com CST e outros com CSOSN) é considerada impossível pelo padrão MOC NF-e — o regime tributário é por emitente, não por item. Se aparecer, prevalece a primeira regra (existe pelo menos um CST → `"O/CST"`).
+A coluna mista (alguns itens com CST e outros com CSOSN) é considerada inviável pelo CRT do emitente (regime tributário é por emitente, não por item) — Regime Normal usa apenas CST, Simples Nacional usa apenas CSOSN. Se aparecer no XML por inconsistência, prevalece a primeira regra (existe pelo menos um CST → `"O/CST"`).
 
 ### Decision 4: Não introduzir feature flag ou config
 
@@ -123,5 +127,5 @@ A correção é pura — restitui comportamento conforme MOC NF-e. Não há cen�
 ## Open Questions
 
 - Algum consumidor interno do NFe.io (outros repos) lê `ProdutoViewModel.OCst` esperando o formato concatenado `"120"`? — verificar antes do merge via grep cross-repo (`OCst` em outros consumidores que linkam o DanfeSharp).
-- O Manual de Orientação ao Contribuinte (MOC) NF-e especifica o caractere separador? `/` é o convencional no mercado, mas confirmar antes de hard-code (alternativas vistas em DANFEs comerciais: `-`, espaço, nenhum). _Default decision: `/` por convenção majoritária; reabrir se cliente Revenda Mais apontar outro padrão._
+- ~~O Manual de Orientação ao Contribuinte (MOC) NF-e especifica o caractere separador?~~ **Resolvido (2026-05-28):** o MOC 7.0 Anexo II §3.1.7 não cita literalmente o separador `/` nem o cabeçalho combinado `O/CST` — manda apenas que a coluna `CST` seja preenchida. O formato combinado é convenção de mercado (TOTVS, SAP, SmartGo, eMissor). Adotamos `/` por ser o universalmente esperado pelos receptores; se cliente Revenda Mais apontar outro padrão, reabrir.
 - A library tem outros pontos onde origem/CST/CSOSN são compostos como string? Buscar `icms.orig` e similares para garantir cobertura.

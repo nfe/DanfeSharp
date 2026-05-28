@@ -1,5 +1,7 @@
 ## ADDED Requirements
 
+> **Base normativa:** o quadro "Dados dos Produtos/Serviços" do DANFE e a obrigatoriedade da coluna `CST` estão definidos no [MOC 7.0 — Anexo II — Manual de Especificações Técnicas do DANFE e Código de Barras](https://www.confaz.fazenda.gov.br/legislacao/arquivo-manuais/moc7-anexo-ii-manual-especificacoes-tecnicas-danfe-codigo-barras.pdf), §3.1.7 (página 11). O campo `<orig>` (origem da mercadoria, domínio 0–8) faz parte do grupo `<ICMS>` no schema da NF-e ([MOC 7.0 — Anexo I](https://www.confaz.fazenda.gov.br/legislacao/arquivo-manuais/moc7-anexo-i-leiaute-e-rv.pdf)). O **formato combinado `O/CST` com separador `/` é convenção de mercado** (TOTVS, SAP, SmartGo, eMissor, etc.) — não está literalmente prescrito no MOC, mas é o que receptores fiscais esperam visualmente e o que outros renderers de DANFE da indústria adotam.
+
 ### Requirement: Cell rendering of `Origem/CST` or `Origem/CSOSN` in product table
 
 A coluna ICMS da tabela de produtos da DANFE de NF-e modelo 55 SHALL renderizar **origem da mercadoria** e **código de tributação** (CST ou CSOSN) separados pelo caractere `/`, lidos do grupo `<ICMS*>` do item.

@@ -1,7 +1,7 @@
 ## 1. Investigação de uso externo (pre-flight)
 
 - [ ] 1.1 Buscar consumidores internos do NFe.io que lêem `ProdutoViewModel.OCst` para confirmar que ninguém depende do formato concatenado antigo (`"120"`). Se algum consumidor faz parsing, listar no PR e propor migração. _(Pendente — requer acesso a outros repos do NFe.io fora deste working tree.)_
-- [ ] 1.2 Confirmar com o cliente Revenda Mais (via @Carolina Fagundes) que o separador esperado é `/` e não outro caractere (`-`, espaço, etc.). _(Pendente — comunicação externa; default `/` aplicado conforme convenção MOC.)_
+- [ ] 1.2 Confirmar com o cliente Revenda Mais (via @Carolina Fagundes) que o separador esperado é `/` e não outro caractere (`-`, espaço, etc.). _(Pendente — comunicação externa; default `/` aplicado conforme convenção universal de mercado. Não é mandato literal do MOC 7.0 Anexo II §3.1.7, que prescreve a coluna `CST` mas não o formato combinado — confirmado por leitura literal do PDF oficial em 2026-05-28.)_
 
 ## 2. Modelo de dados — `ProdutoViewModel`
 
