@@ -63,6 +63,10 @@ namespace DanfeSharp.Test
         /// O DanfeViewModelCreator hoje hardcoda Retrato (ver
         /// DanfeViewModelCreator.cs:411 — comentário sobre netcore2.0), então
         /// para visualizar paisagem precisamos sobrescrever após o load.
+        /// Antes do fix em Danfe.Gerar() (pagar guard de overflow), este teste
+        /// falhava com "Height is invalid" — a fixture rica em paisagem
+        /// fazia os blocos topo consumirem toda a altura. Agora passa: o
+        /// guard pula página sem espaço, próxima página renderiza a tabela.
         /// </summary>
         [TestMethod]
         public void v4_RevendaMaisDemo_Paisagem()
