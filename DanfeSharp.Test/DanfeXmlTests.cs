@@ -57,5 +57,45 @@ namespace DanfeSharp.Test
         /// </summary>
         [TestMethod]
         public void v4_RevendaMaisDemo() => TestXml("v4.00/v4_RevendaMaisDemo.xml");
+
+        /// <summary>
+        /// Mesma fixture v4_RevendaMaisDemo mas forçando Orientacao=Paisagem.
+        /// O DanfeViewModelCreator hoje hardcoda Retrato (ver
+        /// DanfeViewModelCreator.cs:411 — comentário sobre netcore2.0), então
+        /// para visualizar paisagem precisamos sobrescrever após o load.
+        /// </summary>
+        [TestMethod]
+        public void v4_RevendaMaisDemo_Paisagem()
+        {
+            var inputPath = Path.Combine(InputXmlDirectoryPrefix, "v4.00", "v4_RevendaMaisDemo.xml");
+            var outPath = Path.Combine(OutputDirectory, "v4_RevendaMaisDemo_Paisagem.pdf");
+            var model = DanfeViewModelCreator.CriarDeArquivoXml(inputPath);
+            model.Orientacao = Orientacao.Paisagem;
+            using (Danfe danfe = new Danfe(model))
+            {
+                danfe.Gerar();
+                danfe.Salvar(outPath);
+            }
+        }
+
+        /// <summary>
+        /// Versão paisagem da fixture leve (1 duplicata, 1 detPag) para
+        /// confirmar que o pipeline paisagem funciona com NF-e simples —
+        /// isolando se o erro "Height is invalid" do demo paisagem é por
+        /// overflow de conteúdo (6 duplicatas + 3 detPag) ou bug geral.
+        /// </summary>
+        [TestMethod]
+        public void v4_ComLocalEntrega_Paisagem()
+        {
+            var inputPath = Path.Combine(InputXmlDirectoryPrefix, "v4.00", "v4_ComLocalEntrega.xml");
+            var outPath = Path.Combine(OutputDirectory, "v4_ComLocalEntrega_Paisagem.pdf");
+            var model = DanfeViewModelCreator.CriarDeArquivoXml(inputPath);
+            model.Orientacao = Orientacao.Paisagem;
+            using (Danfe danfe = new Danfe(model))
+            {
+                danfe.Gerar();
+                danfe.Salvar(outPath);
+            }
+        }
     }
 }
