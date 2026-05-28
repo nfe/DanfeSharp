@@ -29,7 +29,7 @@ namespace DanfeSharp.Blocos
                 Tabela
                 .ComColuna(8.5f, ac, "CÓDIGO", "PRODUTO")
                 .ComColuna(0, ae, "DESCRIÇÃO DO PRODUTO / SERVIÇO")
-                .ComColuna(4.5F, ac, "NCM/SH")
+                .ComColuna(5F, ac, "NCM/SH")
                 .ComColuna(3.9F, ac, cabecalho4)
                 .ComColuna(3.5F, ac, "CFOP")
                 .ComColuna(3.25F, ac, "UN")
@@ -48,7 +48,7 @@ namespace DanfeSharp.Blocos
                 Tabela
                 .ComColuna(8.1f, ac, "CÓDIGO PRODUTO")
                 .ComColuna(0, ae, "DESCRIÇÃO DO PRODUTO / SERVIÇO")
-                .ComColuna(4.5F, ac, "NCM/SH")
+                .ComColuna(5F, ac, "NCM/SH")
                 .ComColuna(3.1F, ac, cabecalho4)
                 .ComColuna(3.1F, ac, "CFOP")
                 .ComColuna(3F, ac, "UN")
