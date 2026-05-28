@@ -46,5 +46,16 @@ namespace DanfeSharp.Test
 
         [TestMethod]
         public void v4_ComLocalRetirada() => TestXml("v4.00/v4_ComLocalRetirada.xml");
+
+        /// <summary>
+        /// Fixture demo construída para exibir os ajustes desta sprint:
+        /// (a) bloco "Forma de Pagamento" com 3 detPag variados (PIX, Cartão
+        /// de Crédito, Outros com xPag="VALE TROCO");
+        /// (b) bloco "Fatura / Duplicata" com 6 duplicatas mensais — mostra
+        /// o novo layout horizontal de campos + a paginação em 2 linhas de 3
+        /// duplicatas cada (numeroElementosLinha=3 em retrato).
+        /// </summary>
+        [TestMethod]
+        public void v4_RevendaMaisDemo() => TestXml("v4.00/v4_RevendaMaisDemo.xml");
     }
 }
