@@ -125,6 +125,7 @@
                         </COFINSAliq>
                     </COFINS>
                 </imposto>
+                <infAdProd>Licença digital · Não-reembolsável · S/N: ABC123-VERSAO-3.0</infAdProd>
             </det>
             <det nItem="2">
                 <prod>
@@ -174,7 +175,8 @@
                         </COFINSAliq>
                     </COFINS>
                 </imposto>
-            </det>                
+                <infAdProd>Garantia: 12 meses contra defeitos de fabricação · Suporte: 0800-XXX-YYYY</infAdProd>
+            </det>
             <total>
                 <ICMSTot>
                     <vBC>3040.82</vBC>
