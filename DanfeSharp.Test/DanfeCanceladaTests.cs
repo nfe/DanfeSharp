@@ -1,6 +1,9 @@
 using System.IO;
+using System.Text;
 using DanfeSharp.Modelo;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using org.pdfclown.tools;
+using PdfFile = org.pdfclown.files.File;
 
 namespace DanfeSharp.Test
 {
@@ -11,6 +14,8 @@ namespace DanfeSharp.Test
     [TestClass]
     public class DanfeCanceladaTests
     {
+        private const string MarcaDaguaCancelada = "DOCUMENTO CANCELADO";
+
         public readonly string OutputDirectory = Path.Combine("Output", "DeCancelada");
         public readonly string InputXmlDirectoryPrefix = Path.Combine("Xml", "NFe");
 
@@ -52,28 +57,61 @@ namespace DanfeSharp.Test
                 danfe.Gerar();
                 danfe.Salvar(pdfPath);
             }
-            // Retorna apenas o path; o caller que extraí texto via pdftotext
-            // se quiser (executado fora do test runner pelo nosso vstest setup).
             return pdfPath;
         }
 
+        // Extrai todo o texto renderizado em todas as páginas do PDF usando o
+        // TextExtractor do PDFClown (já dependência do projeto). Permite que os
+        // testes verifiquem presença/ausência da marca d'água sem depender de
+        // ferramenta externa como pdftotext (que não roda em CI puro).
+        private static string ExtrairTextoPdf(string pdfPath)
+        {
+            var sb = new StringBuilder();
+            using (var file = new PdfFile(pdfPath))
+            {
+                var extractor = new TextExtractor();
+                foreach (var page in file.Document.Pages)
+                {
+                    var areaTextStrings = extractor.Extract(page);
+                    foreach (var pair in areaTextStrings)
+                    {
+                        foreach (var textString in pair.Value)
+                        {
+                            sb.AppendLine(textString.Text);
+                        }
+                    }
+                }
+            }
+            return sb.ToString();
+        }
+
         [TestMethod]
-        public void Render_IsCancelledTrue_NaoLancaExcecao()
+        public void Render_IsCancelledTrue_DesenhaMarcaCancelada()
         {
             var model = CarregarFixture("v4.00/v4_DanfeIntermediario.xml");
             model.IsCancelled = true;
             var path = GerarPdfETexto(model, "Intermediario_Cancelada.pdf");
-            Assert.IsTrue(File.Exists(path), "PDF deve ser gerado com IsCancelled=true sem exceção.");
+
+            Assert.IsTrue(File.Exists(path), "PDF deve ser gerado.");
             Assert.IsTrue(new FileInfo(path).Length > 0, "PDF não pode estar vazio.");
+
+            var texto = ExtrairTextoPdf(path);
+            StringAssert.Contains(texto, MarcaDaguaCancelada,
+                "Conteúdo do PDF deve conter a marca d'água 'DOCUMENTO CANCELADO' quando IsCancelled=true.");
         }
 
         [TestMethod]
-        public void Render_cStat101_NaoLancaExcecao()
+        public void Render_cStat101_DesenhaMarcaCancelada()
         {
+            // Fallback de detecção: quando IsCancelled é false mas o XML traz
+            // cStat=101, a marca também deve aparecer (compat com PR #8/2023).
             var model = CarregarFixture("v4.00/v4_DanfeIntermediario.xml");
             model.CodigoStatusReposta = 101;
             var path = GerarPdfETexto(model, "Intermediario_cStat101.pdf");
-            Assert.IsTrue(File.Exists(path));
+
+            var texto = ExtrairTextoPdf(path);
+            StringAssert.Contains(texto, MarcaDaguaCancelada,
+                "Marca d'água deve aparecer também quando o trigger é cStat=101 (fallback).");
         }
 
         [TestMethod]
@@ -89,13 +127,18 @@ namespace DanfeSharp.Test
         }
 
         [TestMethod]
-        public void Render_NaoCancelada_NaoLancaExcecao()
+        public void Render_NaoCancelada_NaoDesenhaMarcaCancelada()
         {
-            // Regressão: render normal sem nenhum trigger continua funcionando.
+            // Regressão: render normal sem nenhum trigger não deve incluir
+            // a marca d'água — protege contra mudanças que sempre desenhem.
             var model = CarregarFixture("v4.00/v4_DanfeIntermediario.xml");
             var path = GerarPdfETexto(model, "Intermediario_NaoCancelada.pdf");
-            Assert.IsTrue(File.Exists(path));
+
             Assert.IsFalse(model.IsCancelled);
+
+            var texto = ExtrairTextoPdf(path);
+            Assert.IsFalse(texto.Contains(MarcaDaguaCancelada),
+                "Marca d'água NÃO pode aparecer em DANFE não-cancelada (regressão).");
         }
 
         // === Demo render: 3 fixtures × cancelada (Mínimo + Intermediário + Completo) ===

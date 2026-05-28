@@ -48,11 +48,22 @@ namespace DanfeSharp.Modelo
         /// </summary>
         public String Csosn { get; set; }
 
+        // Backing para o setter público legacy de OCst. Usado apenas quando o
+        // consumer atribui OCst diretamente sem popular Origem/Cst/Csosn — ver
+        // setter abaixo.
+        private String _ocstLegacy;
+
         /// <summary>
         /// <para>Composição "Origem/Código" exibida na coluna ICMS da DANFE.</para>
         /// <para>Computado a partir de <see cref="Origem"/> + (<see cref="Cst"/> ?? <see cref="Csosn"/>),
         /// separados por <c>/</c>. Omite componentes vazios — XMLs sem <c>orig</c>
         /// exibem só o código (sem barra solta no início).</para>
+        /// <para>O setter é mantido como <c>[Obsolete]</c> para preservar compatibilidade
+        /// de ABI/source com consumers que construíam <see cref="ProdutoViewModel"/>
+        /// atribuindo <c>OCst</c> diretamente (uso típico antes da introdução de
+        /// <see cref="Origem"/>/<see cref="Cst"/>/<see cref="Csosn"/>). O valor atribuído
+        /// só é usado quando <see cref="Origem"/>, <see cref="Cst"/> e <see cref="Csosn"/>
+        /// estão todos vazios — caso contrário a composição dinâmica prevalece.</para>
         /// </summary>
         public String OCst
         {
@@ -64,8 +75,10 @@ namespace DanfeSharp.Modelo
                 if (temOrigem && temCodigo) return Origem + "/" + codigo;
                 if (temOrigem) return Origem;
                 if (temCodigo) return codigo;
-                return String.Empty;
+                return _ocstLegacy ?? String.Empty;
             }
+            [Obsolete("Atribua Origem e Cst (ou Csosn) separadamente; OCst agora é derivado. Setter mantido apenas para compatibilidade.")]
+            set => _ocstLegacy = value;
         }
 
         /// <summary>
