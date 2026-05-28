@@ -29,7 +29,10 @@ namespace DanfeSharp
         public const String FormatoNumeroNF = @"000\.000\.000";
 
         public const String CEP = @"^(\d{5})\-?(\d{3})$";
-        public const String CNPJ = @"^(\d{2})\.?(\d{3})\.?(\d{3})\/?(\d{4})\-?(\d{2})$";
+        // CNPJ aceita letras maiúsculas nos 12 primeiros caracteres a partir de 2026-07-01
+        // (Reforma Tributária, LC 214/2025 e IN RFB 2.229/2024). Os 2 últimos seguem como
+        // dígitos verificadores numéricos. CPF permanece estritamente numérico.
+        public const String CNPJ = @"^([0-9A-Z]{2})\.?([0-9A-Z]{3})\.?([0-9A-Z]{3})\/?([0-9A-Z]{4})\-?(\d{2})$";
         public const String CPF = @"^(\d{3})\.?(\d{3})\.?(\d{3})\-?(\d{2})$";
         public const String Telefone = @"^\(?(\d{2})\)?\s*(\d{4,5})\s*\-?\s*(\d{4})$";
         public const String Placa = @"^([A-Z]{3})\s*\-?\s*(\d{4})$";
@@ -122,33 +125,34 @@ namespace DanfeSharp
         }
 
         /// <summary>
-        /// Formata um número de documento
+        /// Formata um número de documento (CPF ou CNPJ).
+        /// Decide pelo comprimento da string limpa (sem máscara) antes de aplicar regex,
+        /// eliminando ambiguidade entre os formatos — relevante a partir de 2026-07-01,
+        /// quando o CNPJ passa a aceitar letras nos 12 primeiros caracteres.
         /// </summary>
-        /// <param name="cpfCnpj"></param>
-        /// <returns></returns>
+        /// <param name="cpfCnpj">Documento com ou sem máscara visual.</param>
+        /// <returns>Documento formatado, ou o input trimado se comprimento for inválido.</returns>
         public static String FormatarCpfCnpj(String cpfCnpj)
         {
-            String result;
-
-            if (!String.IsNullOrWhiteSpace(cpfCnpj))
+            if (String.IsNullOrWhiteSpace(cpfCnpj))
             {
-                result = cpfCnpj.Trim();
-
-                if (Regex.IsMatch(result, CPF))
-                {
-                    result = FormatarCpf(result);
-                }
-                else if (Regex.IsMatch(result, CNPJ))
-                {
-                    result = FormatarCnpj(result);
-                }
-            }
-            else
-            {
-                result = String.Empty;
+                return String.Empty;
             }
 
-            return result;
+            String trimmed = cpfCnpj.Trim();
+            String clean = trimmed.Replace(".", String.Empty).Replace("-", String.Empty).Replace("/", String.Empty);
+
+            switch (clean.Length)
+            {
+                case 11:
+                    return FormatarCpf(clean);
+                case 14:
+                    return FormatarCnpj(clean);
+                default:
+                    // Comprimento inválido — devolve sem aplicar máscara (comportamento
+                    // alinhado com o histórico: nunca jogou exception).
+                    return trimmed;
+            }
         }
 
         /// <summary>
