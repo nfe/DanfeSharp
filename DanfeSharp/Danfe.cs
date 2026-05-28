@@ -68,11 +68,10 @@ namespace DanfeSharp
             if (ViewModel.Duplicatas.Count > 0)
                 AdicionarBloco<BlocoDuplicataFatura>();
 
-            AdicionarBloco<BlocoCalculoImposto>(ViewModel.Orientacao == Orientacao.Paisagem ? EstiloPadrao : CriarEstilo(4.75F));
-
             if (ViewModel.Pagamento != null && ViewModel.Pagamento.Any(p => p.DetalhePagamento != null && p.DetalhePagamento.Count > 0))
                 AdicionarBloco<BlocoFormaPagamento>();
 
+            AdicionarBloco<BlocoCalculoImposto>(ViewModel.Orientacao == Orientacao.Paisagem ? EstiloPadrao : CriarEstilo(4.75F));
             AdicionarBloco<BlocoTransportador>();
             AdicionarBloco<BlocoDadosAdicionais>(CriarEstilo(tFonteCampoConteudo: 8));
 

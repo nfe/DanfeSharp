@@ -7,7 +7,10 @@ namespace DanfeSharp.Blocos
 {
     /// <summary>
     /// Bloco "Forma de Pagamento" da DANFE de NF-e modelo 55.
-    /// Renderiza uma linha por <c>DetalheViewModel</c> com colunas FORMA PAGAMENTO + VALOR.
+    /// Renderiza um <see cref="PagamentoDetalhe"/> por <c>DetalheViewModel</c>
+    /// usando o mesmo padrão visual de <see cref="BlocoDuplicataFatura"/>:
+    /// múltiplos detalhes lado a lado em uma <c>FlexibleLine</c>, cada um com
+    /// 2 colunas (FORMA PAGAMENTO + VALOR).
     /// </summary>
     /// <remarks>
     /// <para>O bloco é omitido quando <see cref="DanfeViewModel.Pagamento"/> está vazio
@@ -22,20 +25,37 @@ namespace DanfeSharp.Blocos
         {
             var detalhes = ViewModel.Pagamento?
                 .SelectMany(p => p.DetalhePagamento ?? new List<DetalheViewModel>())
+                .Select(d => new PagamentoDetalhe(estilo, d))
                 .ToList();
 
             if (detalhes == null || detalhes.Count == 0) return;
 
-            foreach (var d in detalhes)
-            {
-                var descricao = !string.IsNullOrEmpty(d.Descricao)
-                    ? d.Descricao
-                    : d.FormaPagamento.GetDescricao();
+            var eh = detalhes.First().Height;
 
-                AdicionarLinhaCampos()
-                    .ComCampo("FORMA PAGAMENTO", descricao, AlinhamentoHorizontal.Esquerda)
-                    .ComCampoNumerico("VALOR", (double)d.Valor, 2)
-                    .ComLargurasIguais();
+            // Espelha o layout de BlocoDuplicataFatura: N por linha conforme
+            // orientação. Pagamento tem labels mais longas (ex.: "Pagamento
+            // Instantâneo (PIX)" = 28 chars) — limitar cards/linha para a
+            // descrição caber sem sobrepor com o VALOR adjacente.
+            int numeroElementosLinha = ViewModel.IsPaisagem ? 3 : 2;
+            int i = 0;
+
+            while (i < detalhes.Count)
+            {
+                var fl = new FlexibleLine(Width, eh);
+
+                int i2;
+                for (i2 = 0; i2 < numeroElementosLinha && i < detalhes.Count; i2++, i++)
+                {
+                    fl.ComElemento(detalhes[i]);
+                }
+
+                // Preenche o restante da linha com elementos vazios para manter
+                // alinhamento por colunas (mesma técnica de BlocoDuplicataFatura).
+                for (; i2 < numeroElementosLinha; i2++)
+                    fl.ComElemento(new ElementoVazio());
+
+                fl.ComLargurasIguais();
+                MainVerticalStack.Add(fl);
             }
         }
 
