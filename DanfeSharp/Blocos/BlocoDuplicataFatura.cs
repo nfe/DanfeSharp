@@ -11,7 +11,11 @@ namespace DanfeSharp.Blocos
             var de = viewModel.Duplicatas.Select(x => new Duplicata (estilo, x)).ToList();
             var eh = de.First().Height;
 
-            int numeroElementosLinha = ViewModel.IsPaisagem ? 7 : 6;
+            // Reduzido de 6→3 (retrato) e 7→4 (paisagem) para acomodar o
+            // layout horizontal dos 3 campos (Número/Vencimento/Valor) dentro
+            // de cada Duplicata — sem isso os valores ficariam cortados em
+            // colunas estreitas. Ver Duplicata.cs:Draw.
+            int numeroElementosLinha = ViewModel.IsPaisagem ? 4 : 3;
             int i = 0;
 
             while (i < de.Count) 
