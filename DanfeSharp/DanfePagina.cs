@@ -103,6 +103,27 @@ namespace DanfeSharp
             Gfx.PrimitiveComposer.End();
         }
 
+        /// <summary>
+        /// Desenha marca d'água "DOCUMENTO CANCELADO" centralizada no corpo da
+        /// página. Padrão visual herdado de <see cref="DesenharAvisoHomologacao"/>
+        /// — mesma fonte 48pt, mesma cor cinza médio RGB(0.35, 0.35, 0.35).
+        /// Referência original: PR #8 do @mateuszanini (2023, branch
+        /// feature/aviso-cancelamento), commit f658489. Disparo agora vem da
+        /// flag <see cref="DanfeSharp.Modelo.DanfeViewModel.IsCancelled"/> em
+        /// vez do cStat=101 do XML — reflete a realidade do cancelamento via
+        /// evento separado em NF-e modelo 55.
+        /// </summary>
+        public void DesenharAvisoCancelamento()
+        {
+            TextStack ts = new TextStack(RetanguloCorpo) { AlinhamentoVertical = AlinhamentoVertical.Centro, AlinhamentoHorizontal = AlinhamentoHorizontal.Centro, LineHeightScale = 0.9F }
+                        .AddLine("DOCUMENTO CANCELADO", Danfe.EstiloPadrao.CriarFonteRegular(48));
+
+            Gfx.PrimitiveComposer.BeginLocalState();
+            Gfx.PrimitiveComposer.SetFillColor(new org.pdfclown.documents.contents.colorSpaces.DeviceRGBColor(0.35, 0.35, 0.35));
+            ts.Draw(Gfx);
+            Gfx.PrimitiveComposer.End();
+        }
+
         public void DesenharBlocos(bool isPrimeirapagina = false)
         {
             if (isPrimeirapagina && Danfe.ViewModel.QuantidadeCanhotos > 0) DesenharCanhoto();

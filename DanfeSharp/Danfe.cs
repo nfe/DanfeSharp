@@ -216,6 +216,17 @@ namespace DanfeSharp
                 p.DesenharAvisoHomologacao();
             }
 
+            // NF-e cancelada — marca d'água "DOCUMENTO CANCELADO".
+            // Detecção primária via ViewModel.IsCancelled (flag explícita do
+            // consumer, refletindo cancelamento via evento NFeProcEvento
+            // tpEvento=110111). Fallback via cStat==101 cobre cenário raro de
+            // XML modificado para refletir cancelamento (compatibilidade com
+            // abordagem da PR #8 de 2023). Ver spec danfe-cancelled-watermark.
+            if (ViewModel.IsCancelled || ViewModel.CodigoStatusReposta == 101)
+            {
+                p.DesenharAvisoCancelamento();
+            }
+
             return p;
         }
 
