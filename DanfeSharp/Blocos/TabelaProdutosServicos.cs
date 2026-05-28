@@ -52,7 +52,7 @@ namespace DanfeSharp.Blocos
                 .ComColuna(3.1F, ac, cabecalho4)
                 .ComColuna(3.1F, ac, "CFOP")
                 .ComColuna(3F, ac, "UN")
-                .ComColuna(3.75F, ad, "QUANT.")
+                .ComColuna(4.00F, ad, "QUANT.")
                 .ComColuna(5.6F, ad, "VALOR UNIT.")
                 .ComColuna(5.6F, ad, "VALOR TOTAL")
                 .ComColuna(5.6F, ad, "B CÁLC ICMS")
