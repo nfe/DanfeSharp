@@ -101,5 +101,19 @@ namespace DanfeSharp.Test
                 danfe.Salvar(outPath);
             }
         }
+
+        // === Fixtures de demonstração geradas por generate-fixtures.sh ===
+
+        /// <summary>DANFE mínimo: 1 item, sem cobr, sem pag, sem infAdProd.</summary>
+        [TestMethod]
+        public void v4_DanfeMinimo() => TestXml("v4.00/v4_DanfeMinimo.xml");
+
+        /// <summary>DANFE intermediário: 5 itens (3 com infAdProd), 2 duplicatas, 2 detPag.</summary>
+        [TestMethod]
+        public void v4_DanfeIntermediario() => TestXml("v4.00/v4_DanfeIntermediario.xml");
+
+        /// <summary>DANFE completo: 20 itens (todos com infAdProd), 6 duplicatas, 3 detPag.</summary>
+        [TestMethod]
+        public void v4_DanfeCompleto() => TestXml("v4.00/v4_DanfeCompleto.xml");
     }
 }
