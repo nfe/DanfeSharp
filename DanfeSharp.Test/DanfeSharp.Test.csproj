@@ -64,6 +64,7 @@
     <Compile Include="FabricaFake.cs" />
     <Compile Include="FormaPagamentoTests.cs" />
     <Compile Include="LogoTests.cs" />
+    <Compile Include="ProdutoIcmsColumnTests.cs" />
     <Compile Include="SimplePdfPageTester.cs" />
     <Compile Include="DanfeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
