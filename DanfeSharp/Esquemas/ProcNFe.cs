@@ -407,6 +407,12 @@ namespace DanfeSharp.Esquemas.NFe
         /// </summary>
         public FormaPagamento tPag { get; set; }
 
+        /// <summary>
+        /// YA03 - Descrição do pagamento. Obrigatório quando <see cref="tPag"/>
+        /// for <see cref="FormaPagamento.fpOutro"/> (99); opcional caso contrário.
+        /// </summary>
+        public string xPag { get; set; }
+
         public decimal vPag { get; set; }
 
         public card card { get; set; }

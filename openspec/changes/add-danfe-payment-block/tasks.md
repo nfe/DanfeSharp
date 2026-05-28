@@ -5,66 +5,51 @@
 
 ## 2. Schema XML — `ProcNFe.cs`
 
-- [ ] 2.1 Adicionar propriedade pública `public string xPag { get; set; }` à classe `detPag` em `DanfeSharp/Esquemas/ProcNFe.cs:402`, com comentário XML doc apontando para a tag `<xPag>` (Grupo YA03 — Descrição do pagamento).
-- [ ] 2.2 Garantir que a deserialização aceita XMLs sem `<xPag>` sem erro — `XmlSerializer` trata elemento ausente como `null` por padrão; verificar com fixture existente.
-- [ ] 2.3 Não usar `[XmlElement(IsRequired=true)]` — `<xPag>` é opcional pelo schema da NF-e.
+- [x] 2.1 Adicionada propriedade `public string xPag { get; set; }` à classe `detPag` em `ProcNFe.cs:411`, com XML doc YA03.
+- [x] 2.2 Deserialização aceita XMLs sem `<xPag>` (`XmlSerializer` retorna `null`) — confirmado pelo teste `Schema_XmlSemXPag_RetornaNull`.
+- [x] 2.3 `xPag` sem `[XmlElement(IsRequired=true)]` (opcional).
 
 ## 3. ViewModel — `PagamentoViewModel.cs`
 
-- [ ] 3.1 Adicionar propriedade pública `public string Descricao { get; set; }` à classe `DetalheViewModel` em `DanfeSharp/Modelo/PagamentoViewModel.cs:20`, com XML doc apontando para a tag `<xPag>` do XML.
-- [ ] 3.2 Documentar a regra "Descricao prevalece sobre o `[Description]` do enum quando preenchido" no XML doc, fazendo cross-reference com a spec em `openspec/specs/danfe-payment-block/`.
+- [x] 3.1 Adicionada `public string Descricao { get; set; }` ao `DetalheViewModel` em `PagamentoViewModel.cs:28`.
+- [x] 3.2 XML doc do `Descricao` documenta "Quando preenchida, prevalece sobre a descrição padrão do enum FormaPagamento".
 
 ## 4. Producer — `DanfeViewModelCreator.cs`
 
-- [ ] 4.1 Em `DanfeSharp/Modelo/DanfeViewModelCreator.cs:328`, ao popular o `DetalheViewModel`, adicionar `detalhe.Descricao = String.IsNullOrEmpty(detPag.xPag) ? null : detPag.xPag;` (mesma normalização aplicada no change #38 para origem/CST/CSOSN).
-- [ ] 4.2 Verificar se o caminho `detPag.xPag` está acessível na linha onde `tPag`/`vPag` são populados; se não, ajustar a ordem do bloco.
-- [ ] 4.3 Garantir que a propriedade ordem de inicialização não introduz NullReferenceException quando `detPag.xPag` é null (testes cobrem).
+- [x] 4.1 Adicionado `detalhe.Descricao = String.IsNullOrEmpty(detPag.xPag) ? null : detPag.xPag;` em `CreateFromProcNFCe`.
+- [x] 4.2 **Bug raiz adicional descoberto e corrigido**: a população do grupo `<pag>` estava só em `CreateFromProcNFCe` (NFC-e modelo 65) — faltava em `CreateFromProcNFe` (NF-e modelo 55, escopo desta change). Adicionado o foreach `infNfe.pag` em `CreateFromProcNFe` antes do `return model;`. Sem essa correção o bloco renderer nunca dispararia. Cobertura por `IntegracaoPagamentoNFe.V4ComLocalEntrega_PopulaPagamentoDoGrupoPag`.
+- [x] 4.3 Tratamento defensivo de null em `infNfe.pag` e `pag.detPag` (testado por `V3_10Retrato_SemPag_NaoQuebraEPagamentoFicaVazio`).
 
 ## 5. Helper — `FormaPagamentoExtensions`
 
-- [ ] 5.1 Criar arquivo `DanfeSharp/Modelo/FormaPagamentoExtensions.cs` (ou anexar como static class no PagamentoViewModel.cs se o codestyle preferir) com método estático `public static string GetDescricao(this FormaPagamento fp)` que lê o `[DescriptionAttribute]` via reflexão e retorna a string.
-- [ ] 5.2 Garantir que retorna string vazia (`""`) — não null nem exceção — para valor não definido no enum (defensivo para o caso de XML com `tPag` novo antes do enum estar atualizado).
-- [ ] 5.3 Cobertura por testes unitários: helper retorna a descrição correta para cada valor do enum (`01` a `19`, `90`, `99`).
+- [x] 5.1 Criado `DanfeSharp/Modelo/FormaPagamentoExtensions.cs` com `public static string GetDescricao(this FormaPagamento fp)`.
+- [x] 5.2 Retorna `string.Empty` para enum value inválido (testado por `GetDescricao_ValorInvalido_RetornaStringVazia`).
+- [x] 5.3 Cobertura: testes `GetDescricao_*` para Dinheiro / CartaoCredito / CartaoDebito / Outro / PIX + caso inválido. **Achado**: existem 2 enums `FormaPagamento` no projeto (em `Enums.cs` e em `ProcNFe.cs`); helper atual opera no `DanfeSharp.FormaPagamento` (Modelo/Enums.cs), que é o usado por `DetalheViewModel.FormaPagamento`.
 
 ## 6. Renderer — `BlocoFormaPagamento.cs`
 
-- [ ] 6.1 Criar arquivo `DanfeSharp/Blocos/BlocoFormaPagamento.cs` herdando de `BlocoBase`, seguindo o padrão de `BlocoCalculoImposto` (mesma pasta, mesmo estilo).
-- [ ] 6.2 Implementar: `Cabecalho => "Forma de Pagamento"`, `Posicao => PosicaoBloco.Topo`. Construtor recebe `(DanfeViewModel viewModel, Estilo estilo)`.
-- [ ] 6.3 No construtor, iterar sobre `ViewModel.Pagamento?.SelectMany(p => p.DetalhePagamento ?? Enumerable.Empty<DetalheViewModel>())` e adicionar uma linha por `DetalheViewModel`:
-  - Coluna FORMA PAGAMENTO: `detalhe.Descricao ?? detalhe.FormaPagamento.GetDescricao()`
-  - Coluna VALOR: formatado em moeda brasileira (`R$ {valor:N2}`, com cultura `pt-BR`)
-- [ ] 6.4 Auto-omissão: se `ViewModel.Pagamento` é null OU vazio OU não tem nenhum `DetalheViewModel`, não adicionar nenhuma linha ao bloco (resulta em bloco com height efetivo zero — não desenha cabeçalho nem corpo).
-- [ ] 6.5 Suportar Orientação Retrato e Paisagem — mesmo `BlocoBase` que os demais já fazem isso transparentemente.
+- [x] 6.1 Criado `DanfeSharp/Blocos/BlocoFormaPagamento.cs` herdando `BlocoBase`, seguindo padrão de `BlocoCalculoImposto`.
+- [x] 6.2 `Cabecalho => "Forma de Pagamento"`, `Posicao => PosicaoBloco.Topo`.
+- [x] 6.3 Iteração com `SelectMany` sobre `Pagamento[].DetalhePagamento`. Célula FORMA PAGAMENTO usa `d.Descricao ?? d.FormaPagamento.GetDescricao()`. Célula VALOR usa `ComCampoNumerico(...)` (sem prefixo `R$` — convenção do `BlocoCalculoImposto` & cia; spec atualizada para refletir).
+- [x] 6.4 Auto-omissão: early return quando `detalhes == null || detalhes.Count == 0`.
+- [x] 6.5 Suporta Retrato e Paisagem (herdado de `BlocoBase`).
 
 ## 7. Sequência — `Danfe.cs`
 
-- [ ] 7.1 Em `DanfeSharp/Danfe.cs:71` (entre `AdicionarBloco<BlocoCalculoImposto>` e `AdicionarBloco<BlocoTransportador>`), adicionar `AdicionarBloco<BlocoFormaPagamento>();`.
-- [ ] 7.2 Condicionar à presença de pagamento: `if (ViewModel.Pagamento?.Any(p => p.DetalhePagamento?.Any() == true) == true) AdicionarBloco<BlocoFormaPagamento>();` — defense in depth com a auto-omissão do bloco.
+- [x] 7.1 Inserido `AdicionarBloco<BlocoFormaPagamento>()` em `Danfe.cs` entre `BlocoCalculoImposto` e `BlocoTransportador`.
+- [x] 7.2 Condicionado à `ViewModel.Pagamento != null && Pagamento.Any(p => p.DetalhePagamento?.Count > 0)` + `using System.Linq;` adicionado.
 
 ## 8. Testes unitários
 
-- [ ] 8.1 Criar `DanfeSharp.Test/FormaPagamentoTests.cs` cobrindo:
-  - (a) Schema parsing: XML com `<xPag>` é deserializado corretamente (uso de `XmlSerializer` em memória)
-  - (b) Schema parsing: XML sem `<xPag>` resulta em `xPag == null`
-  - (c) Helper `GetDescricao` retorna a string esperada para `fpDinheiro`, `fpCartaoCredito`, `fpOutros`, etc.
-  - (d) Helper retorna `""` para valor inválido `(FormaPagamento)999`
-  - (e) Producer popula `DetalheViewModel.Descricao` quando XML tem `<xPag>`
-  - (f) Producer normaliza `<xPag></xPag>` para `null`
-- [ ] 8.2 Criar `DanfeSharp.Test/BlocoFormaPagamentoTests.cs` cobrindo:
-  - (a) Linha com FormaPagamento + Descricao preenchidos → célula mostra Descricao
-  - (b) Linha sem Descricao → célula mostra descrição do enum
-  - (c) tPag=99 + Descricao=null → célula mostra "Outros"
-  - (d) Múltiplas linhas → uma por DetalheViewModel
-  - (e) Valor formatado em R$ XX.XXX,XX
-- [ ] 8.3 Atualizar `DanfeSharp.Test/DanfeSharp.Test.csproj` com `<Compile Include>` dos arquivos novos.
-- [ ] 8.4 Rodar `dotnet build` para garantir 0 erros + `dotnet vstest DanfeSharp.Test.dll --TestCaseFilter:"FullyQualifiedName~FormaPagamento OR FullyQualifiedName~BlocoFormaPagamento"` para garantir 100% verde.
-- [ ] 8.5 Rodar suite completa de `DanfeXmlTests` para confirmar zero regressão visual nos PDFs gerados das fixtures atuais.
+- [x] 8.1 Criado `DanfeSharp.Test/FormaPagamentoTests.cs` (14 testes) cobrindo: helper para Dinheiro/CartaoCredito/CartaoDebito/Outro/PIX/inválido, schema parsing com/sem `<xPag>` (e `<xPag></xPag>` vazio), `DetalheViewModel.Descricao`, regra "Descricao prevalece sobre enum description". Aliases `FormaPagamentoVm`/`FormaPagamentoSchema` para desambiguar os 2 enums coexistentes.
+- [x] 8.2 Criado `IntegracaoPagamentoNFe` (2 testes) no mesmo arquivo cobrindo: NF-e v4 com `<pag>` popula `model.Pagamento` (regressão direta do bug raiz §4.2); NF-e v3.10 sem `<pag>` não quebra e mantém `Pagamento.Count == 0`. **Substitui o BlocoFormaPagamentoTests.cs originalmente planejado** — o renderer foi testado via DanfeXmlTests (integração end-to-end mais robusta que mockar PdfClown internals).
+- [x] 8.3 `DanfeSharp.Test.csproj` atualizado: `<Compile Include="FormaPagamentoTests.cs" />` + `<Reference Include="System.Xml" />` (necessário para `XmlSerializer` nos testes de schema parsing).
+- [x] 8.4 `dotnet build`: 0 erros. `dotnet vstest --TestCaseFilter:"FullyQualifiedName~FormaPagamento|FullyQualifiedName~IntegracaoPagamentoNFe"` → **16/16 aprovados**, 748 ms.
+- [x] 8.5 `dotnet vstest --TestCaseFilter:"FullyQualifiedName~DanfeXmlTests"` → **5/5 aprovados**, sem regressão. PDF re-renderizado de `v4_ComLocalEntrega.xml` exibe o novo bloco corretamente posicionado.
 
 ## 9. Fixture XML (opcional, recomendado)
 
-- [ ] 9.1 Adicionar `DanfeSharp.Test/Xml/NFe/v4.00/v4_ComPagamento.xml` — XML de NF-e modelo 55 com grupo `<pag>` preenchido com 2-3 `<detPag>` variados (ex.: Dinheiro + Cartão de Crédito + Outros com `<xPag>`).
-- [ ] 9.2 Atualizar `DanfeXmlTests` com novo test method `v4_ComPagamento` apontando para a nova fixture.
-- [ ] 9.3 Adicionar a fixture XML no `<ItemGroup>` da `DanfeSharp.Test.csproj` com `<Content Include>` + `<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>`.
+- [x] 9.1-9.3 **Não necessário criar fixture nova**: descobri durante a implementação que as fixtures `v4_ComLocalEntrega.xml` e `v4_ComLocalRetirada.xml` **já têm grupo `<pag>` preenchido** (`<detPag><tPag>99</tPag><vPag>3977.00</vPag></detPag>`). O efeito da mudança já é coberto pelos `DanfeXmlTests.v4_ComLocalEntrega` e `.v4_ComLocalRetirada` existentes — eles renderizam o bloco novo automaticamente. Se algum dia quisermos cobrir caso com `<xPag>` preenchido + múltiplos `<detPag>`, basta criar essa fixture nova.
 
 ## 10. Validação visual (manual, fora do CI)
 
@@ -74,8 +59,8 @@
 
 ## 11. Documentação e changelog
 
-- [ ] 11.1 Verificar se há `README.md` ou `CHANGELOG.md` no repo que precisa entrada explicativa. _(Confirmado em #38: repo não mantém CHANGELOG; documentação fica no body do PR.)_
-- [ ] 11.2 XML doc no `BlocoFormaPagamento.cs` referenciando a spec OpenSpec (`openspec/specs/danfe-payment-block/spec.md`) e citando a NT 2016.002 como motivação histórica.
+- [x] 11.1 Repo não mantém CHANGELOG (confirmado em #38); doc fica no PR body.
+- [x] 11.2 XML doc em `BlocoFormaPagamento.cs` referencia `openspec/specs/danfe-payment-block/spec.md`. NT 2016.002 está citada no `proposal.md`/`design.md`/`spec.md`.
 
 ## 12. PR e revisão
 

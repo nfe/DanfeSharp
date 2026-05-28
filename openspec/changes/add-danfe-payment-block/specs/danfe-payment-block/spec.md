@@ -86,25 +86,25 @@ A célula da coluna "FORMA PAGAMENTO" SHALL conter o conteúdo de `DetalheViewMo
 
 ### Requirement: Cell formatting for VALOR column
 
-A célula da coluna "VALOR" SHALL renderizar `DetalheViewModel.Valor` em formato de moeda brasileira: prefixo `R$`, separador de milhar `.`, separador decimal `,`, duas casas decimais sempre.
+A célula da coluna "VALOR" SHALL renderizar `DetalheViewModel.Valor` em formato numérico brasileiro: separador de milhar `.`, separador decimal `,`, duas casas decimais sempre. **Sem prefixo `R$`** — segue a convenção do `DanfeSharp` para campos numéricos dentro de blocos (`BlocoCalculoImposto`, `BlocoCalculoIssqn` também usam apenas o número formatado, sem `R$`). O prefixo `R$` na DANFE aparece apenas em totalizadores específicos (cabeçalho/canhoto), não em blocos de campos.
 
 #### Scenario: Valor inteiro
 
 - **GIVEN** `Valor = 48000.00m`
 - **WHEN** a célula VALOR é renderizada
-- **THEN** o conteúdo é `R$ 48.000,00`
+- **THEN** o conteúdo é `48.000,00`
 
 #### Scenario: Valor com decimais
 
 - **GIVEN** `Valor = 123.45m`
 - **WHEN** a célula VALOR é renderizada
-- **THEN** o conteúdo é `R$ 123,45`
+- **THEN** o conteúdo é `123,45`
 
 #### Scenario: Valor grande
 
 - **GIVEN** `Valor = 1234567.89m`
 - **WHEN** a célula VALOR é renderizada
-- **THEN** o conteúdo é `R$ 1.234.567,89`
+- **THEN** o conteúdo é `1.234.567,89`
 
 ### Requirement: Graceful omission when `<pag>` is absent
 

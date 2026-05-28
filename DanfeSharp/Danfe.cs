@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using DanfeSharp.Blocos;
 using org.pdfclown.documents;
 using org.pdfclown.documents.contents.fonts;
@@ -68,6 +69,10 @@ namespace DanfeSharp
                 AdicionarBloco<BlocoDuplicataFatura>();
 
             AdicionarBloco<BlocoCalculoImposto>(ViewModel.Orientacao == Orientacao.Paisagem ? EstiloPadrao : CriarEstilo(4.75F));
+
+            if (ViewModel.Pagamento != null && ViewModel.Pagamento.Any(p => p.DetalhePagamento != null && p.DetalhePagamento.Count > 0))
+                AdicionarBloco<BlocoFormaPagamento>();
+
             AdicionarBloco<BlocoTransportador>();
             AdicionarBloco<BlocoDadosAdicionais>(CriarEstilo(tFonteCampoConteudo: 8));
 
