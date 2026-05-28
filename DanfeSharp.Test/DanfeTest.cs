@@ -11,62 +11,15 @@ namespace DanfeSharp.Test
     public class DanfeTest
     {
 
-        [TestMethod]
-        public void GerarDanfeNFCXml()
-        {
-            string pasta = @"D:\teste\d\";
-            string caminhoOut = @"D:\teste\s\";
-
-            if (!Directory.Exists(caminhoOut)) Directory.CreateDirectory(caminhoOut);
-
-            foreach (var pathXml in Directory.EnumerateFiles(pasta, "*.xml"))
-            {
-                var model = DanfeViewModelCreator.CriarModeloNFCeDeArquivoXml(pathXml);
-                using (var danfe = new DanfeNFC(viewModel: model))
-                {
-                    danfe.Gerar();
-                    danfe.Salvar($"{caminhoOut}/{model.ChaveAcesso}.pdf");
-                }
-            }
-        }
-
-        [TestMethod]
-        public void GerarDanfeXml()
-        {
-            string pasta = @"C:\works\Companies\nfe\João\pdf";
-            string caminhoOut = @"C:\works\Companies\nfe\João\pdf";
-
-            if (!Directory.Exists(caminhoOut)) Directory.CreateDirectory(caminhoOut);
-
-            foreach (var pathXml in Directory.EnumerateFiles(pasta, "*.xml"))
-            {
-                var model = DanfeViewModelCreator.CriarDeArquivoXml(pathXml);
-                using (Danfe danfe = new Danfe(model))
-                {
-                    danfe.Gerar();
-                    danfe.Salvar($"{caminhoOut}/{model.ChaveAcesso}.pdf");
-                }
-            }
-        }
-
-        [TestMethod]
-        public void GerarDanfeEventoXml()
-        {
-            string pasta = @"C:\Users\BrunoAlencar\Documents\pdf";
-            string caminhoOut = @"C:\Users\BrunoAlencar\Documents\pdf";
-
-            if (!Directory.Exists(caminhoOut)) Directory.CreateDirectory(caminhoOut);
-
-            foreach (var pathXml in Directory.EnumerateFiles(pasta, "*.xml"))
-            {
-                var model = DanfeEventoViewModelCreator.CriarDeArquivoXml(pathXml);
-                using (DanfeCCC danfe = new DanfeCCC(model))
-                {
-                    danfe.Gerar();
-                    danfe.Salvar($"{caminhoOut}/{model.ChaveAcesso}.pdf");
-                }
-            }
-        }
+        // Removidos 3 métodos legacy de "personal dev sandbox" que pegavam
+        // XMLs de pastas locais hardcoded das máquinas de quem escreveu
+        // (D:\teste\, C:\works\Companies\nfe\João\pdf, C:\Users\BrunoAlencar):
+        //   - GerarDanfeNFCXml — quebrava em runtime (drive D inexistente).
+        //   - GerarDanfeXml     — verde por acidente (foreach vazio).
+        //   - GerarDanfeEventoXml — não compilava (DanfeCCC removido em jan/2022,
+        //     renomeado para DanfeCartaCorrecao no commit 2c6bf64).
+        // Substituir por testes reais com fixture XML versionada em
+        // DanfeSharp.Test/Xml/ caso seja necessário cobrir esses cenários.
 
         [TestMethod]
         public void RetratoSemIcmsInterestadual()
