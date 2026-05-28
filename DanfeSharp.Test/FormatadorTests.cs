@@ -95,6 +95,30 @@ namespace DanfeSharp.Test
             Assert.AreEqual(input, Formatador.FormatarCpfCnpj(input));
         }
 
+        // Regressão (PR review #36): conteúdo inválido com comprimento "limpo" 11/14
+        // não deve perder a pontuação do input original — devolve trimmed, não clean.
+        [DataTestMethod]
+        [DataRow("12.abc.345/0001-88", DisplayName = "CNPJ alfanumérico minúsculo com máscara — rejeitado, preserva pontuação")]
+        [DataRow("12.ABC.345/0001-AB", DisplayName = "CNPJ com DV alfabético + máscara — rejeitado, preserva pontuação")]
+        [DataRow("123.456.789-0X", DisplayName = "CPF com letra + máscara — rejeitado, preserva pontuação")]
+        [DataRow("AB.CDE.FGH/IJKL-MN", DisplayName = "CNPJ todo letras + máscara — rejeitado pela regex (DV não-numérico)")]
+        public void FormatarCpfCnpj_InvalidoComMascara_PreservaPontuacaoDoInput(string input)
+        {
+            // Antes do fix: input "limpo" caía no dispatch por comprimento e perdia a pontuação.
+            // Após o fix: a regex valida o conteúdo limpo antes do dispatch; conteúdo inválido
+            // devolve `trimmed` (que mantém a pontuação original).
+            Assert.AreEqual(input, Formatador.FormatarCpfCnpj(input));
+        }
+
+        [DataTestMethod]
+        [DataRow("12abc345000188", DisplayName = "CNPJ alfanumérico lowercase sem máscara — rejeitado, devolve cru")]
+        [DataRow("1234567890A", DisplayName = "CPF com letra sem máscara — rejeitado, devolve cru")]
+        public void FormatarCpfCnpj_InvalidoSemMascara_DevolveInputInalterado(string input)
+        {
+            // Conteúdo sem pontuação que falha a regex — `trimmed == clean`, devolve igual.
+            Assert.AreEqual(input, Formatador.FormatarCpfCnpj(input));
+        }
+
         [TestMethod]
         public void FormatarCpfCnpj_StringVazia_RetornaStringVazia()
         {

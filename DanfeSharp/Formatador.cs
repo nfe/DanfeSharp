@@ -131,7 +131,12 @@ namespace DanfeSharp
         /// quando o CNPJ passa a aceitar letras nos 12 primeiros caracteres.
         /// </summary>
         /// <param name="cpfCnpj">Documento com ou sem máscara visual.</param>
-        /// <returns>Documento formatado, ou o input trimado se comprimento for inválido.</returns>
+        /// <returns>
+        ///   Documento formatado quando o conteúdo é válido (CPF de 11 dígitos OU
+        ///   CNPJ de 14 caracteres numéricos/alfanuméricos maiúsculos);
+        ///   o input trimado original caso contrário — preservando pontuação
+        ///   visível para entradas inválidas (comportamento histórico).
+        /// </returns>
         public static String FormatarCpfCnpj(String cpfCnpj)
         {
             if (String.IsNullOrWhiteSpace(cpfCnpj))
@@ -142,17 +147,25 @@ namespace DanfeSharp
             String trimmed = cpfCnpj.Trim();
             String clean = trimmed.Replace(".", String.Empty).Replace("-", String.Empty).Replace("/", String.Empty);
 
-            switch (clean.Length)
+            // Valida o conteúdo limpo contra a regex correspondente ANTES do dispatch.
+            // Sem essa validação, entradas como "12.abc.345/0001-88" (lowercase rejeitado
+            // pelo formato CNPJ alfanumérico) cairiam no dispatch por comprimento, o
+            // FormatarCnpj retornaria a string crua sem máscara, e a pontuação visível
+            // do input original seria perdida. Devolver `trimmed` para input inválido
+            // alinha com o contrato histórico: regex miss => input inalterado.
+            if (clean.Length == 11 && Regex.IsMatch(clean, CPF))
             {
-                case 11:
-                    return FormatarCpf(clean);
-                case 14:
-                    return FormatarCnpj(clean);
-                default:
-                    // Comprimento inválido — devolve sem aplicar máscara (comportamento
-                    // alinhado com o histórico: nunca jogou exception).
-                    return trimmed;
+                return FormatarCpf(clean);
             }
+
+            if (clean.Length == 14 && Regex.IsMatch(clean, CNPJ))
+            {
+                return FormatarCnpj(clean);
+            }
+
+            // Comprimento inválido OU conteúdo não bate na regex (ex.: lowercase em CNPJ
+            // alfanumérico, letras em CPF, DV alfabético) — devolve input trimado sem mexer.
+            return trimmed;
         }
 
         /// <summary>
