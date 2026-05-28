@@ -115,5 +115,32 @@ namespace DanfeSharp.Test
         /// <summary>DANFE completo: 20 itens (todos com infAdProd), 6 duplicatas, 3 detPag.</summary>
         [TestMethod]
         public void v4_DanfeCompleto() => TestXml("v4.00/v4_DanfeCompleto.xml");
+
+        // === Mesmas 3 fixtures, mas em PAISAGEM (override de Orientacao) ===
+
+        private void RenderPaisagem(string xmlRelativePath, string outFileName)
+        {
+            var inputPath = Path.Combine(InputXmlDirectoryPrefix, xmlRelativePath);
+            var outPath = Path.Combine(OutputDirectory, outFileName);
+            var model = DanfeViewModelCreator.CriarDeArquivoXml(inputPath);
+            model.Orientacao = Orientacao.Paisagem;
+            using (Danfe danfe = new Danfe(model))
+            {
+                danfe.Gerar();
+                danfe.Salvar(outPath);
+            }
+        }
+
+        [TestMethod]
+        public void v4_DanfeMinimo_Paisagem() =>
+            RenderPaisagem("v4.00/v4_DanfeMinimo.xml", "v4_DanfeMinimo_Paisagem.pdf");
+
+        [TestMethod]
+        public void v4_DanfeIntermediario_Paisagem() =>
+            RenderPaisagem("v4.00/v4_DanfeIntermediario.xml", "v4_DanfeIntermediario_Paisagem.pdf");
+
+        [TestMethod]
+        public void v4_DanfeCompleto_Paisagem() =>
+            RenderPaisagem("v4.00/v4_DanfeCompleto.xml", "v4_DanfeCompleto_Paisagem.pdf");
     }
 }
