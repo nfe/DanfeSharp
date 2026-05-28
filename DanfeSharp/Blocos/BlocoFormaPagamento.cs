@@ -49,10 +49,12 @@ namespace DanfeSharp.Blocos
                     fl.ComElemento(detalhes[i]);
                 }
 
-                // Preenche o restante da linha com elementos vazios para manter
-                // alinhamento por colunas (mesma técnica de BlocoDuplicataFatura).
+                // Preenche o restante da linha com células vazias (apenas
+                // borda) — mesma técnica de BlocoDuplicataFatura, para que
+                // o quadro vá até a margem direita quando há menos formas
+                // de pagamento do que colunas.
                 for (; i2 < numeroElementosLinha; i2++)
-                    fl.ComElemento(new ElementoVazio());
+                    fl.ComElemento(new CelulaVazia(estilo));
 
                 fl.ComLargurasIguais();
                 MainVerticalStack.Add(fl);

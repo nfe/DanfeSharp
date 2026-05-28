@@ -28,8 +28,13 @@ namespace DanfeSharp.Blocos
                     fl.ComElemento (de[i]);
                 }
 
+                // Preenche o resto da linha com celulas vazias (apenas borda)
+                // para que o quadro va ate a margem direita mesmo quando o
+                // numero de duplicatas nao e multiplo de numeroElementosLinha
+                // — antes ficava espaco em branco sem borda, truncando o
+                // quadro visualmente.
                 for (; i2 < numeroElementosLinha; i2++)
-                    fl.ComElemento (new ElementoVazio ());
+                    fl.ComElemento (new CelulaVazia (estilo));
 
                 fl.ComLargurasIguais ();
                 MainVerticalStack.Add (fl);
