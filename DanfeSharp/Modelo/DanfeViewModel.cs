@@ -220,6 +220,22 @@ namespace DanfeSharp.Modelo
         public int? CodigoStatusReposta { get; set; }
 
         /// <summary>
+        /// <para>Sinaliza que a NF-e foi cancelada — quando <c>true</c>, a DANFE
+        /// renderiza marca d'água "DOCUMENTO CANCELADO" centralizada em todas
+        /// as páginas.</para>
+        /// <para>Como o cancelamento em NF-e modelo 55 acontece via evento
+        /// separado (NFeProcEvento, <c>tpEvento=110111</c>) e NÃO altera o
+        /// <c>cStat</c> do XML da NF-e original (que permanece 100 — Autorizado),
+        /// o consumer DEVE setar essa flag explicitamente com base no estado
+        /// real do sistema (banco de dados / histórico de eventos), não no XML
+        /// carregado.</para>
+        /// <para>Como fallback, o renderer também desenha a marca quando
+        /// <see cref="CodigoStatusReposta"/> == 101 (cobre cenário raro onde
+        /// o XML carregado já reflete o cancelamento).</para>
+        /// </summary>
+        public bool IsCancelled { get; set; }
+
+        /// <summary>
         /// Descrição do status da resposta, xMotivo, do elemento infProt.
         /// </summary>
         public String DescricaoStatusReposta { get; set; }

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nfeProc versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe">
+    <NFe xmlns="http://www.portalfiscal.inf.br/nfe">
+        <infNFe Id="NFe35110510000000000000000000000000000000000001" versao="4.00">
+            <ide>
+                <cUF>35</cUF>
+                <cNF>100000001</cNF>
+                <natOp>VENDA</natOp>
+                <mod>55</mod>
+                <serie>1</serie>
+                <nNF>100000001</nNF>
+                <dhEmi>2026-05-28T14:00:00-03:00</dhEmi>
+                <dhSaiEnt>2026-05-28T14:00:00-03:00</dhSaiEnt>
+                <tpNF>1</tpNF>
+                <idDest>1</idDest>
+                <cMunFG>3550308</cMunFG>
+                <tpImp>1</tpImp>
+                <tpEmis>1</tpEmis>
+                <cDV>1</cDV>
+                <tpAmb>1</tpAmb>
+                <finNFe>1</finNFe>
+                <indFinal>1</indFinal>
+                <indPres>1</indPres>
+                <procEmi>0</procEmi>
+                <verProc>1.0</verProc>
+            </ide>
+            <emit>
+                <CNPJ>22257735000138</CNPJ>
+                <xNome>Demo Emitente LTDA</xNome>
+                <xFant>Demo Co</xFant>
+                <enderEmit>
+                    <xLgr>Av. Demo</xLgr>
+                    <nro>100</nro>
+                    <xBairro>Centro</xBairro>
+                    <cMun>3550308</cMun>
+                    <xMun>São Paulo</xMun>
+                    <UF>SP</UF>
+                    <CEP>01000000</CEP>
+                    <cPais>1058</cPais>
+                    <xPais>BRASIL</xPais>
+                    <fone>1133334444</fone>
+                </enderEmit>
+                <IE>123456789012</IE>
+                <CRT>3</CRT>
+            </emit>
+            <dest>
+                <CNPJ>11222333000181</CNPJ>
+                <xNome>Demo Destinatário S/A</xNome>
+                <enderDest>
+                    <xLgr>Rua Cliente</xLgr>
+                    <nro>200</nro>
+                    <xBairro>Bairro Cliente</xBairro>
+                    <cMun>3550308</cMun>
+                    <xMun>São Paulo</xMun>
+                    <UF>SP</UF>
+                    <CEP>02000000</CEP>
+                    <cPais>1058</cPais>
+                    <xPais>BRASIL</xPais>
+                </enderDest>
+                <indIEDest>9</indIEDest>
+            </dest>
+            <det nItem="1">
+                <prod>
+                    <cProd>PROD-1</cProd>
+                    <cEAN>SEM GTIN</cEAN>
+                    <xProd>Caneta esferográfica azul</xProd>
+                    <NCM>49111090</NCM>
+                    <CFOP>5102</CFOP>
+                    <uCom>UN</uCom>
+                    <qCom>1.0000</qCom>
+                    <vUnCom>50.00</vUnCom>
+                    <vProd>50.00</vProd>
+                    <cEANTrib>SEM GTIN</cEANTrib>
+                    <uTrib>UN</uTrib>
+                    <qTrib>1.0000</qTrib>
+                    <vUnTrib>50.00</vUnTrib>
+                    <indTot>1</indTot>
+                </prod>
+                <imposto>
+                    <ICMS>
+                        <ICMS00>
+                            <orig>0</orig>
+                            <CST>00</CST>
+                            <modBC>3</modBC>
+                            <vBC>50.00</vBC>
+                            <pICMS>12.00</pICMS>
+                            <vICMS>6.00</vICMS>
+                        </ICMS00>
+                    </ICMS>
+                    <PIS>
+                        <PISAliq>
+                            <CST>01</CST>
+                            <vBC>50.00</vBC>
+                            <pPIS>1.65</pPIS>
+                            <vPIS>0.83</vPIS>
+                        </PISAliq>
+                    </PIS>
+                    <COFINS>
+                        <COFINSAliq>
+                            <CST>01</CST>
+                            <vBC>50.00</vBC>
+                            <pCOFINS>7.60</pCOFINS>
+                            <vCOFINS>3.80</vCOFINS>
+                        </COFINSAliq>
+                    </COFINS>
+                </imposto>
+            </det>
+            <total>
+                <ICMSTot>
+                    <vBC>50.00</vBC>
+                    <vICMS>6.00</vICMS>
+                    <vICMSDeson>0.00</vICMSDeson>
+                    <vFCP>0.00</vFCP>
+                    <vBCST>0.00</vBCST>
+                    <vST>0.00</vST>
+                    <vFCPST>0.00</vFCPST>
+                    <vFCPSTRet>0.00</vFCPSTRet>
+                    <vProd>50.00</vProd>
+                    <vFrete>0.00</vFrete>
+                    <vSeg>0.00</vSeg>
+                    <vDesc>0.00</vDesc>
+                    <vII>0.00</vII>
+                    <vIPI>0.00</vIPI>
+                    <vIPIDevol>0.00</vIPIDevol>
+                    <vPIS>0.83</vPIS>
+                    <vCOFINS>3.80</vCOFINS>
+                    <vOutro>0.00</vOutro>
+                    <vNF>50.00</vNF>
+                    <vTotTrib>0.00</vTotTrib>
+                </ICMSTot>
+            </total>
+            <transp>
+                <modFrete>9</modFrete>
+            </transp>
+            <infAdic>
+                <infCpl>Fixture sintética gerada por generate-fixtures.sh para demo da PR #42.</infCpl>
+            </infAdic>
+        </infNFe>
+    </NFe>
+    <protNFe versao="4.00">
+        <infProt>
+            <tpAmb>1</tpAmb>
+            <verAplic>SP</verAplic>
+            <chNFe>35110501000000000000000000000000000000000000</chNFe>
+            <dhRecbto>2026-05-28T14:01:00-03:00</dhRecbto>
+            <nProt>135260000000000</nProt>
+            <digVal>aaa=</digVal>
+            <cStat>100</cStat>
+            <xMotivo>Autorizado o uso da NF-e</xMotivo>
+        </infProt>
+    </protNFe>
+</nfeProc>

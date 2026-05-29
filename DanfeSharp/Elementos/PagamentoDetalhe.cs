@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using DanfeSharp.Graphics;
 using DanfeSharp.Modelo;
@@ -6,23 +6,24 @@ using DanfeSharp.Modelo;
 namespace DanfeSharp
 {
     /// <summary>
-    /// Elemento que desenha uma duplicata do quadro "FATURA / DUPLICATA" da DANFE.
-    /// Layout: 3 colunas horizontais lado a lado (Número | Vencimento | Valor),
-    /// cada coluna com label em cima e valor abaixo — segue o mesmo padrão visual
-    /// do <c>BlocoCalculoImposto</c> e demais blocos com campos. Antes desta change
-    /// os 3 campos ficavam empilhados verticalmente dentro de uma única coluna —
-    /// reportado pelo cliente Revenda Mais durante revisão do PR #42.
+    /// Elemento que desenha um <c>DetalheViewModel</c> do quadro
+    /// "FORMA DE PAGAMENTO" da DANFE.
+    /// Layout: 2 colunas horizontais lado a lado (FORMA PAGAMENTO | VALOR),
+    /// cada coluna com label em cima e conteúdo abaixo — mesmo padrão visual
+    /// de <see cref="Duplicata"/> (quadro Fatura/Duplicata).
     /// </summary>
     [AlturaFixa]
-    internal class Duplicata : ElementoBase
+    internal class PagamentoDetalhe : ElementoBase
     {
         public Fonte FonteA { get; private set; }
         public Fonte FonteB { get; private set; }
-        public DuplicataViewModel ViewModel { get; private set; }
+        public DetalheViewModel ViewModel { get; private set; }
 
-        private static readonly String[] Chaves = { "Número", "Vencimento:", "Valor:" };
+        // Title Case espelhando o padrão de Duplicata.cs (Chaves = {"Número",
+        // "Vencimento:", "Valor:"}) — primeira label sem ':', segunda com.
+        private static readonly String[] Chaves = { "Forma de Pagamento", "Valor:" };
 
-        public Duplicata(Estilo estilo, DuplicataViewModel viewModel) : base(estilo)
+        public PagamentoDetalhe(Estilo estilo, DetalheViewModel viewModel) : base(estilo)
         {
             ViewModel = viewModel;
             FonteA = estilo.CriarFonteRegular(7.5F);
@@ -35,7 +36,14 @@ namespace DanfeSharp
 
             var r = BoundingBox.InflatedRetangle(Estilo.PaddingSuperior, Estilo.PaddingInferior, Estilo.PaddingHorizontal);
 
-            String[] valores = { ViewModel.Numero, ViewModel.Vecimento.Formatar(), ViewModel.Valor.FormatarMoeda() };
+            // Descrição: prevalece xPag (DetalheViewModel.Descricao) sobre o
+            // [Description] do enum FormaPagamento — regra da spec
+            // danfe-payment-block.
+            String descricao = !String.IsNullOrEmpty(ViewModel.Descricao)
+                ? ViewModel.Descricao
+                : ViewModel.FormaPagamento.GetDescricao();
+
+            String[] valores = { descricao, ((double?)(double)ViewModel.Valor).FormatarMoeda() };
 
             float colWidth = r.Width / Chaves.Length;
 

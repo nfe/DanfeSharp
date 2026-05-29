@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using DanfeSharp.Blocos;
 using org.pdfclown.documents;
 using org.pdfclown.documents.contents.fonts;
@@ -66,6 +67,9 @@ namespace DanfeSharp
 
             if (ViewModel.Duplicatas.Count > 0)
                 AdicionarBloco<BlocoDuplicataFatura>();
+
+            if (ViewModel.Pagamento != null && ViewModel.Pagamento.Any(p => p.DetalhePagamento != null && p.DetalhePagamento.Count > 0))
+                AdicionarBloco<BlocoFormaPagamento>();
 
             AdicionarBloco<BlocoCalculoImposto>(ViewModel.Orientacao == Orientacao.Paisagem ? EstiloPadrao : CriarEstilo(4.75F));
             AdicionarBloco<BlocoTransportador>();
@@ -138,12 +142,42 @@ namespace DanfeSharp
             if (_FoiGerado) throw new InvalidOperationException("O Danfe já foi gerado.");
 
             IdentificacaoEmitente.Logo = _LogoObject;
-            var tabela = new TabelaProdutosServicos(ViewModel, EstiloPadrao);      
-                    
+            var tabela = new TabelaProdutosServicos(ViewModel, EstiloPadrao);
+
+            int paginasSemEspacoConsecutivas = 0;
+
             while (true)
             {
                 DanfePagina p = CriarPagina();
-               
+
+                // Quando os blocos do topo (Emitente, Destinatário, Local de
+                // Entrega/Retirada, Fatura, Cálculo do Imposto, Forma de
+                // Pagamento, Transportador, Dados Adicionais) consomem toda a
+                // altura disponível — situação comum em paisagem com NF-e
+                // ricas — RetanguloCorpo fica com Height ≤ 0 e a tabela de
+                // produtos não tem onde renderizar. Antes, isso lançava
+                // InvalidOperationException; agora pulamos para a próxima
+                // página, onde apenas BlocoIdentificacaoEmitente é desenhado
+                // (único com VisivelSomentePrimeiraPagina = false) e sobra
+                // espaço para a tabela.
+                if (p.RetanguloCorpo.Size.Height <= 0)
+                {
+                    paginasSemEspacoConsecutivas++;
+                    // Proteção contra loop infinito: se 2 páginas seguidas não
+                    // têm espaço, algo está fundamentalmente errado com o
+                    // layout — aborta com mensagem útil.
+                    if (paginasSemEspacoConsecutivas > 1)
+                    {
+                        throw new InvalidOperationException(
+                            "Não foi possível renderizar a tabela de produtos: " +
+                            "os blocos do cabeçalho consomem toda a altura disponível em duas páginas consecutivas. " +
+                            "Reduza blocos opcionais (LocalRetirada/LocalEntrega, infCpl longas) ou use orientação Retrato.");
+                    }
+                    continue;
+                }
+
+                paginasSemEspacoConsecutivas = 0;
+
                 tabela.SetPosition(p.RetanguloCorpo.Location);
                 tabela.SetSize(p.RetanguloCorpo.Size);
                 tabela.Draw(p.Gfx);
@@ -179,6 +213,17 @@ namespace DanfeSharp
             if (ViewModel.TipoAmbiente == 2)
             {
                 p.DesenharAvisoHomologacao();
+            }
+
+            // NF-e cancelada — marca d'água "DOCUMENTO CANCELADO".
+            // Detecção primária via ViewModel.IsCancelled (flag explícita do
+            // consumer, refletindo cancelamento via evento NFeProcEvento
+            // tpEvento=110111). Fallback via cStat==101 cobre cenário raro de
+            // XML modificado para refletir cancelamento (compatibilidade com
+            // abordagem da PR #8 de 2023). Ver spec danfe-cancelled-watermark.
+            if (ViewModel.IsCancelled || ViewModel.CodigoStatusReposta == 101)
+            {
+                p.DesenharAvisoCancelamento();
             }
 
             return p;

@@ -1,0 +1,1092 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nfeProc versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe">
+    <NFe xmlns="http://www.portalfiscal.inf.br/nfe">
+        <infNFe Id="NFe35110530000000000000000000000000000000000003" versao="4.00">
+            <ide>
+                <cUF>35</cUF>
+                <cNF>300000001</cNF>
+                <natOp>VENDA</natOp>
+                <mod>55</mod>
+                <serie>1</serie>
+                <nNF>300000001</nNF>
+                <dhEmi>2026-05-28T14:00:00-03:00</dhEmi>
+                <dhSaiEnt>2026-05-28T14:00:00-03:00</dhSaiEnt>
+                <tpNF>1</tpNF>
+                <idDest>1</idDest>
+                <cMunFG>3550308</cMunFG>
+                <tpImp>1</tpImp>
+                <tpEmis>1</tpEmis>
+                <cDV>1</cDV>
+                <tpAmb>1</tpAmb>
+                <finNFe>1</finNFe>
+                <indFinal>1</indFinal>
+                <indPres>1</indPres>
+                <procEmi>0</procEmi>
+                <verProc>1.0</verProc>
+            </ide>
+            <emit>
+                <CNPJ>22257735000138</CNPJ>
+                <xNome>Demo Emitente LTDA</xNome>
+                <xFant>Demo Co</xFant>
+                <enderEmit>
+                    <xLgr>Av. Demo</xLgr>
+                    <nro>100</nro>
+                    <xBairro>Centro</xBairro>
+                    <cMun>3550308</cMun>
+                    <xMun>São Paulo</xMun>
+                    <UF>SP</UF>
+                    <CEP>01000000</CEP>
+                    <cPais>1058</cPais>
+                    <xPais>BRASIL</xPais>
+                    <fone>1133334444</fone>
+                </enderEmit>
+                <IE>123456789012</IE>
+                <CRT>3</CRT>
+            </emit>
+            <dest>
+                <CNPJ>11222333000181</CNPJ>
+                <xNome>Demo Destinatário S/A</xNome>
+                <enderDest>
+                    <xLgr>Rua Cliente</xLgr>
+                    <nro>200</nro>
+                    <xBairro>Bairro Cliente</xBairro>
+                    <cMun>3550308</cMun>
+                    <xMun>São Paulo</xMun>
+                    <UF>SP</UF>
+                    <CEP>02000000</CEP>
+                    <cPais>1058</cPais>
+                    <xPais>BRASIL</xPais>
+                </enderDest>
+                <indIEDest>9</indIEDest>
+            </dest>
+            <det nItem="1">
+                <prod>
+                    <cProd>PROD-1</cProd>
+                    <cEAN>SEM GTIN</cEAN>
+                    <xProd>Item demo A — material de escritório</xProd>
+                    <NCM>49111090</NCM>
+                    <CFOP>5102</CFOP>
+                    <uCom>UN</uCom>
+                    <qCom>1.0000</qCom>
+                    <vUnCom>100.00</vUnCom>
+                    <vProd>100.00</vProd>
+                    <cEANTrib>SEM GTIN</cEANTrib>
+                    <uTrib>UN</uTrib>
+                    <qTrib>1.0000</qTrib>
+                    <vUnTrib>100.00</vUnTrib>
+                    <indTot>1</indTot>
+                </prod>
+                <imposto>
+                    <ICMS>
+                        <ICMS00>
+                            <orig>0</orig>
+                            <CST>00</CST>
+                            <modBC>3</modBC>
+                            <vBC>100.00</vBC>
+                            <pICMS>12.00</pICMS>
+                            <vICMS>12.00</vICMS>
+                        </ICMS00>
+                    </ICMS>
+                    <PIS>
+                        <PISAliq>
+                            <CST>01</CST>
+                            <vBC>100.00</vBC>
+                            <pPIS>1.65</pPIS>
+                            <vPIS>1.65</vPIS>
+                        </PISAliq>
+                    </PIS>
+                    <COFINS>
+                        <COFINSAliq>
+                            <CST>01</CST>
+                            <vBC>100.00</vBC>
+                            <pCOFINS>7.60</pCOFINS>
+                            <vCOFINS>7.60</vCOFINS>
+                        </COFINSAliq>
+                    </COFINS>
+                </imposto>
+                <infAdProd>Lote LT-1-2026 · Validade 12 meses · Origem: Brasil</infAdProd>
+            </det>
+            <det nItem="2">
+                <prod>
+                    <cProd>PROD-2</cProd>
+                    <cEAN>SEM GTIN</cEAN>
+                    <xProd>Item demo B — papelaria fina</xProd>
+                    <NCM>49111090</NCM>
+                    <CFOP>5102</CFOP>
+                    <uCom>UN</uCom>
+                    <qCom>1.0000</qCom>
+                    <vUnCom>100.00</vUnCom>
+                    <vProd>100.00</vProd>
+                    <cEANTrib>SEM GTIN</cEANTrib>
+                    <uTrib>UN</uTrib>
+                    <qTrib>1.0000</qTrib>
+                    <vUnTrib>100.00</vUnTrib>
+                    <indTot>1</indTot>
+                </prod>
+                <imposto>
+                    <ICMS>
+                        <ICMS00>
+                            <orig>0</orig>
+                            <CST>00</CST>
+                            <modBC>3</modBC>
+                            <vBC>100.00</vBC>
+                            <pICMS>12.00</pICMS>
+                            <vICMS>12.00</vICMS>
+                        </ICMS00>
+                    </ICMS>
+                    <PIS>
+                        <PISAliq>
+                            <CST>01</CST>
+                            <vBC>100.00</vBC>
+                            <pPIS>1.65</pPIS>
+                            <vPIS>1.65</vPIS>
+                        </PISAliq>
+                    </PIS>
+                    <COFINS>
+                        <COFINSAliq>
+                            <CST>01</CST>
+                            <vBC>100.00</vBC>
+                            <pCOFINS>7.60</pCOFINS>
+                            <vCOFINS>7.60</vCOFINS>
+                        </COFINSAliq>
+                    </COFINS>
+                </imposto>
+                <infAdProd>Lote LT-2-2026 · Validade 12 meses · Origem: Brasil</infAdProd>
+            </det>
+            <det nItem="3">
+                <prod>
+                    <cProd>PROD-3</cProd>
+                    <cEAN>SEM GTIN</cEAN>
+                    <xProd>Item demo C — suprimento gráfico</xProd>
+                    <NCM>49111090</NCM>
+                    <CFOP>5102</CFOP>
+                    <uCom>UN</uCom>
+                    <qCom>1.0000</qCom>
+                    <vUnCom>100.00</vUnCom>
+                    <vProd>100.00</vProd>
+                    <cEANTrib>SEM GTIN</cEANTrib>
+                    <uTrib>UN</uTrib>
+                    <qTrib>1.0000</qTrib>
+                    <vUnTrib>100.00</vUnTrib>
+                    <indTot>1</indTot>
+                </prod>
+                <imposto>
+                    <ICMS>
+                        <ICMS00>
+                            <orig>0</orig>
+                            <CST>00</CST>
+                            <modBC>3</modBC>
+                            <vBC>100.00</vBC>
+                            <pICMS>12.00</pICMS>
+                            <vICMS>12.00</vICMS>
+                        </ICMS00>
+                    </ICMS>
+                    <PIS>
+                        <PISAliq>
+                            <CST>01</CST>
+                            <vBC>100.00</vBC>
+                            <pPIS>1.65</pPIS>
+                            <vPIS>1.65</vPIS>
+                        </PISAliq>
+                    </PIS>
+                    <COFINS>
+                        <COFINSAliq>
+                            <CST>01</CST>
+                            <vBC>100.00</vBC>
+                            <pCOFINS>7.60</pCOFINS>
+                            <vCOFINS>7.60</vCOFINS>
+                        </COFINSAliq>
+                    </COFINS>
+                </imposto>
+                <infAdProd>Lote LT-3-2026 · Validade 12 meses · Origem: Brasil</infAdProd>
+            </det>
+            <det nItem="4">
+                <prod>
+                    <cProd>PROD-4</cProd>
+                    <cEAN>SEM GTIN</cEAN>
+                    <xProd>Item demo D — material para eventos</xProd>
+                    <NCM>49111090</NCM>
+                    <CFOP>5102</CFOP>
+                    <uCom>UN</uCom>
+                    <qCom>1.0000</qCom>
+                    <vUnCom>100.00</vUnCom>
+                    <vProd>100.00</vProd>
+                    <cEANTrib>SEM GTIN</cEANTrib>
+                    <uTrib>UN</uTrib>
+                    <qTrib>1.0000</qTrib>
+                    <vUnTrib>100.00</vUnTrib>
+                    <indTot>1</indTot>
+                </prod>
+                <imposto>
+                    <ICMS>
+                        <ICMS00>
+                            <orig>0</orig>
+                            <CST>00</CST>
+                            <modBC>3</modBC>
+                            <vBC>100.00</vBC>
+                            <pICMS>12.00</pICMS>
+                            <vICMS>12.00</vICMS>
+                        </ICMS00>
+                    </ICMS>
+                    <PIS>
+                        <PISAliq>
+                            <CST>01</CST>
+                            <vBC>100.00</vBC>
+                            <pPIS>1.65</pPIS>
+                            <vPIS>1.65</vPIS>
+                        </PISAliq>
+                    </PIS>
+                    <COFINS>
+                        <COFINSAliq>
+                            <CST>01</CST>
+                            <vBC>100.00</vBC>
+                            <pCOFINS>7.60</pCOFINS>
+                            <vCOFINS>7.60</vCOFINS>
+                        </COFINSAliq>
+                    </COFINS>
+                </imposto>
+                <infAdProd>Lote LT-4-2026 · Validade 12 meses · Origem: Brasil</infAdProd>
+            </det>
+            <det nItem="5">
+                <prod>
+                    <cProd>PROD-5</cProd>
+                    <cEAN>SEM GTIN</cEAN>
+                    <xProd>Item demo E — kit de apresentação</xProd>
+                    <NCM>49111090</NCM>
+                    <CFOP>5102</CFOP>
+                    <uCom>UN</uCom>
+                    <qCom>1.0000</qCom>
+                    <vUnCom>100.00</vUnCom>
+                    <vProd>100.00</vProd>
+                    <cEANTrib>SEM GTIN</cEANTrib>
+                    <uTrib>UN</uTrib>
+                    <qTrib>1.0000</qTrib>
+                    <vUnTrib>100.00</vUnTrib>
+                    <indTot>1</indTot>
+                </prod>
+                <imposto>
+                    <ICMS>
+                        <ICMS00>
+                            <orig>0</orig>
+                            <CST>00</CST>
+                            <modBC>3</modBC>
+                            <vBC>100.00</vBC>
+                            <pICMS>12.00</pICMS>
+                            <vICMS>12.00</vICMS>
+                        </ICMS00>
+                    </ICMS>
+                    <PIS>
+                        <PISAliq>
+                            <CST>01</CST>
+                            <vBC>100.00</vBC>
+                            <pPIS>1.65</pPIS>
+                            <vPIS>1.65</vPIS>
+                        </PISAliq>
+                    </PIS>
+                    <COFINS>
+                        <COFINSAliq>
+                            <CST>01</CST>
+                            <vBC>100.00</vBC>
+                            <pCOFINS>7.60</pCOFINS>
+                            <vCOFINS>7.60</vCOFINS>
+                        </COFINSAliq>
+                    </COFINS>
+                </imposto>
+                <infAdProd>Lote LT-5-2026 · Validade 12 meses · Origem: Brasil</infAdProd>
+            </det>
+            <det nItem="6">
+                <prod>
+                    <cProd>PROD-6</cProd>
+                    <cEAN>SEM GTIN</cEAN>
+                    <xProd>Item demo F — material institucional</xProd>
+                    <NCM>49111090</NCM>
+                    <CFOP>5102</CFOP>
+                    <uCom>UN</uCom>
+                    <qCom>1.0000</qCom>
+                    <vUnCom>100.00</vUnCom>
+                    <vProd>100.00</vProd>
+                    <cEANTrib>SEM GTIN</cEANTrib>
+                    <uTrib>UN</uTrib>
+                    <qTrib>1.0000</qTrib>
+                    <vUnTrib>100.00</vUnTrib>
+                    <indTot>1</indTot>
+                </prod>
+                <imposto>
+                    <ICMS>
+                        <ICMS00>
+                            <orig>0</orig>
+                            <CST>00</CST>
+                            <modBC>3</modBC>
+                            <vBC>100.00</vBC>
+                            <pICMS>12.00</pICMS>
+                            <vICMS>12.00</vICMS>
+                        </ICMS00>
+                    </ICMS>
+                    <PIS>
+                        <PISAliq>
+                            <CST>01</CST>
+                            <vBC>100.00</vBC>
+                            <pPIS>1.65</pPIS>
+                            <vPIS>1.65</vPIS>
+                        </PISAliq>
+                    </PIS>
+                    <COFINS>
+                        <COFINSAliq>
+                            <CST>01</CST>
+                            <vBC>100.00</vBC>
+                            <pCOFINS>7.60</pCOFINS>
+                            <vCOFINS>7.60</vCOFINS>
+                        </COFINSAliq>
+                    </COFINS>
+                </imposto>
+                <infAdProd>Lote LT-6-2026 · Validade 12 meses · Origem: Brasil</infAdProd>
+            </det>
+            <det nItem="7">
+                <prod>
+                    <cProd>PROD-7</cProd>
+                    <cEAN>SEM GTIN</cEAN>
+                    <xProd>Item demo G — embalagem premium</xProd>
+                    <NCM>49111090</NCM>
+                    <CFOP>5102</CFOP>
+                    <uCom>UN</uCom>
+                    <qCom>1.0000</qCom>
+                    <vUnCom>100.00</vUnCom>
+                    <vProd>100.00</vProd>
+                    <cEANTrib>SEM GTIN</cEANTrib>
+                    <uTrib>UN</uTrib>
+                    <qTrib>1.0000</qTrib>
+                    <vUnTrib>100.00</vUnTrib>
+                    <indTot>1</indTot>
+                </prod>
+                <imposto>
+                    <ICMS>
+                        <ICMS00>
+                            <orig>0</orig>
+                            <CST>00</CST>
+                            <modBC>3</modBC>
+                            <vBC>100.00</vBC>
+                            <pICMS>12.00</pICMS>
+                            <vICMS>12.00</vICMS>
+                        </ICMS00>
+                    </ICMS>
+                    <PIS>
+                        <PISAliq>
+                            <CST>01</CST>
+                            <vBC>100.00</vBC>
+                            <pPIS>1.65</pPIS>
+                            <vPIS>1.65</vPIS>
+                        </PISAliq>
+                    </PIS>
+                    <COFINS>
+                        <COFINSAliq>
+                            <CST>01</CST>
+                            <vBC>100.00</vBC>
+                            <pCOFINS>7.60</pCOFINS>
+                            <vCOFINS>7.60</vCOFINS>
+                        </COFINSAliq>
+                    </COFINS>
+                </imposto>
+                <infAdProd>Lote LT-7-2026 · Validade 12 meses · Origem: Brasil</infAdProd>
+            </det>
+            <det nItem="8">
+                <prod>
+                    <cProd>PROD-8</cProd>
+                    <cEAN>SEM GTIN</cEAN>
+                    <xProd>Item demo H — material de divulgação</xProd>
+                    <NCM>49111090</NCM>
+                    <CFOP>5102</CFOP>
+                    <uCom>UN</uCom>
+                    <qCom>1.0000</qCom>
+                    <vUnCom>100.00</vUnCom>
+                    <vProd>100.00</vProd>
+                    <cEANTrib>SEM GTIN</cEANTrib>
+                    <uTrib>UN</uTrib>
+                    <qTrib>1.0000</qTrib>
+                    <vUnTrib>100.00</vUnTrib>
+                    <indTot>1</indTot>
+                </prod>
+                <imposto>
+                    <ICMS>
+                        <ICMS00>
+                            <orig>0</orig>
+                            <CST>00</CST>
+                            <modBC>3</modBC>
+                            <vBC>100.00</vBC>
+                            <pICMS>12.00</pICMS>
+                            <vICMS>12.00</vICMS>
+                        </ICMS00>
+                    </ICMS>
+                    <PIS>
+                        <PISAliq>
+                            <CST>01</CST>
+                            <vBC>100.00</vBC>
+                            <pPIS>1.65</pPIS>
+                            <vPIS>1.65</vPIS>
+                        </PISAliq>
+                    </PIS>
+                    <COFINS>
+                        <COFINSAliq>
+                            <CST>01</CST>
+                            <vBC>100.00</vBC>
+                            <pCOFINS>7.60</pCOFINS>
+                            <vCOFINS>7.60</vCOFINS>
+                        </COFINSAliq>
+                    </COFINS>
+                </imposto>
+                <infAdProd>Lote LT-8-2026 · Validade 12 meses · Origem: Brasil</infAdProd>
+            </det>
+            <det nItem="9">
+                <prod>
+                    <cProd>PROD-9</cProd>
+                    <cEAN>SEM GTIN</cEAN>
+                    <xProd>Item demo I — kit corporativo</xProd>
+                    <NCM>49111090</NCM>
+                    <CFOP>5102</CFOP>
+                    <uCom>UN</uCom>
+                    <qCom>1.0000</qCom>
+                    <vUnCom>100.00</vUnCom>
+                    <vProd>100.00</vProd>
+                    <cEANTrib>SEM GTIN</cEANTrib>
+                    <uTrib>UN</uTrib>
+                    <qTrib>1.0000</qTrib>
+                    <vUnTrib>100.00</vUnTrib>
+                    <indTot>1</indTot>
+                </prod>
+                <imposto>
+                    <ICMS>
+                        <ICMS00>
+                            <orig>0</orig>
+                            <CST>00</CST>
+                            <modBC>3</modBC>
+                            <vBC>100.00</vBC>
+                            <pICMS>12.00</pICMS>
+                            <vICMS>12.00</vICMS>
+                        </ICMS00>
+                    </ICMS>
+                    <PIS>
+                        <PISAliq>
+                            <CST>01</CST>
+                            <vBC>100.00</vBC>
+                            <pPIS>1.65</pPIS>
+                            <vPIS>1.65</vPIS>
+                        </PISAliq>
+                    </PIS>
+                    <COFINS>
+                        <COFINSAliq>
+                            <CST>01</CST>
+                            <vBC>100.00</vBC>
+                            <pCOFINS>7.60</pCOFINS>
+                            <vCOFINS>7.60</vCOFINS>
+                        </COFINSAliq>
+                    </COFINS>
+                </imposto>
+                <infAdProd>Lote LT-9-2026 · Validade 12 meses · Origem: Brasil</infAdProd>
+            </det>
+            <det nItem="10">
+                <prod>
+                    <cProd>PROD-10</cProd>
+                    <cEAN>SEM GTIN</cEAN>
+                    <xProd>Item demo J — material expositor</xProd>
+                    <NCM>49111090</NCM>
+                    <CFOP>5102</CFOP>
+                    <uCom>UN</uCom>
+                    <qCom>1.0000</qCom>
+                    <vUnCom>100.00</vUnCom>
+                    <vProd>100.00</vProd>
+                    <cEANTrib>SEM GTIN</cEANTrib>
+                    <uTrib>UN</uTrib>
+                    <qTrib>1.0000</qTrib>
+                    <vUnTrib>100.00</vUnTrib>
+                    <indTot>1</indTot>
+                </prod>
+                <imposto>
+                    <ICMS>
+                        <ICMS00>
+                            <orig>0</orig>
+                            <CST>00</CST>
+                            <modBC>3</modBC>
+                            <vBC>100.00</vBC>
+                            <pICMS>12.00</pICMS>
+                            <vICMS>12.00</vICMS>
+                        </ICMS00>
+                    </ICMS>
+                    <PIS>
+                        <PISAliq>
+                            <CST>01</CST>
+                            <vBC>100.00</vBC>
+                            <pPIS>1.65</pPIS>
+                            <vPIS>1.65</vPIS>
+                        </PISAliq>
+                    </PIS>
+                    <COFINS>
+                        <COFINSAliq>
+                            <CST>01</CST>
+                            <vBC>100.00</vBC>
+                            <pCOFINS>7.60</pCOFINS>
+                            <vCOFINS>7.60</vCOFINS>
+                        </COFINSAliq>
+                    </COFINS>
+                </imposto>
+                <infAdProd>Lote LT-10-2026 · Validade 12 meses · Origem: Brasil</infAdProd>
+            </det>
+            <det nItem="11">
+                <prod>
+                    <cProd>PROD-11</cProd>
+                    <cEAN>SEM GTIN</cEAN>
+                    <xProd>Item demo K — brinde personalizado</xProd>
+                    <NCM>49111090</NCM>
+                    <CFOP>5102</CFOP>
+                    <uCom>UN</uCom>
+                    <qCom>1.0000</qCom>
+                    <vUnCom>100.00</vUnCom>
+                    <vProd>100.00</vProd>
+                    <cEANTrib>SEM GTIN</cEANTrib>
+                    <uTrib>UN</uTrib>
+                    <qTrib>1.0000</qTrib>
+                    <vUnTrib>100.00</vUnTrib>
+                    <indTot>1</indTot>
+                </prod>
+                <imposto>
+                    <ICMS>
+                        <ICMS00>
+                            <orig>0</orig>
+                            <CST>00</CST>
+                            <modBC>3</modBC>
+                            <vBC>100.00</vBC>
+                            <pICMS>12.00</pICMS>
+                            <vICMS>12.00</vICMS>
+                        </ICMS00>
+                    </ICMS>
+                    <PIS>
+                        <PISAliq>
+                            <CST>01</CST>
+                            <vBC>100.00</vBC>
+                            <pPIS>1.65</pPIS>
+                            <vPIS>1.65</vPIS>
+                        </PISAliq>
+                    </PIS>
+                    <COFINS>
+                        <COFINSAliq>
+                            <CST>01</CST>
+                            <vBC>100.00</vBC>
+                            <pCOFINS>7.60</pCOFINS>
+                            <vCOFINS>7.60</vCOFINS>
+                        </COFINSAliq>
+                    </COFINS>
+                </imposto>
+                <infAdProd>Lote LT-11-2026 · Validade 12 meses · Origem: Brasil</infAdProd>
+            </det>
+            <det nItem="12">
+                <prod>
+                    <cProd>PROD-12</cProd>
+                    <cEAN>SEM GTIN</cEAN>
+                    <xProd>Item demo L — material para feira</xProd>
+                    <NCM>49111090</NCM>
+                    <CFOP>5102</CFOP>
+                    <uCom>UN</uCom>
+                    <qCom>1.0000</qCom>
+                    <vUnCom>100.00</vUnCom>
+                    <vProd>100.00</vProd>
+                    <cEANTrib>SEM GTIN</cEANTrib>
+                    <uTrib>UN</uTrib>
+                    <qTrib>1.0000</qTrib>
+                    <vUnTrib>100.00</vUnTrib>
+                    <indTot>1</indTot>
+                </prod>
+                <imposto>
+                    <ICMS>
+                        <ICMS00>
+                            <orig>0</orig>
+                            <CST>00</CST>
+                            <modBC>3</modBC>
+                            <vBC>100.00</vBC>
+                            <pICMS>12.00</pICMS>
+                            <vICMS>12.00</vICMS>
+                        </ICMS00>
+                    </ICMS>
+                    <PIS>
+                        <PISAliq>
+                            <CST>01</CST>
+                            <vBC>100.00</vBC>
+                            <pPIS>1.65</pPIS>
+                            <vPIS>1.65</vPIS>
+                        </PISAliq>
+                    </PIS>
+                    <COFINS>
+                        <COFINSAliq>
+                            <CST>01</CST>
+                            <vBC>100.00</vBC>
+                            <pCOFINS>7.60</pCOFINS>
+                            <vCOFINS>7.60</vCOFINS>
+                        </COFINSAliq>
+                    </COFINS>
+                </imposto>
+                <infAdProd>Lote LT-12-2026 · Validade 12 meses · Origem: Brasil</infAdProd>
+            </det>
+            <det nItem="13">
+                <prod>
+                    <cProd>PROD-13</cProd>
+                    <cEAN>SEM GTIN</cEAN>
+                    <xProd>Item demo M — kit promocional</xProd>
+                    <NCM>49111090</NCM>
+                    <CFOP>5102</CFOP>
+                    <uCom>UN</uCom>
+                    <qCom>1.0000</qCom>
+                    <vUnCom>100.00</vUnCom>
+                    <vProd>100.00</vProd>
+                    <cEANTrib>SEM GTIN</cEANTrib>
+                    <uTrib>UN</uTrib>
+                    <qTrib>1.0000</qTrib>
+                    <vUnTrib>100.00</vUnTrib>
+                    <indTot>1</indTot>
+                </prod>
+                <imposto>
+                    <ICMS>
+                        <ICMS00>
+                            <orig>0</orig>
+                            <CST>00</CST>
+                            <modBC>3</modBC>
+                            <vBC>100.00</vBC>
+                            <pICMS>12.00</pICMS>
+                            <vICMS>12.00</vICMS>
+                        </ICMS00>
+                    </ICMS>
+                    <PIS>
+                        <PISAliq>
+                            <CST>01</CST>
+                            <vBC>100.00</vBC>
+                            <pPIS>1.65</pPIS>
+                            <vPIS>1.65</vPIS>
+                        </PISAliq>
+                    </PIS>
+                    <COFINS>
+                        <COFINSAliq>
+                            <CST>01</CST>
+                            <vBC>100.00</vBC>
+                            <pCOFINS>7.60</pCOFINS>
+                            <vCOFINS>7.60</vCOFINS>
+                        </COFINSAliq>
+                    </COFINS>
+                </imposto>
+                <infAdProd>Lote LT-13-2026 · Validade 12 meses · Origem: Brasil</infAdProd>
+            </det>
+            <det nItem="14">
+                <prod>
+                    <cProd>PROD-14</cProd>
+                    <cEAN>SEM GTIN</cEAN>
+                    <xProd>Item demo N — embalagem padrão</xProd>
+                    <NCM>49111090</NCM>
+                    <CFOP>5102</CFOP>
+                    <uCom>UN</uCom>
+                    <qCom>1.0000</qCom>
+                    <vUnCom>100.00</vUnCom>
+                    <vProd>100.00</vProd>
+                    <cEANTrib>SEM GTIN</cEANTrib>
+                    <uTrib>UN</uTrib>
+                    <qTrib>1.0000</qTrib>
+                    <vUnTrib>100.00</vUnTrib>
+                    <indTot>1</indTot>
+                </prod>
+                <imposto>
+                    <ICMS>
+                        <ICMS00>
+                            <orig>0</orig>
+                            <CST>00</CST>
+                            <modBC>3</modBC>
+                            <vBC>100.00</vBC>
+                            <pICMS>12.00</pICMS>
+                            <vICMS>12.00</vICMS>
+                        </ICMS00>
+                    </ICMS>
+                    <PIS>
+                        <PISAliq>
+                            <CST>01</CST>
+                            <vBC>100.00</vBC>
+                            <pPIS>1.65</pPIS>
+                            <vPIS>1.65</vPIS>
+                        </PISAliq>
+                    </PIS>
+                    <COFINS>
+                        <COFINSAliq>
+                            <CST>01</CST>
+                            <vBC>100.00</vBC>
+                            <pCOFINS>7.60</pCOFINS>
+                            <vCOFINS>7.60</vCOFINS>
+                        </COFINSAliq>
+                    </COFINS>
+                </imposto>
+                <infAdProd>Lote LT-14-2026 · Validade 12 meses · Origem: Brasil</infAdProd>
+            </det>
+            <det nItem="15">
+                <prod>
+                    <cProd>PROD-15</cProd>
+                    <cEAN>SEM GTIN</cEAN>
+                    <xProd>Item demo O — papel timbrado</xProd>
+                    <NCM>49111090</NCM>
+                    <CFOP>5102</CFOP>
+                    <uCom>UN</uCom>
+                    <qCom>1.0000</qCom>
+                    <vUnCom>100.00</vUnCom>
+                    <vProd>100.00</vProd>
+                    <cEANTrib>SEM GTIN</cEANTrib>
+                    <uTrib>UN</uTrib>
+                    <qTrib>1.0000</qTrib>
+                    <vUnTrib>100.00</vUnTrib>
+                    <indTot>1</indTot>
+                </prod>
+                <imposto>
+                    <ICMS>
+                        <ICMS00>
+                            <orig>0</orig>
+                            <CST>00</CST>
+                            <modBC>3</modBC>
+                            <vBC>100.00</vBC>
+                            <pICMS>12.00</pICMS>
+                            <vICMS>12.00</vICMS>
+                        </ICMS00>
+                    </ICMS>
+                    <PIS>
+                        <PISAliq>
+                            <CST>01</CST>
+                            <vBC>100.00</vBC>
+                            <pPIS>1.65</pPIS>
+                            <vPIS>1.65</vPIS>
+                        </PISAliq>
+                    </PIS>
+                    <COFINS>
+                        <COFINSAliq>
+                            <CST>01</CST>
+                            <vBC>100.00</vBC>
+                            <pCOFINS>7.60</pCOFINS>
+                            <vCOFINS>7.60</vCOFINS>
+                        </COFINSAliq>
+                    </COFINS>
+                </imposto>
+                <infAdProd>Lote LT-15-2026 · Validade 12 meses · Origem: Brasil</infAdProd>
+            </det>
+            <det nItem="16">
+                <prod>
+                    <cProd>PROD-16</cProd>
+                    <cEAN>SEM GTIN</cEAN>
+                    <xProd>Item demo P — material de campanha</xProd>
+                    <NCM>49111090</NCM>
+                    <CFOP>5102</CFOP>
+                    <uCom>UN</uCom>
+                    <qCom>1.0000</qCom>
+                    <vUnCom>100.00</vUnCom>
+                    <vProd>100.00</vProd>
+                    <cEANTrib>SEM GTIN</cEANTrib>
+                    <uTrib>UN</uTrib>
+                    <qTrib>1.0000</qTrib>
+                    <vUnTrib>100.00</vUnTrib>
+                    <indTot>1</indTot>
+                </prod>
+                <imposto>
+                    <ICMS>
+                        <ICMS00>
+                            <orig>0</orig>
+                            <CST>00</CST>
+                            <modBC>3</modBC>
+                            <vBC>100.00</vBC>
+                            <pICMS>12.00</pICMS>
+                            <vICMS>12.00</vICMS>
+                        </ICMS00>
+                    </ICMS>
+                    <PIS>
+                        <PISAliq>
+                            <CST>01</CST>
+                            <vBC>100.00</vBC>
+                            <pPIS>1.65</pPIS>
+                            <vPIS>1.65</vPIS>
+                        </PISAliq>
+                    </PIS>
+                    <COFINS>
+                        <COFINSAliq>
+                            <CST>01</CST>
+                            <vBC>100.00</vBC>
+                            <pCOFINS>7.60</pCOFINS>
+                            <vCOFINS>7.60</vCOFINS>
+                        </COFINSAliq>
+                    </COFINS>
+                </imposto>
+                <infAdProd>Lote LT-16-2026 · Validade 12 meses · Origem: Brasil</infAdProd>
+            </det>
+            <det nItem="17">
+                <prod>
+                    <cProd>PROD-17</cProd>
+                    <cEAN>SEM GTIN</cEAN>
+                    <xProd>Item demo Q — bobina térmica</xProd>
+                    <NCM>49111090</NCM>
+                    <CFOP>5102</CFOP>
+                    <uCom>UN</uCom>
+                    <qCom>1.0000</qCom>
+                    <vUnCom>100.00</vUnCom>
+                    <vProd>100.00</vProd>
+                    <cEANTrib>SEM GTIN</cEANTrib>
+                    <uTrib>UN</uTrib>
+                    <qTrib>1.0000</qTrib>
+                    <vUnTrib>100.00</vUnTrib>
+                    <indTot>1</indTot>
+                </prod>
+                <imposto>
+                    <ICMS>
+                        <ICMS00>
+                            <orig>0</orig>
+                            <CST>00</CST>
+                            <modBC>3</modBC>
+                            <vBC>100.00</vBC>
+                            <pICMS>12.00</pICMS>
+                            <vICMS>12.00</vICMS>
+                        </ICMS00>
+                    </ICMS>
+                    <PIS>
+                        <PISAliq>
+                            <CST>01</CST>
+                            <vBC>100.00</vBC>
+                            <pPIS>1.65</pPIS>
+                            <vPIS>1.65</vPIS>
+                        </PISAliq>
+                    </PIS>
+                    <COFINS>
+                        <COFINSAliq>
+                            <CST>01</CST>
+                            <vBC>100.00</vBC>
+                            <pCOFINS>7.60</pCOFINS>
+                            <vCOFINS>7.60</vCOFINS>
+                        </COFINSAliq>
+                    </COFINS>
+                </imposto>
+                <infAdProd>Lote LT-17-2026 · Validade 12 meses · Origem: Brasil</infAdProd>
+            </det>
+            <det nItem="18">
+                <prod>
+                    <cProd>PROD-18</cProd>
+                    <cEAN>SEM GTIN</cEAN>
+                    <xProd>Item demo R — bloco de notas</xProd>
+                    <NCM>49111090</NCM>
+                    <CFOP>5102</CFOP>
+                    <uCom>UN</uCom>
+                    <qCom>1.0000</qCom>
+                    <vUnCom>100.00</vUnCom>
+                    <vProd>100.00</vProd>
+                    <cEANTrib>SEM GTIN</cEANTrib>
+                    <uTrib>UN</uTrib>
+                    <qTrib>1.0000</qTrib>
+                    <vUnTrib>100.00</vUnTrib>
+                    <indTot>1</indTot>
+                </prod>
+                <imposto>
+                    <ICMS>
+                        <ICMS00>
+                            <orig>0</orig>
+                            <CST>00</CST>
+                            <modBC>3</modBC>
+                            <vBC>100.00</vBC>
+                            <pICMS>12.00</pICMS>
+                            <vICMS>12.00</vICMS>
+                        </ICMS00>
+                    </ICMS>
+                    <PIS>
+                        <PISAliq>
+                            <CST>01</CST>
+                            <vBC>100.00</vBC>
+                            <pPIS>1.65</pPIS>
+                            <vPIS>1.65</vPIS>
+                        </PISAliq>
+                    </PIS>
+                    <COFINS>
+                        <COFINSAliq>
+                            <CST>01</CST>
+                            <vBC>100.00</vBC>
+                            <pCOFINS>7.60</pCOFINS>
+                            <vCOFINS>7.60</vCOFINS>
+                        </COFINSAliq>
+                    </COFINS>
+                </imposto>
+                <infAdProd>Lote LT-18-2026 · Validade 12 meses · Origem: Brasil</infAdProd>
+            </det>
+            <det nItem="19">
+                <prod>
+                    <cProd>PROD-19</cProd>
+                    <cEAN>SEM GTIN</cEAN>
+                    <xProd>Item demo S — agenda corporativa</xProd>
+                    <NCM>49111090</NCM>
+                    <CFOP>5102</CFOP>
+                    <uCom>UN</uCom>
+                    <qCom>1.0000</qCom>
+                    <vUnCom>100.00</vUnCom>
+                    <vProd>100.00</vProd>
+                    <cEANTrib>SEM GTIN</cEANTrib>
+                    <uTrib>UN</uTrib>
+                    <qTrib>1.0000</qTrib>
+                    <vUnTrib>100.00</vUnTrib>
+                    <indTot>1</indTot>
+                </prod>
+                <imposto>
+                    <ICMS>
+                        <ICMS00>
+                            <orig>0</orig>
+                            <CST>00</CST>
+                            <modBC>3</modBC>
+                            <vBC>100.00</vBC>
+                            <pICMS>12.00</pICMS>
+                            <vICMS>12.00</vICMS>
+                        </ICMS00>
+                    </ICMS>
+                    <PIS>
+                        <PISAliq>
+                            <CST>01</CST>
+                            <vBC>100.00</vBC>
+                            <pPIS>1.65</pPIS>
+                            <vPIS>1.65</vPIS>
+                        </PISAliq>
+                    </PIS>
+                    <COFINS>
+                        <COFINSAliq>
+                            <CST>01</CST>
+                            <vBC>100.00</vBC>
+                            <pCOFINS>7.60</pCOFINS>
+                            <vCOFINS>7.60</vCOFINS>
+                        </COFINSAliq>
+                    </COFINS>
+                </imposto>
+                <infAdProd>Lote LT-19-2026 · Validade 12 meses · Origem: Brasil</infAdProd>
+            </det>
+            <det nItem="20">
+                <prod>
+                    <cProd>PROD-20</cProd>
+                    <cEAN>SEM GTIN</cEAN>
+                    <xProd>Item demo T — calendário 2026</xProd>
+                    <NCM>49111090</NCM>
+                    <CFOP>5102</CFOP>
+                    <uCom>UN</uCom>
+                    <qCom>1.0000</qCom>
+                    <vUnCom>100.00</vUnCom>
+                    <vProd>100.00</vProd>
+                    <cEANTrib>SEM GTIN</cEANTrib>
+                    <uTrib>UN</uTrib>
+                    <qTrib>1.0000</qTrib>
+                    <vUnTrib>100.00</vUnTrib>
+                    <indTot>1</indTot>
+                </prod>
+                <imposto>
+                    <ICMS>
+                        <ICMS00>
+                            <orig>0</orig>
+                            <CST>00</CST>
+                            <modBC>3</modBC>
+                            <vBC>100.00</vBC>
+                            <pICMS>12.00</pICMS>
+                            <vICMS>12.00</vICMS>
+                        </ICMS00>
+                    </ICMS>
+                    <PIS>
+                        <PISAliq>
+                            <CST>01</CST>
+                            <vBC>100.00</vBC>
+                            <pPIS>1.65</pPIS>
+                            <vPIS>1.65</vPIS>
+                        </PISAliq>
+                    </PIS>
+                    <COFINS>
+                        <COFINSAliq>
+                            <CST>01</CST>
+                            <vBC>100.00</vBC>
+                            <pCOFINS>7.60</pCOFINS>
+                            <vCOFINS>7.60</vCOFINS>
+                        </COFINSAliq>
+                    </COFINS>
+                </imposto>
+                <infAdProd>Lote LT-20-2026 · Validade 12 meses · Origem: Brasil</infAdProd>
+            </det>
+            <total>
+                <ICMSTot>
+                    <vBC>2000.00</vBC>
+                    <vICMS>240.00</vICMS>
+                    <vICMSDeson>0.00</vICMSDeson>
+                    <vFCP>0.00</vFCP>
+                    <vBCST>0.00</vBCST>
+                    <vST>0.00</vST>
+                    <vFCPST>0.00</vFCPST>
+                    <vFCPSTRet>0.00</vFCPSTRet>
+                    <vProd>2000.00</vProd>
+                    <vFrete>0.00</vFrete>
+                    <vSeg>0.00</vSeg>
+                    <vDesc>0.00</vDesc>
+                    <vII>0.00</vII>
+                    <vIPI>0.00</vIPI>
+                    <vIPIDevol>0.00</vIPIDevol>
+                    <vPIS>33.00</vPIS>
+                    <vCOFINS>152.00</vCOFINS>
+                    <vOutro>0.00</vOutro>
+                    <vNF>2000.00</vNF>
+                    <vTotTrib>0.00</vTotTrib>
+                </ICMSTot>
+            </total>
+            <transp>
+                <modFrete>9</modFrete>
+            </transp>
+            <cobr>
+                <fat>
+                    <nFat>300000001</nFat>
+                    <vOrig>2000.00</vOrig>
+                    <vDesc>0.00</vDesc>
+                    <vLiq>2000.04</vLiq>
+                </fat>
+                <dup>
+                    <nDup>001</nDup>
+                    <dVenc>2026-06-30</dVenc>
+                    <vDup>333.34</vDup>
+                </dup>                <dup>
+                    <nDup>002</nDup>
+                    <dVenc>2026-07-30</dVenc>
+                    <vDup>333.34</vDup>
+                </dup>                <dup>
+                    <nDup>003</nDup>
+                    <dVenc>2026-08-30</dVenc>
+                    <vDup>333.34</vDup>
+                </dup>                <dup>
+                    <nDup>004</nDup>
+                    <dVenc>2026-09-30</dVenc>
+                    <vDup>333.34</vDup>
+                </dup>                <dup>
+                    <nDup>005</nDup>
+                    <dVenc>2026-10-30</dVenc>
+                    <vDup>333.34</vDup>
+                </dup>                <dup>
+                    <nDup>006</nDup>
+                    <dVenc>2026-11-30</dVenc>
+                    <vDup>333.34</vDup>
+                </dup>
+            </cobr>
+            <pag>
+                <detPag>
+                    <tPag>17</tPag>
+                    <vPag>800.00</vPag>
+                </detPag>                <detPag>
+                    <tPag>03</tPag>
+                    <vPag>700.00</vPag>
+                </detPag>                <detPag>
+                    <tPag>99</tPag>
+                    <xPag>PROMOCIONAL BLACK FRIDAY</xPag>
+                    <vPag>500.00</vPag>
+                </detPag>
+            </pag>
+            <infAdic>
+                <infCpl>Fixture sintética gerada por generate-fixtures.sh para demo da PR #42.</infCpl>
+            </infAdic>
+        </infNFe>
+    </NFe>
+    <protNFe versao="4.00">
+        <infProt>
+            <tpAmb>1</tpAmb>
+            <verAplic>SP</verAplic>
+            <chNFe>35110501000000000000000000000000000000000000</chNFe>
+            <dhRecbto>2026-05-28T14:01:00-03:00</dhRecbto>
+            <nProt>135260000000000</nProt>
+            <digVal>aaa=</digVal>
+            <cStat>100</cStat>
+            <xMotivo>Autorizado o uso da NF-e</xMotivo>
+        </infProt>
+    </protNFe>
+</nfeProc>

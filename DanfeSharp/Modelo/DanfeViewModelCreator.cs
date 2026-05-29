@@ -324,6 +324,7 @@ namespace DanfeSharp.Modelo
                     var detalhe = new DetalheViewModel();
 
                     detalhe.FormaPagamento = (FormaPagamento)detPag.tPag;
+                    detalhe.Descricao = String.IsNullOrEmpty(detPag.xPag) ? null : detPag.xPag;
                     detalhe.Valor = detPag.vPag;
 
                     pagamento.DetalhePagamento.Add(detalhe);
@@ -494,7 +495,9 @@ namespace DanfeSharp.Modelo
                             produto.ValorIcms = icms.vICMS;
                             produto.BaseIcms = icms.vBC;
                             produto.AliquotaIcms = icms.pICMS;
-                            produto.OCst = icms.orig + icms.CST + icms.CSOSN;
+                            produto.Origem = String.IsNullOrEmpty(icms.orig) ? null : icms.orig;
+                            produto.Cst = String.IsNullOrEmpty(icms.CST) ? null : icms.CST;
+                            produto.Csosn = String.IsNullOrEmpty(icms.CSOSN) ? null : icms.CSOSN;
                             produto.BaseIcmsST = icms.vBCST;
                         }
                     }
@@ -592,6 +595,34 @@ namespace DanfeSharp.Modelo
 
             model.ContingenciaDataHora = ide.dhCont;
             model.ContingenciaJustificativa = ide.xJust;
+
+            // Grupo YA - Informações de Pagamento (obrigatório em NF-e v4.0+
+            // pela NT 2016.002 v1.50). Popula model.Pagamento espelhando o
+            // mesmo caminho do CreateFromProcNFCe — necessário para que o
+            // BlocoFormaPagamento renderize na DANFE de NF-e modelo 55.
+            if (infNfe.pag != null)
+            {
+                foreach (var pag in infNfe.pag)
+                {
+                    var pagamento = new PagamentoViewModel();
+                    pagamento.DetalhePagamento = new List<DetalheViewModel>();
+                    pagamento.Troco = pag.vTroco;
+
+                    if (pag.detPag != null)
+                    {
+                        foreach (var detPag in pag.detPag)
+                        {
+                            var detalhe = new DetalheViewModel();
+                            detalhe.FormaPagamento = (FormaPagamento)detPag.tPag;
+                            detalhe.Descricao = String.IsNullOrEmpty(detPag.xPag) ? null : detPag.xPag;
+                            detalhe.Valor = detPag.vPag;
+                            pagamento.DetalhePagamento.Add(detalhe);
+                        }
+                    }
+
+                    model.Pagamento.Add(pagamento);
+                }
+            }
 
             return model;
         }
