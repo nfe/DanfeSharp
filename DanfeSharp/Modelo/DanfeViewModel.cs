@@ -340,20 +340,21 @@ namespace DanfeSharp.Modelo
 
         public virtual String TextoReservadoFisco()
         {
-            if (TipoEmissao is FormaEmissao.Normal)
+            string contingencyType = TipoEmissao switch
             {
-                return string.Empty;
-            }
-
-            var contingencyType = TipoEmissao switch             {
+                0 => string.Empty,
+                FormaEmissao.Normal => string.Empty,
                 FormaEmissao.ContingenciaDPEC => "DPEC",
                 FormaEmissao.ContingenciaFSDA => "FSDA",
                 FormaEmissao.ContingenciaFS => "FSIA",
                 FormaEmissao.ContingenciaSVCAN => "SVC-AN",
                 FormaEmissao.ContingenciaSVCRS => "SVC-RS",
                 FormaEmissao.ContingenciaSCAN => "SCAN",
-                _ => throw new NotImplementedException()
+                FormaEmissao.ContingenciaOffLineNFCe => "Off-Line NFCe",
+                _ => throw new InvalidOperationException($"Forma de emissão não suportada para contingência: {TipoEmissao} ({(int)TipoEmissao}).")
             };
+
+            if (string.IsNullOrEmpty(contingencyType)) return string.Empty;
 
             var contingencyDateTime = ContingenciaDataHora?.ToString("yyyy-MM-ddTHH:mm:sszzz");
 
