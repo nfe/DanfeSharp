@@ -340,13 +340,10 @@ namespace DanfeSharp.Modelo
 
         public virtual String TextoReservadoFisco()
         {
-            // Resolve o rótulo da contingência. Valores fora do conjunto conhecido
-            // (incluindo o default 0 do enum, atribuído quando TipoEmissao não é
-            // explicitamente setado) retornam null e o método sai com string vazia
-            // — evita NotImplementedException quando o ViewModel é construído
-            // programaticamente sem definir TipoEmissao.
             string contingencyType = TipoEmissao switch
             {
+                0 => string.Empty,
+                FormaEmissao.Normal => string.Empty,
                 FormaEmissao.ContingenciaDPEC => "DPEC",
                 FormaEmissao.ContingenciaFSDA => "FSDA",
                 FormaEmissao.ContingenciaFS => "FSIA",
@@ -354,10 +351,10 @@ namespace DanfeSharp.Modelo
                 FormaEmissao.ContingenciaSVCRS => "SVC-RS",
                 FormaEmissao.ContingenciaSCAN => "SCAN",
                 FormaEmissao.ContingenciaOffLineNFCe => "Off-Line NFCe",
-                _ => null
+                _ => throw new InvalidOperationException($"Forma de emissão não suportada para contingência: {TipoEmissao} ({(int)TipoEmissao}).")
             };
 
-            if (contingencyType == null) return string.Empty;
+            if (string.IsNullOrEmpty(contingencyType)) return string.Empty;
 
             var contingencyDateTime = ContingenciaDataHora?.ToString("yyyy-MM-ddTHH:mm:sszzz");
 
