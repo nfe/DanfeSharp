@@ -266,7 +266,7 @@ namespace DanfeSharp.Modelo
                 throw new Exception("Modelo da nota difere de 65");
             }
 
-            if (ide.tpEmis != FormaEmissao.Normal && ide.tpEmis != FormaEmissao.ContingenciaDPEC && ide.tpEmis != FormaEmissao.ContingenciaFSDA && ide.tpEmis != FormaEmissao.ContingenciaSVCAN && ide.tpEmis != FormaEmissao.ContingenciaSVCRS)
+            if (ide.tpEmis != FormaEmissao.Normal && ide.tpEmis != FormaEmissao.ContingenciaDPEC && ide.tpEmis != FormaEmissao.ContingenciaFSDA && ide.tpEmis != FormaEmissao.ContingenciaSVCAN && ide.tpEmis != FormaEmissao.ContingenciaSVCRS && ide.tpEmis != FormaEmissao.ContingenciaOffLineNFCe)
             {
                 throw new Exception("Somente o tpEmis==1 está implementado.");
             }
