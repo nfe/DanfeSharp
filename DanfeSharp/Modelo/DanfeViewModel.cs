@@ -368,6 +368,7 @@ namespace DanfeSharp.Modelo
                 FormaEmissao.ContingenciaSVCAN => "SVC-AN",
                 FormaEmissao.ContingenciaSVCRS => "SVC-RS",
                 FormaEmissao.ContingenciaSCAN => "SCAN",
+                FormaEmissao.ContingenciaOffLineNFCe => "OFF-LINE NFC-e",
                 _ => throw new NotImplementedException()
             };
 
