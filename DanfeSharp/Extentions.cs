@@ -206,6 +206,19 @@ namespace DanfeSharp
             return value;
         }
 
+        /// <summary>
+        /// URL de consulta pela chave de acesso da NF-e mod. 55 (DANFE Simplificado
+        /// Tipo 2, NT 2026.003 Divisão IV). O portal nacional atende a consulta de
+        /// qualquer UF; substituir por tabela por UF quando a SEFAZ publicar material
+        /// oficial com URLs próprias.
+        /// </summary>
+        public static string UrlNFeConsulta(this string state, int tipoAmbiente)
+        {
+            return tipoAmbiente == 2
+                ? "www.homologacao.nfe.fazenda.gov.br/portal/consultaRecaptcha.aspx"
+                : "www.nfe.fazenda.gov.br/portal/consultaRecaptcha.aspx";
+        }
+
         public static string UrlNFCeTest(this string state)
         {
             var stateDictionary = new Dictionary<string, string>
