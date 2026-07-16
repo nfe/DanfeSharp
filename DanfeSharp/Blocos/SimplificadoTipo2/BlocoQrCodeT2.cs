@@ -1,6 +1,7 @@
 using DanfeSharp.Modelo;
 using org.pdfclown.documents;
 using org.pdfclown.documents.contents.composition;
+using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -19,6 +20,31 @@ namespace DanfeSharp.Blocos.SimplificadoTipo2
         // centralização na largura de 280 pt.
         private const float TamanhoQrCode = 120;
 
+        private static readonly ImageCodecInfo JpegEncoder = ObterJpegEncoder();
+
+        private static Bitmap GerarQrCodeOuFalhar(string qrCode)
+        {
+            try
+            {
+                return GerarQrCode.GerarQRCode(qrCode);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException("Falha ao gerar o QR Code da Divisão V a partir do conteúdo de DanfeViewModel.QrCode.", ex);
+            }
+        }
+
+        private static ImageCodecInfo ObterJpegEncoder()
+        {
+            foreach (var codec in ImageCodecInfo.GetImageEncoders())
+            {
+                if (codec.FormatID == ImageFormat.Jpeg.Guid)
+                    return codec;
+            }
+
+            return null;
+        }
+
         public BlocoQrCodeT2(DanfeViewModel viewModel, Estilo estilo, PrimitiveComposer primitiveComposer, float y, Document context) : base(estilo)
         {
             if (string.IsNullOrWhiteSpace(viewModel.QrCode))
@@ -35,9 +61,13 @@ namespace DanfeSharp.Blocos.SimplificadoTipo2
             Y_NFC += 10;
 
             using (var result = new MemoryStream())
-            {
-                var bitmap = GerarQrCode.GerarQRCode(viewModel.QrCode);
-                bitmap.Save(result, ImageFormat.Jpeg);
+            {                
+                using (var bitmap = GerarQrCodeOuFalhar(viewModel.QrCode))
+                using (var encoderParams = new EncoderParameters(1))
+                {
+                    encoderParams.Param[0] = new EncoderParameter(Encoder.Quality, 100L);
+                    bitmap.Save(result, JpegEncoder, encoderParams);
+                }
                 result.Position = 0;
 
                 var image = org.pdfclown.documents.contents.entities.Image.Get(result);

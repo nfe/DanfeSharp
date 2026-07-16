@@ -38,7 +38,7 @@ namespace DanfeSharp.Test
                 TipoEmissao = FormaEmissao.Normal,
                 ProtocoloAutorizacao = "135260000012345 01/07/2026 10:30:00",
                 DataHoraEmissao = new DateTime(2026, 7, 1, 10, 15, 0),
-                EndConsulta = "SP".UrlNFeConsulta(1),
+                EndConsulta = Extentions.UrlNFeConsulta(1),
                 Emitente = new EmpresaViewModel
                 {
                     CnpjCpf = "07952851000109",
@@ -143,6 +143,21 @@ namespace DanfeSharp.Test
             StringAssert.Contains(texto, "07.952.851/0001-09");
         }
 
+        [TestMethod]
+        public void DivisaoI_RazaoSocialLonga_QuebraEmDuasLinhasSemPerderConteudo()
+        {
+            var model = CriarViewModelTipo2();
+            var razaoSocial = "Supermercado Estrela do Vale do Paraíba Comércio de Alimentos Ltda";
+            model.Emitente.RazaoSocial = razaoSocial;
+
+            var texto = ExtrairTextoPdf(GerarPdfETexto(model, "DivisaoI_RazaoSocialLonga.pdf"));
+
+            StringAssert.Contains(texto, razaoSocial.Substring(0, 39).Trim());
+            StringAssert.Contains(texto, razaoSocial.Substring(39).Trim());
+            Assert.IsFalse(texto.Contains(razaoSocial),
+                "Razão social > 39 caracteres deve ser quebrada em 2 linhas.");
+        }
+
         // === Divisões II e III — Produtos e Totais ===
 
         [TestMethod]
@@ -152,6 +167,35 @@ namespace DanfeSharp.Test
 
             StringAssert.Contains(texto, "Arroz Tipo 1 5kg");
             StringAssert.Contains(texto, "QTD. TOTAL DE ITENS");
+        }
+
+        [TestMethod]
+        public void DivisaoII_CodigoEDescricaoLongos_SaoTruncados()
+        {
+            var model = CriarViewModelTipo2();
+            model.Produtos[0].Codigo = "COD4567890123456";
+            model.Produtos[0].Descricao = "Descrição de produto longa o suficiente para passar de quarenta caracteres";
+
+            var texto = ExtrairTextoPdf(GerarPdfETexto(model, "DivisaoII_CodigoDescricaoLongos.pdf"));
+
+            StringAssert.Contains(texto, "COD4567890");
+            Assert.IsFalse(texto.Contains("COD45678901"), "Código deve ser truncado em 10 caracteres.");
+            StringAssert.Contains(texto, model.Produtos[0].Descricao.Substring(0, 40).Trim());
+            Assert.IsFalse(texto.Contains(model.Produtos[0].Descricao),
+                "Descrição deve ser truncada em 40 caracteres.");
+        }
+
+        [TestMethod]
+        public void DivisaoII_CodigoEDescricaoNulos_GeraSemExcecao()
+        {
+            var model = CriarViewModelTipo2();
+            model.Produtos[0].Codigo = null;
+            model.Produtos[0].Descricao = null;
+
+            var path = GerarPdfETexto(model, "DivisaoII_CodigoDescricaoNulos.pdf");
+
+            Assert.IsTrue(File.Exists(path));
+            Assert.IsTrue(new FileInfo(path).Length > 0);
         }
 
         [TestMethod]
@@ -262,6 +306,19 @@ namespace DanfeSharp.Test
                 "Sem conteúdo de QR o bloco deve ser omitido, sem erro.");
         }
 
+        [TestMethod]
+        public void DivisaoV_QrCodeAcimaDaCapacidade_LancaExcecaoComContexto()
+        {
+            var model = CriarViewModelTipo2();
+            model.QrCode = new string('A', 8000); // acima da capacidade máxima de um QR
+
+            using (var danfe = new DanfeSimplificadoTipo2(model))
+            {
+                var ex = Assert.ThrowsException<InvalidOperationException>(() => danfe.Gerar());
+                Assert.IsNotNull(ex.InnerException, "A exceção original deve ser preservada como InnerException.");
+            }
+        }
+
         // === Divisão VI — Consumidor ===
 
         [TestMethod]
@@ -282,6 +339,19 @@ namespace DanfeSharp.Test
             var texto = ExtrairTextoPdf(GerarPdfETexto(model, "DivisaoVI_ConsumidorCnpj.pdf"));
 
             StringAssert.Contains(texto, "CONSUMIDOR CNPJ:");
+        }
+
+        [TestMethod]
+        public void DivisaoVI_NomeConsumidorLongo_TruncadoEmSessentaCaracteres()
+        {
+            var model = CriarViewModelTipo2();
+            var nome = "Maria Aparecida dos Santos e Silva de Oliveira Albuquerque Nascimento";
+            model.Destinatario.RazaoSocial = nome;
+
+            var texto = ExtrairTextoPdf(GerarPdfETexto(model, "DivisaoVI_NomeLongo.pdf"));
+
+            StringAssert.Contains(texto, nome.Substring(0, 60).Trim());
+            Assert.IsFalse(texto.Contains(nome), "Nome do consumidor deve ser truncado em 60 caracteres.");
         }
 
         [TestMethod]
@@ -382,6 +452,25 @@ namespace DanfeSharp.Test
             StringAssert.Contains(texto, "LEI 12.741/2012");
             StringAssert.Contains(texto, "Obrigado pela preferência!");
             StringAssert.Contains(texto, "Documento emitido conforme NT 2026.003.");
+        }
+
+        [TestMethod]
+        public void DivisaoIX_InformacoesComplementaresLongas_SemTruncamento()
+        {
+            var model = CriarViewModelTipo2();
+
+            // 25 tokens de 11 chars = 275 chars → 4 linhas de 80; o conteúdo além
+            // dos 160 chars (2 linhas) não pode ser descartado (fidelidade ao XML).
+            var sb = new StringBuilder();
+            for (int i = 0; i < 25; i++)
+                sb.Append($"MSG{i:D2}-XYZW ");
+            model.InformacoesComplementares = sb.ToString().TrimEnd();
+
+            var texto = ExtrairTextoPdf(GerarPdfETexto(model, "DivisaoIX_InfCplLonga.pdf"));
+
+            StringAssert.Contains(texto, "MSG00");
+            StringAssert.Contains(texto, "MSG24",
+                "Conteúdo de infCpl além de 160 caracteres deve continuar impresso.");
         }
 
         // === Smoke de altura dinâmica ===

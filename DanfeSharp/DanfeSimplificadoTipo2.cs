@@ -44,7 +44,7 @@ namespace DanfeSharp
             // nacional da NF-e, válida para qualquer UF.
             if (string.IsNullOrWhiteSpace(viewModel.EndConsulta))
             {
-                viewModel.EndConsulta = (viewModel.Emitente?.EnderecoUf).UrlNFeConsulta(viewModel.TipoAmbiente);
+                viewModel.EndConsulta = Extentions.UrlNFeConsulta(viewModel.TipoAmbiente);
             }
 
             File = new File();
@@ -99,15 +99,21 @@ namespace DanfeSharp
             altura += 60;                                    // Divisão VII — identificação
 
             if (!string.IsNullOrWhiteSpace(viewModel.InformacoesAdicionaisFisco))
-                altura += 30;                                // Divisão VIII — infAdFisco
+                altura += AlturaTextoQuebrado(viewModel.InformacoesAdicionaisFisco); // Divisão VIII — infAdFisco
 
             if (viewModel.CalculoImposto.ValorAproximadoTributos > 0)
                 altura += 40;                                // Divisão IX — Lei 12.741
 
             if (!string.IsNullOrWhiteSpace(viewModel.InformacoesComplementares))
-                altura += 30;                                // Divisão IX — infCpl
+                altura += AlturaTextoQuebrado(viewModel.InformacoesComplementares);  // Divisão IX — infCpl
 
             return altura + 30;                              // folga final
+        }
+
+        // Espelha BlocoMensagensT2.MostrarTextoQuebrado: 10pt por linha de até MaxLength caracteres, mais folga.
+        private static float AlturaTextoQuebrado(string texto)
+        {
+            return 10 + 10 * (float)Math.Ceiling(texto.Length / (double)BlocoMensagensT2.MaxLength);
         }
 
         private void AdicionarMetadata()
@@ -184,7 +190,7 @@ namespace DanfeSharp
 
         public void Salvar(String path)
         {
-            if (String.IsNullOrWhiteSpace(path)) throw new ArgumentException(nameof(path));
+            if (String.IsNullOrWhiteSpace(path)) throw new ArgumentException("O caminho do arquivo não pode ser vazio.", nameof(path));
 
             File.Save(path, SerializationModeEnum.Incremental);
         }

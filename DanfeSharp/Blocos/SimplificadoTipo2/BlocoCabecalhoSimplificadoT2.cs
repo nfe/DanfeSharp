@@ -1,5 +1,6 @@
 using DanfeSharp.Modelo;
 using org.pdfclown.documents.contents.composition;
+using System;
 using System.Drawing;
 
 namespace DanfeSharp.Blocos.SimplificadoTipo2
@@ -27,8 +28,8 @@ namespace DanfeSharp.Blocos.SimplificadoTipo2
             if (razaoSocial.Length > 39)
             {
                 primitiveComposer.ShowText(razaoSocial.Substring(0, 39), new PointF(140, y), XAlignmentEnum.Center, YAlignmentEnum.Top, 0);
-                y += 10;
-                primitiveComposer.ShowText(razaoSocial.Substring(39), new PointF(140, y), XAlignmentEnum.Center, YAlignmentEnum.Top, 0);
+                y += 10;                
+                primitiveComposer.ShowText(razaoSocial.Substring(39, Math.Min(39, razaoSocial.Length - 39)), new PointF(140, y), XAlignmentEnum.Center, YAlignmentEnum.Top, 0);
             }
             else
             {

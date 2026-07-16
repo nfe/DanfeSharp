@@ -39,9 +39,12 @@ namespace DanfeSharp.Blocos.SimplificadoTipo2
             {
                 Y_NFC += 10;
 
-                primitiveComposer.ShowText(produto.Codigo.Length > 15 ? produto.Codigo.Substring(0, 10) : produto.Codigo,
+                var codigo = produto.Codigo ?? string.Empty;
+                var descricao = produto.Descricao ?? string.Empty;
+
+                primitiveComposer.ShowText(codigo.Length > 10 ? codigo.Substring(0, 10) : codigo,
                     new PointF(65, Y_NFC), XAlignmentEnum.Right, YAlignmentEnum.Middle, 0);
-                primitiveComposer.ShowText(produto.Descricao.Length > 40 ? produto.Descricao.Substring(0, 40) : produto.Descricao,
+                primitiveComposer.ShowText(descricao.Length > 40 ? descricao.Substring(0, 40) : descricao,
                     new PointF(70, Y_NFC), XAlignmentEnum.Left, YAlignmentEnum.Middle, 0);
 
                 Y_NFC += 10;

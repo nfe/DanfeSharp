@@ -11,7 +11,7 @@ namespace DanfeSharp.Blocos.SimplificadoTipo2
     /// </summary>
     internal class BlocoMensagensT2 : ElementoBase
     {
-        private const int MaxLength = 80;
+        internal const int MaxLength = 80;
 
         public BlocoMensagensT2(DanfeViewModel viewModel, Estilo estilo, PrimitiveComposer primitiveComposer, float y) : base(estilo)
         {
@@ -48,22 +48,12 @@ namespace DanfeSharp.Blocos.SimplificadoTipo2
             primitiveComposer.End();
         }
 
-        // Quebra o texto em linhas de até MaxLength caracteres (máx. 2, como no cupom
-        // NFC-e), centralizadas.
         private void MostrarTextoQuebrado(PrimitiveComposer primitiveComposer, string texto)
         {
-            Y_NFC += 10;
-
-            if (texto.Length > MaxLength)
+            for (int i = 0; i < texto.Length; i += MaxLength)
             {
-                primitiveComposer.ShowText(texto.Substring(0, MaxLength), new PointF(140, Y_NFC), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
-
                 Y_NFC += 10;
-                primitiveComposer.ShowText(texto.Substring(MaxLength, Math.Min(texto.Length - MaxLength, MaxLength)), new PointF(140, Y_NFC), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
-            }
-            else
-            {
-                primitiveComposer.ShowText(texto, new PointF(140, Y_NFC), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
+                primitiveComposer.ShowText(texto.Substring(i, Math.Min(MaxLength, texto.Length - i)), new PointF(140, Y_NFC), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
             }
         }
     }

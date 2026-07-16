@@ -331,13 +331,6 @@ namespace DanfeSharp.Modelo
         public TributosIbsCbsViewModel TributosIbsCbs { get; set; }
 
         /// <summary>
-        /// Operação não presencial (indPres diferente de 1 e 5) — na NT 2026.003 a
-        /// identificação do consumidor (Divisão VI) é obrigatória nesses casos.
-        /// A validação acontece na emissão; aqui apenas informa o renderer.
-        /// </summary>
-        public bool OperacaoNaoPresencial { get; set; }
-
-        /// <summary>
         /// Soma dos valores pagos (vPag) de todas as formas de pagamento.
         /// </summary>
         public decimal ValorPagoTotal
