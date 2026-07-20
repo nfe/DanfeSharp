@@ -38,7 +38,7 @@ namespace DanfeSharp.Test
                 TipoEmissao = FormaEmissao.Normal,
                 ProtocoloAutorizacao = "135260000012345 01/07/2026 10:30:00",
                 DataHoraEmissao = new DateTime(2026, 7, 1, 10, 15, 0),
-                EndConsulta = Extentions.UrlNFeConsulta(1),
+                EndConsulta = DanfeSharp.Extentions.UrlNFeConsulta(1),
                 Emitente = new EmpresaViewModel
                 {
                     CnpjCpf = "07952851000109",
