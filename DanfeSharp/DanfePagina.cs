@@ -25,18 +25,25 @@ namespace DanfeSharp
             Danfe = danfe ?? throw new ArgumentNullException(nameof(danfe));
             PdfPage = new Page(Danfe.PdfDocument);
             Danfe.PdfDocument.Pages.Add(PdfPage);
-         
+
+            if (Danfe.ViewModel.Orientacao == Orientacao.Retrato)
+                Retangulo = new RectangleF(0, 0, Constantes.A4Largura, Constantes.A4Altura);
+            else
+                Retangulo = new RectangleF(0, 0, Constantes.A4Altura, Constantes.A4Largura);
+
+            // IMPORTANTE: o tamanho da página precisa ser definido ANTES de instanciar o
+            // PrimitiveComposer. O pdfclown captura a altura da página (usada no flip do eixo Y
+            // para origem no topo-esquerdo) no momento da construção do composer. Se o composer
+            // for criado com o tamanho default (A4 retrato, 297mm) e a página só for redimensionada
+            // para paisagem (210mm) depois, todo o conteúdo fica deslocado ~87mm para cima e o
+            // cabeçalho sai da página. Ver DanfeEventoPagina para o mesmo cuidado.
+            PdfPage.Size = new SizeF(Retangulo.Width.ToPoint(), Retangulo.Height.ToPoint());
+
             PrimitiveComposer = new PrimitiveComposer(PdfPage);
             Gfx = new Gfx(PrimitiveComposer);
 
-            if (Danfe.ViewModel.Orientacao == Orientacao.Retrato)            
-                Retangulo = new RectangleF(0, 0, Constantes.A4Largura, Constantes.A4Altura);            
-            else            
-                Retangulo = new RectangleF(0, 0, Constantes.A4Altura, Constantes.A4Largura);
-            
             RetanguloDesenhavel = Retangulo.InflatedRetangle(Danfe.ViewModel.Margem);
             RetanguloCreditos = new RectangleF(RetanguloDesenhavel.X, RetanguloDesenhavel.Bottom + Danfe.EstiloPadrao.PaddingSuperior, RetanguloDesenhavel.Width, Retangulo.Height - RetanguloDesenhavel.Height - Danfe.EstiloPadrao.PaddingSuperior);
-            PdfPage.Size = new SizeF(Retangulo.Width.ToPoint(), Retangulo.Height.ToPoint());    
         }
 
         public void DesenharCreditos(string creditos)

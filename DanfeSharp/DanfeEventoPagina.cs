@@ -17,17 +17,21 @@ namespace DanfeSharp
             PdfPage = new Page(Danfe.PdfDocument);
             Danfe.PdfDocument.Pages.Add(PdfPage);
 
-            PrimitiveComposer = new PrimitiveComposer(PdfPage);
-            Gfx = new Gfx(PrimitiveComposer);
-
             if (Danfe.ViewModel.Orientacao == Orientacao.Retrato)
                 Retangulo = new RectangleF(0, 0, Constantes.A4Largura, Constantes.A4Altura);
             else
                 Retangulo = new RectangleF(0, 0, Constantes.A4Altura, Constantes.A4Largura);
 
+            // O tamanho da página precisa ser definido ANTES de instanciar o PrimitiveComposer
+            // (o pdfclown captura a altura da página para o flip do eixo Y na construção).
+            // Ver DanfePagina para o detalhe do bug em paisagem.
+            PdfPage.Size = new SizeF(Retangulo.Width.ToPoint(), Retangulo.Height.ToPoint());
+
+            PrimitiveComposer = new PrimitiveComposer(PdfPage);
+            Gfx = new Gfx(PrimitiveComposer);
+
             RetanguloDesenhavel = Retangulo.InflatedRetangle(Danfe.ViewModel.Margem);
             RetanguloCreditos = new RectangleF(RetanguloDesenhavel.X, RetanguloDesenhavel.Bottom + Danfe.EstiloPadrao.PaddingSuperior, RetanguloDesenhavel.Width, Retangulo.Height - RetanguloDesenhavel.Height - Danfe.EstiloPadrao.PaddingSuperior);
-            PdfPage.Size = new SizeF(Retangulo.Width.ToPoint(), Retangulo.Height.ToPoint());
         }
 
         #endregion
