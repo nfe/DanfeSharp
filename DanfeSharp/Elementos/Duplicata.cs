@@ -1,10 +1,19 @@
-﻿using DanfeSharp.Graphics;
+﻿using System;
+using System.Drawing;
+using DanfeSharp.Graphics;
 using DanfeSharp.Modelo;
-using System;
 
 namespace DanfeSharp
 {
-	[AlturaFixa]
+    /// <summary>
+    /// Elemento que desenha uma duplicata do quadro "FATURA / DUPLICATA" da DANFE.
+    /// Layout: 3 colunas horizontais lado a lado (Número | Vencimento | Valor),
+    /// cada coluna com label em cima e valor abaixo — segue o mesmo padrão visual
+    /// do <c>BlocoCalculoImposto</c> e demais blocos com campos. Antes desta change
+    /// os 3 campos ficavam empilhados verticalmente dentro de uma única coluna —
+    /// reportado pelo cliente Revenda Mais durante revisão do PR #42.
+    /// </summary>
+    [AlturaFixa]
     internal class Duplicata : ElementoBase
     {
         public Fonte FonteA { get; private set; }
@@ -28,18 +37,20 @@ namespace DanfeSharp
 
             String[] valores = { ViewModel.Numero, ViewModel.Vecimento.Formatar(), ViewModel.Valor.FormatarMoeda() };
 
+            float colWidth = r.Width / Chaves.Length;
+
             for (int i = 0; i < Chaves.Length; i++)
             {
-                gfx.DrawString(Chaves[i], r, FonteA, AlinhamentoHorizontal.Esquerda);
-                gfx.DrawString(valores[i], r, FonteB, AlinhamentoHorizontal.Direita);
-                r = r.CutTop(FonteB.AlturaLinha);
-            }    
-
+                var colR = new RectangleF(r.X + i * colWidth, r.Y, colWidth, r.Height);
+                gfx.DrawString(Chaves[i], colR, FonteA, AlinhamentoHorizontal.Esquerda);
+                var valR = colR.CutTop(FonteA.AlturaLinha);
+                gfx.DrawString(valores[i], valR, FonteB, AlinhamentoHorizontal.Esquerda);
+            }
         }
 
-        public override float Height 
+        public override float Height
         {
-            get => 3*FonteB.AlturaLinha + Estilo.PaddingSuperior + Estilo.PaddingInferior;
+            get => 2 * FonteB.AlturaLinha + Estilo.PaddingSuperior + Estilo.PaddingInferior;
             set => throw new NotSupportedException();
         }
     }

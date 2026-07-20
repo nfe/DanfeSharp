@@ -220,6 +220,22 @@ namespace DanfeSharp.Modelo
         public int? CodigoStatusReposta { get; set; }
 
         /// <summary>
+        /// <para>Sinaliza que a NF-e foi cancelada — quando <c>true</c>, a DANFE
+        /// renderiza marca d'água "DOCUMENTO CANCELADO" centralizada em todas
+        /// as páginas.</para>
+        /// <para>Como o cancelamento em NF-e modelo 55 acontece via evento
+        /// separado (NFeProcEvento, <c>tpEvento=110111</c>) e NÃO altera o
+        /// <c>cStat</c> do XML da NF-e original (que permanece 100 — Autorizado),
+        /// o consumer DEVE setar essa flag explicitamente com base no estado
+        /// real do sistema (banco de dados / histórico de eventos), não no XML
+        /// carregado.</para>
+        /// <para>Como fallback, o renderer também desenha a marca quando
+        /// <see cref="CodigoStatusReposta"/> == 101 (cobre cenário raro onde
+        /// o XML carregado já reflete o cancelamento).</para>
+        /// </summary>
+        public bool IsCancelled { get; set; }
+
+        /// <summary>
         /// Descrição do status da resposta, xMotivo, do elemento infProt.
         /// </summary>
         public String DescricaoStatusReposta { get; set; }
@@ -297,6 +313,56 @@ namespace DanfeSharp.Modelo
         /// <para> Justificativa da entrada em contingência - xJust
         /// </summary>
         public string ContingenciaJustificativa { get; set; }
+
+        /// <summary>
+        /// Emitida em contingência e ainda sem protocolo de autorização — gatilho
+        /// das mensagens "EMITIDA EM CONTINGÊNCIA / Pendente de autorização" e da
+        /// segunda via no DANFE Simplificado Tipo 2 (NT 2026.003, Divisão VIII).
+        /// </summary>
+        public bool PendenteAutorizacao => TipoEmissao != FormaEmissao.Normal && String.IsNullOrWhiteSpace(ProtocoloAutorizacao);
+        #endregion
+
+        #region DANFE Simplificado Tipo 2 (NT 2026.003)
+
+        /// <summary>
+        /// Totais IBS/CBS/IS (grupo IBSCBSTot) — Divisão III-A do DANFE Simplificado
+        /// Tipo 2. Nulo quando o XML não tem o grupo (divisão omitida).
+        /// </summary>
+        public TributosIbsCbsViewModel TributosIbsCbs { get; set; }
+
+        /// <summary>
+        /// Soma dos valores pagos (vPag) de todas as formas de pagamento.
+        /// </summary>
+        public decimal ValorPagoTotal
+        {
+            get
+            {
+                decimal total = 0;
+                foreach (var pagamento in Pagamento)
+                {
+                    if (pagamento.DetalhePagamento == null) continue;
+                    foreach (var detalhe in pagamento.DetalhePagamento)
+                        total += detalhe.Valor;
+                }
+                return total;
+            }
+        }
+
+        /// <summary>
+        /// Soma do troco (vTroco) — a Divisão III imprime a linha TROCO sempre,
+        /// ainda que 0,00.
+        /// </summary>
+        public decimal TrocoTotal
+        {
+            get
+            {
+                decimal total = 0;
+                foreach (var pagamento in Pagamento)
+                    total += pagamento.Troco ?? 0;
+                return total;
+            }
+        }
+
         #endregion
 
         public DanfeViewModel()
@@ -352,6 +418,7 @@ namespace DanfeSharp.Modelo
                 FormaEmissao.ContingenciaSVCAN => "SVC-AN",
                 FormaEmissao.ContingenciaSVCRS => "SVC-RS",
                 FormaEmissao.ContingenciaSCAN => "SCAN",
+                FormaEmissao.ContingenciaOffLineNFCe => "OFF-LINE NFC-e",
                 _ => throw new NotImplementedException()
             };
 

@@ -27,6 +27,14 @@ namespace DanfeSharp.Modelo
         public FormaPagamento FormaPagamento { get; set; }
 
         /// <summary>
+        /// <para>Descrição livre da forma de pagamento (tag xPag).</para>
+        /// <para>Quando preenchida, prevalece sobre a descrição padrão do enum
+        /// <see cref="FormaPagamento"/> na renderização da DANFE. Obrigatória
+        /// quando <see cref="FormaPagamento"/> = <see cref="FormaPagamento.fpOutro"/>.</para>
+        /// </summary>
+        public string Descricao { get; set; }
+
+        /// <summary>
         /// Valor do Pagamento (vPag)
         /// </summary>
         public decimal Valor { get; set; }
