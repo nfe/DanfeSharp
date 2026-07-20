@@ -60,7 +60,7 @@ namespace DanfeSharp.Test
             foreach (var pathXml in Directory.EnumerateFiles(pasta, "*.xml"))
             {
                 var model = DanfeEventoViewModelCreator.CriarDeArquivoXml(pathXml);
-                using (DanfeCCC danfe = new DanfeCCC(model))
+                using (DanfeCartaCorrecao danfe = new DanfeCartaCorrecao(model))
                 {
                     danfe.Gerar();
                     danfe.Salvar($"{caminhoOut}/{model.ChaveAcesso}.pdf");
