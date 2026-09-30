@@ -60,6 +60,33 @@ namespace DanfeSharp.Test
             Assert.AreEqual(string.Empty, resultado);
         }
 
+        [TestMethod]
+        public void FormaPagamentoToString_PixEstatico_RetornaDescricao()
+        {
+            Assert.AreEqual("Pagamento Instantâneo (PIX) estático", FormaPagamentoVm.fpPagamentoInstantaneoPIXEstatico.FormaPagamentoToString());
+        }
+
+        [TestMethod]
+        public void FormaPagamentoToString_CreditoEmLoja_RetornaDescricao()
+        {
+            Assert.AreEqual("Crédito em loja", FormaPagamentoVm.fpCreditoEmLoja.FormaPagamentoToString());
+        }
+
+        [TestMethod]
+        public void FormaPagamentoToString_TodosOsMembrosDoEnum_RetornamDescricaoNaoVazia()
+        {
+            foreach (FormaPagamentoVm forma in System.Enum.GetValues(typeof(FormaPagamentoVm)))
+            {
+                Assert.IsFalse(string.IsNullOrEmpty(forma.FormaPagamentoToString()), forma.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void FormaPagamentoToString_ValorInvalido_RetornaOutros()
+        {
+            Assert.AreEqual("Outros", ((FormaPagamentoVm)999).FormaPagamentoToString());
+        }
+
         // === Schema parsing — detPag.xPag deserialization ===
 
         private detPagSchema DeserializarDetPag(string xml)
