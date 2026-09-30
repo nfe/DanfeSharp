@@ -1,4 +1,5 @@
-﻿using org.pdfclown.documents.contents.composition;
+﻿using DanfeSharp.Modelo;
+using org.pdfclown.documents.contents.composition;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -27,6 +28,8 @@ namespace DanfeSharp
             {"fpPagamentoInstantaneoPIX", "Pagamento Instantâneo (PIX)" },
             {"fpTransferenciabancaria", "Transferência bancária, Carteira Digital" },
             {"fpProgramadefidelidade", "Programa de fidelidade, Cashback, Crédito Virtualo" },
+            {"fpPagamentoInstantaneoPIXEstatico", "Pagamento Instantâneo (PIX) estático" },
+            {"fpCreditoEmLoja", "Crédito em loja" },
             {"fpSemPagamento", "Sem pagamento" },
             {"fpPagamentoEletronicoNaoInformado", "Pagamento eletrônico não informado" },
             {"fpOutro", "Outros" }
@@ -149,7 +152,8 @@ namespace DanfeSharp
             if (forma.TryGetValue(value.ToString(), out string result))
                 return result;
 
-            throw new InvalidOperationException();
+            var descricao = value.GetDescricao();
+            return string.IsNullOrEmpty(descricao) ? forma["fpOutro"] : descricao;
         }
 
         public static string SpaceOnAccessKey(this string current)
