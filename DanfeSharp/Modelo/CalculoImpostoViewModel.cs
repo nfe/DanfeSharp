@@ -112,6 +112,13 @@
         public double? ValorAproximadoTributosFederais { get; set; }
         public double? ValorAproximadoTributosEstaduais{ get; set; }
 
+        /// <summary>
+        /// Linhas impressas no bloco da Lei 12.741/2012: o total e, quando informadas, as parcelas
+        /// federal e estadual. Usado para reservar a altura do bloco no cupom.
+        /// </summary>
+        public int LinhasTributosAproximados =>
+            1 + (ValorAproximadoTributosFederais.HasValue ? 1 : 0) + (ValorAproximadoTributosEstaduais.HasValue ? 1 : 0);
+
 
         /// <summary>
         /// <para>Quantidade total de produtos distintos</para>

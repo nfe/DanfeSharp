@@ -102,7 +102,7 @@ namespace DanfeSharp
                 altura += AlturaTextoQuebrado(viewModel.InformacoesAdicionaisFisco); // Divisão VIII — infAdFisco
 
             if (viewModel.CalculoImposto.ValorAproximadoTributos > 0)
-                altura += 40;                                // Divisão IX — Lei 12.741
+                altura += 10 + 10 * viewModel.CalculoImposto.LinhasTributosAproximados; // Divisão IX — Lei 12.741
 
             if (!string.IsNullOrWhiteSpace(viewModel.InformacoesComplementares))
                 altura += AlturaTextoQuebrado(viewModel.InformacoesComplementares);  // Divisão IX — infCpl
