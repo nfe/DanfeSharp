@@ -61,7 +61,7 @@ namespace DanfeSharp
 
             if (viewModel.CalculoImposto.ValorAproximadoTributos > 0)
             {
-                _size.Height += 30;
+                _size.Height += 10 * viewModel.CalculoImposto.LinhasTributosAproximados;
             }
 
             if (!string.IsNullOrWhiteSpace(viewModel.InformacoesComplementares))
