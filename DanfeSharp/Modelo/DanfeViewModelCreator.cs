@@ -378,9 +378,13 @@ namespace DanfeSharp.Modelo
             model.QrCode = nfe.infNFeSupl.qrCode;
 
             // Divisão 9 - Mensagem de Interesse do Contribuinte
-            model.CalculoImposto.ValorAproximadoTributos = infNfe.total.ICMSTot.vICMS + infNfe.total.ICMSTot.vST + infNfe.total.ICMSTot.vII + infNfe.total.ICMSTot.vIPI + infNfe.total.ICMSTot.vPIS + infNfe.total.ICMSTot.vCOFINS;
-            model.CalculoImposto.ValorAproximadoTributosEstaduais = infNfe.total.ICMSTot.vICMS + infNfe.total.ICMSTot.vST;
-            model.CalculoImposto.ValorAproximadoTributosFederais = infNfe.total.ICMSTot.vII + infNfe.total.ICMSTot.vIPI + infNfe.total.ICMSTot.vPIS + infNfe.total.ICMSTot.vCOFINS;
+            // Lei 12.741/2012: o valor aproximado dos tributos é o vTotTrib (W16a) do XML, que o emitente
+            // informa com a carga da cadeia (ex.: tabela IBPT). Não é a soma dos tributos destacados na
+            // nota: o Manual do DANFE NFC-e (v5.1, item 3.1.9.1) diz que o campo tem natureza informativa
+            // e não guarda relação com essa soma. O XML não discrimina o valor por ente (federal,
+            // estadual, municipal), então essas linhas ficam vazias e não são impressas; quem quiser
+            // discriminar informa no infCpl.
+            model.CalculoImposto.ValorAproximadoTributos = infNfe.total.ICMSTot.vTotTrib;
             model.InformacoesComplementares = infNfe.infAdic?.infCpl;
 
             return model;

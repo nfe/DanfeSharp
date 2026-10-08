@@ -35,11 +35,19 @@ namespace DanfeSharp.Blocos.NFC
                 primitiveComposer.ShowText($"CONFORME LEI 12.741/2012 o valor aproximado dos tributos é {viewModel.CalculoImposto.ValorAproximadoTributos.Formatar()}", new PointF(140, Y_NFC), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
                 Y_NFC += 10;
 
-                primitiveComposer.ShowText($"O valor aproximado dos tributos Federais é {viewModel.CalculoImposto.ValorAproximadoTributosFederais.Formatar()}", new PointF(140, Y_NFC), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
-                Y_NFC += 10;
+                // Discriminação por ente só quando informada: o XML não a traz, e imprimir "é " sem
+                // valor confunde o consumidor.
+                if (viewModel.CalculoImposto.ValorAproximadoTributosFederais.HasValue)
+                {
+                    primitiveComposer.ShowText($"O valor aproximado dos tributos Federais é {viewModel.CalculoImposto.ValorAproximadoTributosFederais.Formatar()}", new PointF(140, Y_NFC), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
+                    Y_NFC += 10;
+                }
 
-                primitiveComposer.ShowText($"O valor aproximado dos tributos Estaduais é {viewModel.CalculoImposto.ValorAproximadoTributosEstaduais.Formatar()}", new PointF(140, Y_NFC), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
-                Y_NFC += 10;
+                if (viewModel.CalculoImposto.ValorAproximadoTributosEstaduais.HasValue)
+                {
+                    primitiveComposer.ShowText($"O valor aproximado dos tributos Estaduais é {viewModel.CalculoImposto.ValorAproximadoTributosEstaduais.Formatar()}", new PointF(140, Y_NFC), XAlignmentEnum.Center, YAlignmentEnum.Middle, 0);
+                    Y_NFC += 10;
+                }
             }
 
             if (!string.IsNullOrWhiteSpace(viewModel.InformacoesComplementares))
