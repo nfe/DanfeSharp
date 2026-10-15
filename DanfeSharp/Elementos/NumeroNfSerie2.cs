@@ -75,6 +75,7 @@ namespace DanfeSharp
                 string subtipo = ViewModel.TipoNotaCredito.Value switch
                 {
                     3 => "(Recusa Total / Não Localização)",
+                    4 => "(Redução de Valores)",
                     6 => "(Recusa Parcial)",
                     _ => $"(tpNFCredito={ViewModel.TipoNotaCredito.Value:D2})"
                 };
