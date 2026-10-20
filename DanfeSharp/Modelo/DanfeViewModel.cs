@@ -1,6 +1,7 @@
 ﻿using DanfeSharp.Esquemas.NFe;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -485,6 +486,15 @@ namespace DanfeSharp.Modelo
         }
 
         public Boolean IsRetrato => Orientacao == Orientacao.Retrato;
+
+        /// <summary>
+        /// Leiaute da Reforma Tributária (NT 2026.010): bloco "Total do IBS/CBS/IS", CRT no quadro do emitente e
+        /// tributos do IBS/CBS/IS nos itens. Só para a nota que tem essa informação — a nota sem IBS/CBS/IS
+        /// continua no leiaute anterior.
+        /// </summary>
+        public Boolean ExibirReformaTributaria =>
+            (CalculoImposto != null && CalculoImposto.PossuiTotaisReformaTributaria)
+            || (Produtos != null && Produtos.Any(p => p.PossuiReformaTributaria));
         public Boolean IsPaisagem => Orientacao == Orientacao.Paisagem;
     }
 }

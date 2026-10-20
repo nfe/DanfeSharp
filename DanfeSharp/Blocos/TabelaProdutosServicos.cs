@@ -24,6 +24,12 @@ namespace DanfeSharp.Blocos
             Tabela = new Tabela(Estilo);
             String cabecalho4 = ProdutoViewModel.CalcularCabecalhoColunaIcms(ViewModel.Produtos);
 
+            if (ViewModel.ExibirReformaTributaria)
+            {
+                AdicionarColunasReformaTributaria(cabecalho4, ac, ad, ae);
+                return;
+            }
+
             if (ViewModel.IsRetrato)
             { 
                 Tabela
@@ -87,6 +93,45 @@ namespace DanfeSharp.Blocos
                 };
 
                 Tabela.AdicionarLinha(linha);
+            }
+        }
+
+        /// <summary>
+        /// Quadro "Dados dos Produtos/Serviços" no leiaute da Reforma Tributária (NT 2026.010, item 4.3, modelo de
+        /// referência): NCM e cClassTrib na descrição, CST e CFOP numa célula, e as colunas de bases, alíquotas e
+        /// valores com uma linha por tributo informado no XML (ICMS, IBS UF, IBS Município, CBS, IS, IPI).
+        /// </summary>
+        private void AdicionarColunasReformaTributaria(String cabecalhoCst, AlinhamentoHorizontal ac, AlinhamentoHorizontal ad, AlinhamentoHorizontal ae)
+        {
+            var retrato = ViewModel.IsRetrato;
+
+            Tabela
+                .ComColuna(retrato ? 7F : 6F, ac, "CÓDIGO", "PRODUTO")
+                .ComColuna(0, ae, "DESCRIÇÃO DO PRODUTO / SERVIÇO")
+                .ComColuna(retrato ? 5.5F : 4.5F, ac, cabecalhoCst, "CFOP")
+                .ComColuna(retrato ? 6F : 5F, ad, "QTD.", "UN")
+                .ComColuna(retrato ? 7F : 6F, ad, "VALOR", "UNIT.")
+                .ComColuna(retrato ? 7F : 6F, ad, "VALOR", "TOTAL")
+                .ComColuna(retrato ? 13F : 11F, ad, "BASES DE", "CÁLCULO")
+                .ComColuna(retrato ? 11F : 9F, ad, "ALÍQUOTAS")
+                .ComColuna(retrato ? 13F : 11F, ad, "VALOR DOS", "TRIBUTOS");
+
+            Tabela.AjustarLarguraColunas();
+
+            foreach (var p in ViewModel.Produtos)
+            {
+                Tabela.AdicionarLinha(new List<String>
+                {
+                    p.Codigo,
+                    p.DescricaoReformaTributaria,
+                    p.OCst + "\r\n" + p.Cfop.Formatar("N0"),
+                    p.Quantidade.Formatar() + "\r\n" + p.Unidade,
+                    p.ValorUnitario.Formatar(),
+                    p.ValorTotal.Formatar(),
+                    String.Join("\r\n", p.LinhasBases()),
+                    String.Join("\r\n", p.LinhasAliquotas()),
+                    String.Join("\r\n", p.LinhasValores())
+                });
             }
         }
 

@@ -124,5 +124,39 @@
         /// <para>Quantidade total de produtos distintos</para>
         /// </summary>
         public decimal QuantidadeTotal { get; set; }
+
+        // ---- Bloco "Total do IBS/CBS/IS" (NT 2026.010, item 4.1) ----
+
+        /// <summary>Valor da CBS (vCBS, W56).</summary>
+        public double? ValorCbs { get; set; }
+
+        /// <summary>Valor do IBS UF (vIBSUF, W41).</summary>
+        public double? ValorIbsUf { get; set; }
+
+        /// <summary>Valor do IBS Município (vIBSMun, W46).</summary>
+        public double? ValorIbsMun { get; set; }
+
+        /// <summary>Valor do Imposto Seletivo (vIS, W33).</summary>
+        public double? ValorIs { get; set; }
+
+        /// <summary>Valor do IBS monofásico (vIBSMono, W58). Só com o grupo gMono.</summary>
+        public double? ValorIbsMono { get; set; }
+
+        /// <summary>Valor da CBS monofásica (vCBSMono, W59). Só com o grupo gMono.</summary>
+        public double? ValorCbsMono { get; set; }
+
+        /// <summary>Valor do IBS monofásico por retenção (vIBSMonoReten, W59a). Só com o grupo gMono.</summary>
+        public double? ValorIbsMonoReten { get; set; }
+
+        /// <summary>Valor da CBS monofásica por retenção (vCBSMonoReten, W59b). Só com o grupo gMono.</summary>
+        public double? ValorCbsMonoReten { get; set; }
+
+        /// <summary>A nota tem totais da Reforma Tributária (IBSCBSTot ou ISTot).</summary>
+        public bool PossuiTotaisReformaTributaria =>
+            ValorCbs.HasValue || ValorIbsUf.HasValue || ValorIbsMun.HasValue || ValorIs.HasValue || PossuiMonofasia;
+
+        /// <summary>A nota tem o grupo de monofasia nos totais (gMono, W57).</summary>
+        public bool PossuiMonofasia =>
+            ValorIbsMono.HasValue || ValorCbsMono.HasValue || ValorIbsMonoReten.HasValue || ValorCbsMonoReten.HasValue;
     }
 }

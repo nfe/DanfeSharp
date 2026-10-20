@@ -45,8 +45,15 @@ namespace DanfeSharp.Blocos
                 .ComCampo("Protocolo de autorização", ViewModel.ProtocoloAutorizacao, AlinhamentoHorizontal.Centro)
                 .ComLarguras(0, 46.5F);
 
-            AdicionarLinhaCampos()
-                .ComCampo("Inscrição Estadual", ViewModel.Emitente.Ie, AlinhamentoHorizontal.Centro)
+            var linhaInscricoes = AdicionarLinhaCampos()
+                .ComCampo("Inscrição Estadual", ViewModel.Emitente.Ie, AlinhamentoHorizontal.Centro);
+
+            // NT 2026.010 (item 4.2): Código do Regime Tributário no quadro do emitente. O "Tipo de Regime de
+            // Apuração do IBS e da CBS" ainda não tem tag publicada: campo reservado, não impresso (item 4.4).
+            if (ViewModel.ExibirReformaTributaria)
+                linhaInscricoes.ComCampo("Código do Regime Tributário", Formatador.FormatarCrt(ViewModel.Emitente.CRT), AlinhamentoHorizontal.Centro);
+
+            linhaInscricoes
                 .ComCampo("Inscrição Estadual do Subst. Tributário", ViewModel.Emitente.IeSt, AlinhamentoHorizontal.Centro)
                 .ComCampo("Cnpj", Formatador.FormatarCnpj(ViewModel.Emitente.CnpjCpf), AlinhamentoHorizontal.Centro)
                 .ComLargurasIguais();

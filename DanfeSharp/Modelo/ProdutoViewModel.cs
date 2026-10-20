@@ -167,6 +167,102 @@ namespace DanfeSharp.Modelo
         /// </summary>
         public int? NumeroItemReferenciado { get; set; }
 
+        /// <summary>
+        /// <para>Base de cálculo do IPI</para>
+        /// <para>Tag IPITrib/vBC</para>
+        /// </summary>
+        public double? BaseIpi { get; set; }
+
+        // ---- Reforma Tributária (NT 2026.010, item 4.3) ----
+
+        /// <summary>Código de Classificação Tributária do IBS/CBS (cClassTrib, UB14).</summary>
+        public String ClassificacaoTributaria { get; set; }
+
+        /// <summary>Base de cálculo do IBS/CBS (gIBSCBS/vBC, UB16).</summary>
+        public double? BaseIbsCbs { get; set; }
+
+        /// <summary>Alíquota do IBS UF impressa: a efetiva (gRed/pAliqEfet) quando houver redução; senão pIBSUF.</summary>
+        public double? AliquotaIbsUf { get; set; }
+
+        /// <summary>Valor do IBS UF (vIBSUF, UB35).</summary>
+        public double? ValorIbsUf { get; set; }
+
+        /// <summary>Alíquota do IBS Município impressa: a efetiva quando houver redução; senão pIBSMun.</summary>
+        public double? AliquotaIbsMun { get; set; }
+
+        /// <summary>Valor do IBS Município (vIBSMun, UB54).</summary>
+        public double? ValorIbsMun { get; set; }
+
+        /// <summary>Alíquota da CBS impressa: a efetiva quando houver redução; senão pCBS.</summary>
+        public double? AliquotaCbs { get; set; }
+
+        /// <summary>Valor da CBS (vCBS, UB67).</summary>
+        public double? ValorCbs { get; set; }
+
+        /// <summary>Base de cálculo do Imposto Seletivo (vBCIS, UB05).</summary>
+        public double? BaseIs { get; set; }
+
+        /// <summary>Alíquota do Imposto Seletivo (pIS, UB06).</summary>
+        public double? AliquotaIs { get; set; }
+
+        /// <summary>Valor do Imposto Seletivo (vIS, UB11).</summary>
+        public double? ValorIs { get; set; }
+
+        /// <summary>O item tem informação da Reforma Tributária para o DANFE (IBS/CBS ou IS).</summary>
+        public Boolean PossuiReformaTributaria =>
+            !String.IsNullOrWhiteSpace(ClassificacaoTributaria) || BaseIbsCbs.HasValue || BaseIs.HasValue || ValorIs.HasValue;
+
+        /// <summary>
+        /// Descrição do item no leiaute da Reforma Tributária: a descrição completa seguida de NCM e
+        /// cClassTrib (modelo de referência da NT 2026.010).
+        /// </summary>
+        public String DescricaoReformaTributaria
+        {
+            get
+            {
+                var marcadores = new List<String>();
+                if (!String.IsNullOrWhiteSpace(Ncm)) marcadores.Add($"[NCM {Ncm}]");
+                if (!String.IsNullOrWhiteSpace(ClassificacaoTributaria)) marcadores.Add($"[cClassTrib {ClassificacaoTributaria}]");
+
+                return marcadores.Count == 0 ? DescricaoCompleta : DescricaoCompleta + "\r\n" + String.Join(" ", marcadores);
+            }
+        }
+
+        /// <summary>
+        /// Linhas "tributo valor" das colunas de base, alíquota e valor do leiaute da Reforma Tributária. Só
+        /// entra o tributo com informação no XML: a NT 2026.010 (item 4.4) veda imprimir informação inexistente.
+        /// </summary>
+        public IEnumerable<String> LinhasBases()
+        {
+            yield return Linha("ICMS", BaseIcms);
+            if (BaseIcmsST.HasValue && BaseIcmsST.Value > 0) yield return Linha("ICMS ST", BaseIcmsST);
+            if (BaseIbsCbs.HasValue) yield return Linha("IBS/CBS", BaseIbsCbs);
+            if (BaseIs.HasValue) yield return Linha("IS", BaseIs);
+            if (BaseIpi.HasValue) yield return Linha("IPI", BaseIpi);
+        }
+
+        public IEnumerable<String> LinhasAliquotas()
+        {
+            yield return Linha("ICMS", AliquotaIcms, "%");
+            if (AliquotaIbsUf.HasValue) yield return Linha("IBS UF", AliquotaIbsUf, "%");
+            if (AliquotaIbsMun.HasValue) yield return Linha("IBS MUN", AliquotaIbsMun, "%");
+            if (AliquotaCbs.HasValue) yield return Linha("CBS", AliquotaCbs, "%");
+            if (AliquotaIs.HasValue) yield return Linha("IS", AliquotaIs, "%");
+            if (AliquotaIpi.HasValue) yield return Linha("IPI", AliquotaIpi, "%");
+        }
+
+        public IEnumerable<String> LinhasValores()
+        {
+            yield return Linha("ICMS", ValorIcms);
+            if (ValorIbsUf.HasValue) yield return Linha("IBS UF", ValorIbsUf);
+            if (ValorIbsMun.HasValue) yield return Linha("IBS MUN", ValorIbsMun);
+            if (ValorCbs.HasValue) yield return Linha("CBS", ValorCbs);
+            if (ValorIs.HasValue) yield return Linha("IS", ValorIs);
+            if (ValorIpi.HasValue) yield return Linha("IPI", ValorIpi);
+        }
+
+        private static String Linha(String tributo, double? valor, String sufixo = "") => $"{tributo} {valor.Formatar()}{sufixo}";
+
         public ProdutoViewModel()
         {
             AliquotaIpi = null;
