@@ -105,16 +105,18 @@ namespace DanfeSharp.Blocos
         {
             var retrato = ViewModel.IsRetrato;
 
+            // As três colunas de tributos levam dois tributos por linha ("ICMS 1.000,00 / IBS/CBS 1.000,00"): a largura
+            // vem delas, e a descrição fica com o restante, como no modelo de referência da NT.
             Tabela
-                .ComColuna(retrato ? 7F : 6F, ac, "CÓDIGO", "PRODUTO")
+                .ComColuna(retrato ? 6F : 5F, ac, "CÓDIGO", "PRODUTO")
                 .ComColuna(0, ae, "DESCRIÇÃO DO PRODUTO / SERVIÇO")
-                .ComColuna(retrato ? 5.5F : 4.5F, ac, cabecalhoCst, "CFOP")
-                .ComColuna(retrato ? 6F : 5F, ad, "QTD.", "UN")
-                .ComColuna(retrato ? 7F : 6F, ad, "VALOR", "UNIT.")
-                .ComColuna(retrato ? 7F : 6F, ad, "VALOR", "TOTAL")
-                .ComColuna(retrato ? 13F : 11F, ad, "BASES DE", "CÁLCULO")
-                .ComColuna(retrato ? 11F : 9F, ad, "ALÍQUOTAS")
-                .ComColuna(retrato ? 13F : 11F, ad, "VALOR DOS", "TRIBUTOS");
+                .ComColuna(retrato ? 4.5F : 3.5F, ac, cabecalhoCst, "CFOP")
+                .ComColuna(retrato ? 5.5F : 4.5F, ad, "QTD.", "UN")
+                .ComColuna(retrato ? 6F : 5F, ad, "VALOR", "UNIT.")
+                .ComColuna(retrato ? 6.5F : 5.5F, ad, "VALOR", "TOTAL")
+                .ComColuna(retrato ? 18F : 14F, ad, "BASES DE", "CÁLCULO")
+                .ComColuna(retrato ? 16F : 12.5F, ad, "ALÍQUOTAS")
+                .ComColuna(retrato ? 18F : 14F, ad, "VALOR DOS", "TRIBUTOS");
 
             Tabela.AjustarLarguraColunas();
 

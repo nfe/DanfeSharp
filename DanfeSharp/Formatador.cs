@@ -221,7 +221,7 @@ namespace DanfeSharp
             switch (crt?.Trim())
             {
                 case "1": return "1 - SIMPLES NACIONAL";
-                case "2": return "2 - SIMPLES NACIONAL - EXCESSO DE SUBLIMITE";
+                case "2": return "2 - SIMPLES NACIONAL - EXC. SUBLIMITE";
                 case "3": return "3 - REGIME NORMAL";
                 case "4": return "4 - SIMPLES NACIONAL - MEI";
                 default: return crt;

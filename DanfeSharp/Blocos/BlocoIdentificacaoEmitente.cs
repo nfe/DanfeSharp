@@ -55,8 +55,14 @@ namespace DanfeSharp.Blocos
 
             linhaInscricoes
                 .ComCampo("Inscrição Estadual do Subst. Tributário", ViewModel.Emitente.IeSt, AlinhamentoHorizontal.Centro)
-                .ComCampo("Cnpj", Formatador.FormatarCnpj(ViewModel.Emitente.CnpjCpf), AlinhamentoHorizontal.Centro)
-                .ComLargurasIguais();
+                .ComCampo("Cnpj", Formatador.FormatarCnpj(ViewModel.Emitente.CnpjCpf), AlinhamentoHorizontal.Centro);
+
+            // Com o CRT são 4 campos: larguras pelo tamanho do rótulo/conteúdo, para o rótulo da IE ST não invadir
+            // o do CNPJ e o "2 - SIMPLES NACIONAL - EXC. SUBLIMITE" caber sem ficar abaixo da fonte mínima.
+            if (ViewModel.ExibirReformaTributaria)
+                linhaInscricoes.ComLarguras(18F, 30F, 28F, 0);
+            else
+                linhaInscricoes.ComLargurasIguais();
 
         }
 

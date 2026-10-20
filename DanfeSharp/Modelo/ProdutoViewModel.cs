@@ -228,37 +228,44 @@ namespace DanfeSharp.Modelo
             }
         }
 
+        /// <summary>O item tem o grupo ICMS (Nota de Crédito/Débito do RTC pode vir só com IBS/CBS).</summary>
+        public Boolean PossuiIcms => !String.IsNullOrEmpty(Cst) || !String.IsNullOrEmpty(Csosn);
+
         /// <summary>
-        /// Linhas "tributo valor" das colunas de base, alíquota e valor do leiaute da Reforma Tributária. Só
-        /// entra o tributo com informação no XML: a NT 2026.010 (item 4.4) veda imprimir informação inexistente.
+        /// Linhas das colunas de base, alíquota e valor do leiaute da Reforma Tributária. Só entra o tributo com
+        /// informação no XML — a NT 2026.010 (4.4) veda imprimir informação inexistente — e os tributos vão aos
+        /// pares por linha, como no modelo de referência ("ICMS…% / CBS…%"), para a nota com muitos itens não
+        /// ganhar páginas (item 3 da NT).
         /// </summary>
-        public IEnumerable<String> LinhasBases()
-        {
-            yield return Linha("ICMS", BaseIcms);
-            if (BaseIcmsST.HasValue && BaseIcmsST.Value > 0) yield return Linha("ICMS ST", BaseIcmsST);
-            if (BaseIbsCbs.HasValue) yield return Linha("IBS/CBS", BaseIbsCbs);
-            if (BaseIs.HasValue) yield return Linha("IS", BaseIs);
-            if (BaseIpi.HasValue) yield return Linha("IPI", BaseIpi);
-        }
+        public IEnumerable<String> LinhasBases() => EmPares(
+            PossuiIcms ? Linha("ICMS", BaseIcms) : null,
+            BaseIcmsST > 0 ? Linha("ICMS ST", BaseIcmsST) : null,
+            BaseIbsCbs.HasValue ? Linha("IBS/CBS", BaseIbsCbs) : null,
+            BaseIs.HasValue ? Linha("IS", BaseIs) : null,
+            BaseIpi.HasValue ? Linha("IPI", BaseIpi) : null);
 
-        public IEnumerable<String> LinhasAliquotas()
-        {
-            yield return Linha("ICMS", AliquotaIcms, "%");
-            if (AliquotaIbsUf.HasValue) yield return Linha("IBS UF", AliquotaIbsUf, "%");
-            if (AliquotaIbsMun.HasValue) yield return Linha("IBS MUN", AliquotaIbsMun, "%");
-            if (AliquotaCbs.HasValue) yield return Linha("CBS", AliquotaCbs, "%");
-            if (AliquotaIs.HasValue) yield return Linha("IS", AliquotaIs, "%");
-            if (AliquotaIpi.HasValue) yield return Linha("IPI", AliquotaIpi, "%");
-        }
+        public IEnumerable<String> LinhasAliquotas() => EmPares(
+            PossuiIcms ? Linha("ICMS", AliquotaIcms, "%") : null,
+            AliquotaCbs.HasValue ? Linha("CBS", AliquotaCbs, "%") : null,
+            AliquotaIbsUf.HasValue ? Linha("IBS UF", AliquotaIbsUf, "%") : null,
+            AliquotaIpi.HasValue ? Linha("IPI", AliquotaIpi, "%") : null,
+            AliquotaIbsMun.HasValue ? Linha("IBS MUN", AliquotaIbsMun, "%") : null,
+            AliquotaIs.HasValue ? Linha("IS", AliquotaIs, "%") : null);
 
-        public IEnumerable<String> LinhasValores()
+        public IEnumerable<String> LinhasValores() => EmPares(
+            PossuiIcms ? Linha("ICMS", ValorIcms) : null,
+            ValorCbs.HasValue ? Linha("CBS", ValorCbs) : null,
+            ValorIbsUf.HasValue ? Linha("IBS UF", ValorIbsUf) : null,
+            ValorIpi.HasValue ? Linha("IPI", ValorIpi) : null,
+            ValorIbsMun.HasValue ? Linha("IBS MUN", ValorIbsMun) : null,
+            ValorIs.HasValue ? Linha("IS", ValorIs) : null);
+
+        // Ordem do modelo da NT: (ICMS, CBS), (IBS UF, IPI), (IBS MUN, IS); os ausentes saem e os pares se fecham.
+        private static IEnumerable<String> EmPares(params String[] itens)
         {
-            yield return Linha("ICMS", ValorIcms);
-            if (ValorIbsUf.HasValue) yield return Linha("IBS UF", ValorIbsUf);
-            if (ValorIbsMun.HasValue) yield return Linha("IBS MUN", ValorIbsMun);
-            if (ValorCbs.HasValue) yield return Linha("CBS", ValorCbs);
-            if (ValorIs.HasValue) yield return Linha("IS", ValorIs);
-            if (ValorIpi.HasValue) yield return Linha("IPI", ValorIpi);
+            var presentes = itens.Where(i => i != null).ToList();
+            for (var i = 0; i < presentes.Count; i += 2)
+                yield return i + 1 < presentes.Count ? presentes[i] + " / " + presentes[i + 1] : presentes[i];
         }
 
         private static String Linha(String tributo, double? valor, String sufixo = "") => $"{tributo} {valor.Formatar()}{sufixo}";

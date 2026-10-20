@@ -493,8 +493,15 @@ namespace DanfeSharp.Modelo
         /// continua no leiaute anterior.
         /// </summary>
         public Boolean ExibirReformaTributaria =>
-            (CalculoImposto != null && CalculoImposto.PossuiTotaisReformaTributaria)
-            || (Produtos != null && Produtos.Any(p => p.PossuiReformaTributaria));
+            DataHoraEmissao >= InicioLeiauteReformaTributaria
+            && ((CalculoImposto != null && CalculoImposto.PossuiTotaisReformaTributaria)
+                || (Produtos != null && Produtos.Any(p => p.PossuiReformaTributaria)));
+
+        /// <summary>
+        /// Implantação em produção da NT 2026.010 (01/12/2026). Pela data de emissão: a nota emitida antes segue
+        /// no leiaute em que foi emitida, inclusive quando o DANFE é regerado depois, e o deploy não antecipa o leiaute.
+        /// </summary>
+        public static readonly DateTime InicioLeiauteReformaTributaria = new DateTime(2026, 12, 1);
         public Boolean IsPaisagem => Orientacao == Orientacao.Paisagem;
     }
 }

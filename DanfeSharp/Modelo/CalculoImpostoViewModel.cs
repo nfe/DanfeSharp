@@ -155,8 +155,15 @@
         public bool PossuiTotaisReformaTributaria =>
             ValorCbs.HasValue || ValorIbsUf.HasValue || ValorIbsMun.HasValue || ValorIs.HasValue || PossuiMonofasia;
 
-        /// <summary>A nota tem o grupo de monofasia nos totais (gMono, W57).</summary>
+        /// <summary>
+        /// A nota tem tributação monofásica nos totais. Valor maior que zero, e não só a presença do gMono: o
+        /// emissor sai com o gMono zerado em toda nota com IBS/CBS, e a NT 2026.010 (4.4) condiciona a
+        /// exibição à existência da informação.
+        /// </summary>
         public bool PossuiMonofasia =>
-            ValorIbsMono.HasValue || ValorCbsMono.HasValue || ValorIbsMonoReten.HasValue || ValorCbsMonoReten.HasValue;
+            ValorIbsMono > 0 || ValorCbsMono > 0 || PossuiMonofasiaRetencao;
+
+        /// <summary>Há tributação monofásica sujeita a retenção (vIBSMonoReten/vCBSMonoReten maior que zero).</summary>
+        public bool PossuiMonofasiaRetencao => ValorIbsMonoReten > 0 || ValorCbsMonoReten > 0;
     }
 }

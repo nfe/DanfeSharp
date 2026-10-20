@@ -21,12 +21,18 @@ namespace DanfeSharp.Blocos
 
             if (m.PossuiMonofasia)
             {
-                AdicionarLinhaCampos()
+                var linha = AdicionarLinhaCampos()
                     .ComCampoNumerico("Valor do IBS Monofásico", m.ValorIbsMono)
-                    .ComCampoNumerico("Valor da CBS Monofásica", m.ValorCbsMono)
-                    .ComCampoNumerico("Valor do IBS Monofásico por Retenção", m.ValorIbsMonoReten)
-                    .ComCampoNumerico("Valor da CBS Monofásica por Retenção", m.ValorCbsMonoReten)
-                    .ComLargurasIguais();
+                    .ComCampoNumerico("Valor da CBS Monofásica", m.ValorCbsMono);
+
+                // NT 2026.010 (4.4): os valores por retenção só quando houver tributação monofásica sujeita a retenção.
+                if (m.PossuiMonofasiaRetencao)
+                {
+                    linha.ComCampoNumerico("Valor do IBS Monofásico por Retenção", m.ValorIbsMonoReten)
+                        .ComCampoNumerico("Valor da CBS Monofásica por Retenção", m.ValorCbsMonoReten);
+                }
+
+                linha.ComLargurasIguais();
             }
         }
 
