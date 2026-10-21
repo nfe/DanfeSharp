@@ -14,9 +14,9 @@ namespace DanfeSharp.Blocos
 
             AdicionarLinhaCampos()
                 .ComCampoNumerico("Valor da CBS", m.ValorCbs)
-                .ComCampoNumerico("Valor do IBS UF", m.ValorIbsUf)
+                .ComCampoNumerico("Valor do IBS UF", m.ValorIbsUF)
                 .ComCampoNumerico("Valor do IBS Município", m.ValorIbsMun)
-                .ComCampoNumerico("Valor do Imposto Seletivo", m.ValorIs)
+                .ComCampoNumerico("Valor do Imposto Seletivo", m.ValorIS)
                 .ComLargurasIguais();
 
             if (m.PossuiMonofasia)

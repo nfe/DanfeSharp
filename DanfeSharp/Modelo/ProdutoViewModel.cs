@@ -173,7 +173,7 @@ namespace DanfeSharp.Modelo
         /// </summary>
         public double? BaseIpi { get; set; }
 
-        // ---- Reforma Tributária (NT 2026.010, item 4.3) ----
+        #region Reforma Tributária (NT 2026.010, item 4.3)
 
         /// <summary>Código de Classificação Tributária do IBS/CBS (cClassTrib, UB14).</summary>
         public String ClassificacaoTributaria { get; set; }
@@ -182,10 +182,10 @@ namespace DanfeSharp.Modelo
         public double? BaseIbsCbs { get; set; }
 
         /// <summary>Alíquota do IBS UF impressa: a efetiva (gRed/pAliqEfet) quando houver redução; senão pIBSUF.</summary>
-        public double? AliquotaIbsUf { get; set; }
+        public double? AliquotaIbsUF { get; set; }
 
         /// <summary>Valor do IBS UF (vIBSUF, UB35).</summary>
-        public double? ValorIbsUf { get; set; }
+        public double? ValorIbsUF { get; set; }
 
         /// <summary>Alíquota do IBS Município impressa: a efetiva quando houver redução; senão pIBSMun.</summary>
         public double? AliquotaIbsMun { get; set; }
@@ -200,75 +200,22 @@ namespace DanfeSharp.Modelo
         public double? ValorCbs { get; set; }
 
         /// <summary>Base de cálculo do Imposto Seletivo (vBCIS, UB05).</summary>
-        public double? BaseIs { get; set; }
+        public double? BaseIS { get; set; }
 
         /// <summary>Alíquota do Imposto Seletivo (pIS, UB06).</summary>
-        public double? AliquotaIs { get; set; }
+        public double? AliquotaIS { get; set; }
 
         /// <summary>Valor do Imposto Seletivo (vIS, UB11).</summary>
-        public double? ValorIs { get; set; }
+        public double? ValorIS { get; set; }
 
         /// <summary>O item tem informação da Reforma Tributária para o DANFE (IBS/CBS ou IS).</summary>
         public Boolean PossuiReformaTributaria =>
-            !String.IsNullOrWhiteSpace(ClassificacaoTributaria) || BaseIbsCbs.HasValue || BaseIs.HasValue || ValorIs.HasValue;
-
-        /// <summary>
-        /// Descrição do item no leiaute da Reforma Tributária: a descrição completa seguida de NCM e
-        /// cClassTrib (modelo de referência da NT 2026.010).
-        /// </summary>
-        public String DescricaoReformaTributaria
-        {
-            get
-            {
-                var marcadores = new List<String>();
-                if (!String.IsNullOrWhiteSpace(Ncm)) marcadores.Add($"[NCM {Ncm}]");
-                if (!String.IsNullOrWhiteSpace(ClassificacaoTributaria)) marcadores.Add($"[cClassTrib {ClassificacaoTributaria}]");
-
-                return marcadores.Count == 0 ? DescricaoCompleta : DescricaoCompleta + "\r\n" + String.Join(" ", marcadores);
-            }
-        }
+            !String.IsNullOrWhiteSpace(ClassificacaoTributaria) || BaseIbsCbs.HasValue || BaseIS.HasValue || ValorIS.HasValue;
 
         /// <summary>O item tem o grupo ICMS (Nota de Crédito/Débito do RTC pode vir só com IBS/CBS).</summary>
         public Boolean PossuiIcms => !String.IsNullOrEmpty(Cst) || !String.IsNullOrEmpty(Csosn);
 
-        /// <summary>
-        /// Linhas das colunas de base, alíquota e valor do leiaute da Reforma Tributária. Só entra o tributo com
-        /// informação no XML — a NT 2026.010 (4.4) veda imprimir informação inexistente — e os tributos vão aos
-        /// pares por linha, como no modelo de referência ("ICMS…% / CBS…%"), para a nota com muitos itens não
-        /// ganhar páginas (item 3 da NT).
-        /// </summary>
-        public IEnumerable<String> LinhasBases() => EmPares(
-            PossuiIcms ? Linha("ICMS", BaseIcms) : null,
-            BaseIcmsST > 0 ? Linha("ICMS ST", BaseIcmsST) : null,
-            BaseIbsCbs.HasValue ? Linha("IBS/CBS", BaseIbsCbs) : null,
-            BaseIs.HasValue ? Linha("IS", BaseIs) : null,
-            BaseIpi.HasValue ? Linha("IPI", BaseIpi) : null);
-
-        public IEnumerable<String> LinhasAliquotas() => EmPares(
-            PossuiIcms ? Linha("ICMS", AliquotaIcms, "%") : null,
-            AliquotaCbs.HasValue ? Linha("CBS", AliquotaCbs, "%") : null,
-            AliquotaIbsUf.HasValue ? Linha("IBS UF", AliquotaIbsUf, "%") : null,
-            AliquotaIpi.HasValue ? Linha("IPI", AliquotaIpi, "%") : null,
-            AliquotaIbsMun.HasValue ? Linha("IBS MUN", AliquotaIbsMun, "%") : null,
-            AliquotaIs.HasValue ? Linha("IS", AliquotaIs, "%") : null);
-
-        public IEnumerable<String> LinhasValores() => EmPares(
-            PossuiIcms ? Linha("ICMS", ValorIcms) : null,
-            ValorCbs.HasValue ? Linha("CBS", ValorCbs) : null,
-            ValorIbsUf.HasValue ? Linha("IBS UF", ValorIbsUf) : null,
-            ValorIpi.HasValue ? Linha("IPI", ValorIpi) : null,
-            ValorIbsMun.HasValue ? Linha("IBS MUN", ValorIbsMun) : null,
-            ValorIs.HasValue ? Linha("IS", ValorIs) : null);
-
-        // Ordem do modelo da NT: (ICMS, CBS), (IBS UF, IPI), (IBS MUN, IS); os ausentes saem e os pares se fecham.
-        private static IEnumerable<String> EmPares(params String[] itens)
-        {
-            var presentes = itens.Where(i => i != null).ToList();
-            for (var i = 0; i < presentes.Count; i += 2)
-                yield return i + 1 < presentes.Count ? presentes[i] + " / " + presentes[i + 1] : presentes[i];
-        }
-
-        private static String Linha(String tributo, double? valor, String sufixo = "") => $"{tributo} {valor.Formatar()}{sufixo}";
+        #endregion
 
         public ProdutoViewModel()
         {

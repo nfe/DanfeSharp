@@ -24,7 +24,7 @@ namespace DanfeSharp.Blocos
             Tabela = new Tabela(Estilo);
             String cabecalho4 = ProdutoViewModel.CalcularCabecalhoColunaIcms(ViewModel.Produtos);
 
-            if (ViewModel.ExibirReformaTributaria)
+            if (ViewModel.UsarLeiauteReformaTributaria)
             {
                 AdicionarColunasReformaTributaria(cabecalho4, ac, ad, ae);
                 return;
@@ -99,7 +99,7 @@ namespace DanfeSharp.Blocos
         /// <summary>
         /// Quadro "Dados dos Produtos/Serviços" no leiaute da Reforma Tributária (NT 2026.010, item 4.3, modelo de
         /// referência): NCM e cClassTrib na descrição, CST e CFOP numa célula, e as colunas de bases, alíquotas e
-        /// valores com uma linha por tributo informado no XML (ICMS, IBS UF, IBS Município, CBS, IS, IPI).
+        /// valores com dois tributos informados no XML por linha (ICMS, IBS UF, IBS Município, CBS, IS, IPI).
         /// </summary>
         private void AdicionarColunasReformaTributaria(String cabecalhoCst, AlinhamentoHorizontal ac, AlinhamentoHorizontal ad, AlinhamentoHorizontal ae)
         {
@@ -125,14 +125,15 @@ namespace DanfeSharp.Blocos
                 Tabela.AdicionarLinha(new List<String>
                 {
                     p.Codigo,
-                    p.DescricaoReformaTributaria,
-                    p.OCst + "\r\n" + p.Cfop.Formatar("N0"),
+                    LinhasTributosReformaTributaria.Descricao(p),
+                    // CFOP é código: sem separador de milhar (o leiaute anterior ainda usa "N0", fora deste escopo).
+                    p.OCst + "\r\n" + p.Cfop.Formatar("0"),
                     p.Quantidade.Formatar() + "\r\n" + p.Unidade,
                     p.ValorUnitario.Formatar(),
                     p.ValorTotal.Formatar(),
-                    String.Join("\r\n", p.LinhasBases()),
-                    String.Join("\r\n", p.LinhasAliquotas()),
-                    String.Join("\r\n", p.LinhasValores())
+                    String.Join("\r\n", LinhasTributosReformaTributaria.Bases(p)),
+                    String.Join("\r\n", LinhasTributosReformaTributaria.Aliquotas(p)),
+                    String.Join("\r\n", LinhasTributosReformaTributaria.Valores(p))
                 });
             }
         }

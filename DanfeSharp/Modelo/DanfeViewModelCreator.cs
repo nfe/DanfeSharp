@@ -227,62 +227,6 @@ namespace DanfeSharp.Modelo
             }
         }
 
-        /// <summary>
-        /// IBS/CBS e IS do item para o DANFE (NT 2026.010, item 4.3). A alíquota impressa é a efetiva
-        /// (gRed/pAliqEfet) quando o grupo de redução existe — redução de alíquota ou compra governamental —
-        /// e a vigente (pIBSUF/pIBSMun/pCBS) caso contrário.
-        /// </summary>
-        internal static void MapearReformaTributaria(ProdutoViewModel produto, ProdutoImposto imposto)
-        {
-            var ibsCbs = imposto?.IBSCBS;
-            if (ibsCbs != null)
-            {
-                produto.ClassificacaoTributaria = String.IsNullOrWhiteSpace(ibsCbs.cClassTrib) ? null : ibsCbs.cClassTrib;
-
-                var g = ibsCbs.gIBSCBS;
-                if (g != null)
-                {
-                    produto.BaseIbsCbs = g.vBC;
-                    produto.AliquotaIbsUf = g.gIBSUF?.gRed?.pAliqEfet ?? g.gIBSUF?.pIBSUF;
-                    produto.ValorIbsUf = g.gIBSUF?.vIBSUF;
-                    produto.AliquotaIbsMun = g.gIBSMun?.gRed?.pAliqEfet ?? g.gIBSMun?.pIBSMun;
-                    produto.ValorIbsMun = g.gIBSMun?.vIBSMun;
-                    produto.AliquotaCbs = g.gCBS?.gRed?.pAliqEfet ?? g.gCBS?.pCBS;
-                    produto.ValorCbs = g.gCBS?.vCBS;
-                }
-            }
-
-            var impostoSeletivo = imposto?.IS;
-            if (impostoSeletivo != null)
-            {
-                produto.BaseIs = impostoSeletivo.vBCIS;
-                produto.AliquotaIs = impostoSeletivo.pIS;
-                produto.ValorIs = impostoSeletivo.vIS;
-            }
-        }
-
-        /// <summary>Totais do bloco "Total do IBS/CBS/IS" (NT 2026.010, item 4.1).</summary>
-        internal static void MapearTotaisReformaTributaria(CalculoImpostoViewModel calculo, Total total)
-        {
-            var ibsCbs = total?.IBSCBSTot;
-            if (ibsCbs != null)
-            {
-                calculo.ValorCbs = ibsCbs.gCBS?.vCBS;
-                calculo.ValorIbsUf = ibsCbs.gIBS?.gIBSUF?.vIBSUF;
-                calculo.ValorIbsMun = ibsCbs.gIBS?.gIBSMun?.vIBSMun;
-
-                if (ibsCbs.gMono != null)
-                {
-                    calculo.ValorIbsMono = ibsCbs.gMono.vIBSMono;
-                    calculo.ValorCbsMono = ibsCbs.gMono.vCBSMono;
-                    calculo.ValorIbsMonoReten = ibsCbs.gMono.vIBSMonoReten;
-                    calculo.ValorCbsMonoReten = ibsCbs.gMono.vCBSMonoReten;
-                }
-            }
-
-            calculo.ValorIs = total?.ISTot?.vIS;
-        }
-
         internal static CalculoImpostoViewModel CriarCalculoImpostoViewModel(ICMSTotal i)
         {
             return new CalculoImpostoViewModel()
@@ -574,7 +518,7 @@ namespace DanfeSharp.Modelo
                         }
                     }
 
-                    MapearReformaTributaria(produto, imposto);
+                    ReformaTributariaViewModelMapper.Mapear(produto, imposto);
                 }
 
                 model.Produtos.Add(produto);
@@ -594,7 +538,7 @@ namespace DanfeSharp.Modelo
             }
 
             model.CalculoImposto = CriarCalculoImpostoViewModel(infNfe.total.ICMSTot);
-            MapearTotaisReformaTributaria(model.CalculoImposto, infNfe.total);
+            ReformaTributariaViewModelMapper.MapearTotais(model.CalculoImposto, infNfe.total);
 
             var issqnTotal = infNfe.total.ISSQNtot;
 

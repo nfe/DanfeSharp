@@ -125,19 +125,19 @@
         /// </summary>
         public decimal QuantidadeTotal { get; set; }
 
-        // ---- Bloco "Total do IBS/CBS/IS" (NT 2026.010, item 4.1) ----
+        #region Bloco "Total do IBS/CBS/IS" (NT 2026.010, item 4.1)
 
         /// <summary>Valor da CBS (vCBS, W56).</summary>
         public double? ValorCbs { get; set; }
 
         /// <summary>Valor do IBS UF (vIBSUF, W41).</summary>
-        public double? ValorIbsUf { get; set; }
+        public double? ValorIbsUF { get; set; }
 
         /// <summary>Valor do IBS Município (vIBSMun, W46).</summary>
         public double? ValorIbsMun { get; set; }
 
         /// <summary>Valor do Imposto Seletivo (vIS, W33).</summary>
-        public double? ValorIs { get; set; }
+        public double? ValorIS { get; set; }
 
         /// <summary>Valor do IBS monofásico (vIBSMono, W58). Só com o grupo gMono.</summary>
         public double? ValorIbsMono { get; set; }
@@ -153,7 +153,7 @@
 
         /// <summary>A nota tem totais da Reforma Tributária (IBSCBSTot ou ISTot).</summary>
         public bool PossuiTotaisReformaTributaria =>
-            ValorCbs.HasValue || ValorIbsUf.HasValue || ValorIbsMun.HasValue || ValorIs.HasValue || PossuiMonofasia;
+            ValorCbs.HasValue || ValorIbsUF.HasValue || ValorIbsMun.HasValue || ValorIS.HasValue || PossuiMonofasia;
 
         /// <summary>
         /// A nota tem tributação monofásica nos totais. Valor maior que zero, e não só a presença do gMono: o
@@ -165,5 +165,7 @@
 
         /// <summary>Há tributação monofásica sujeita a retenção (vIBSMonoReten/vCBSMonoReten maior que zero).</summary>
         public bool PossuiMonofasiaRetencao => ValorIbsMonoReten > 0 || ValorCbsMonoReten > 0;
+
+        #endregion
     }
 }

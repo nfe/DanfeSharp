@@ -224,7 +224,7 @@ namespace DanfeSharp
                 case "2": return "2 - SIMPLES NACIONAL - EXC. SUBLIMITE";
                 case "3": return "3 - REGIME NORMAL";
                 case "4": return "4 - SIMPLES NACIONAL - MEI";
-                default: return crt;
+                default: return crt?.Trim();
             }
         }
 

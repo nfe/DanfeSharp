@@ -337,7 +337,8 @@ namespace DanfeSharp.Esquemas.NFe
     }
 
     /// <summary>
-    /// Imposto Seletivo do item (TIS). Só os campos impressos no DANFE (NT 2026.010, item 4.3).
+    /// Imposto Seletivo do item (TIS): os campos usados pelo DANFE (NT 2026.010, item 4.3) e a identificação do grupo
+    /// (CSTIS, cClassTribIS).
     /// </summary>
     [Serializable]
     [XmlType(AnonymousType = true, Namespace = Namespaces.NFe)]
@@ -351,8 +352,8 @@ namespace DanfeSharp.Esquemas.NFe
     }
 
     /// <summary>
-    /// IBS e CBS do item (TTribNFe). Só os campos impressos no DANFE (NT 2026.010, item 4.3): o grupo de
-    /// tributação regular (gIBSCBS). Os demais grupos da choice (monofasia, transferência de crédito, ajuste de
+    /// IBS e CBS do item (TTribNFe): os campos usados pelo DANFE (NT 2026.010, item 4.3), a identificação do grupo e
+    /// os totalizadores do grupo de tributação regular (gIBSCBS). Os demais grupos da choice (monofasia, transferência de crédito, ajuste de
     /// competência) não têm base/alíquota por item no DANFE.
     /// </summary>
     [Serializable]
@@ -734,8 +735,8 @@ namespace DanfeSharp.Esquemas.NFe
     }
 
     /// <summary>
-    /// Totais do IBS e da CBS (TIBSCBSMonoTot). Só os campos do bloco "Total do IBS/CBS/IS" do DANFE
-    /// (NT 2026.010, item 4.1).
+    /// Totais do IBS e da CBS (TIBSCBSMonoTot): os campos do bloco "Total do IBS/CBS/IS" do DANFE (NT 2026.010,
+    /// item 4.1) e os totalizadores dos grupos (vBCIBSCBS, vIBS).
     /// </summary>
     [Serializable]
     [XmlType(AnonymousType = true, Namespace = Namespaces.NFe)]

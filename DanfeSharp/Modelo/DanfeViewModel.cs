@@ -1,7 +1,6 @@
 ﻿using DanfeSharp.Esquemas.NFe;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -488,20 +487,12 @@ namespace DanfeSharp.Modelo
         public Boolean IsRetrato => Orientacao == Orientacao.Retrato;
 
         /// <summary>
-        /// Leiaute da Reforma Tributária (NT 2026.010): bloco "Total do IBS/CBS/IS", CRT no quadro do emitente e
-        /// tributos do IBS/CBS/IS nos itens. Só para a nota que tem essa informação — a nota sem IBS/CBS/IS
-        /// continua no leiaute anterior.
+        /// Usa o leiaute da Reforma Tributária (NT 2026.010): bloco "Total do IBS/CBS/IS", CRT no quadro do emitente
+        /// e tributos do IBS/CBS/IS nos itens. Decisão do consumidor (vigência da NT no fuso da UF, regra de negócio);
+        /// a biblioteca só renderiza. Padrão: leiaute anterior.
         /// </summary>
-        public Boolean ExibirReformaTributaria =>
-            DataHoraEmissao >= InicioLeiauteReformaTributaria
-            && ((CalculoImposto != null && CalculoImposto.PossuiTotaisReformaTributaria)
-                || (Produtos != null && Produtos.Any(p => p.PossuiReformaTributaria)));
+        public Boolean UsarLeiauteReformaTributaria { get; set; }
 
-        /// <summary>
-        /// Implantação em produção da NT 2026.010 (01/12/2026). Pela data de emissão: a nota emitida antes segue
-        /// no leiaute em que foi emitida, inclusive quando o DANFE é regerado depois, e o deploy não antecipa o leiaute.
-        /// </summary>
-        public static readonly DateTime InicioLeiauteReformaTributaria = new DateTime(2026, 12, 1);
         public Boolean IsPaisagem => Orientacao == Orientacao.Paisagem;
     }
 }
