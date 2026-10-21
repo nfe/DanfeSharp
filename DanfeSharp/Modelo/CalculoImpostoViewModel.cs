@@ -124,5 +124,48 @@
         /// <para>Quantidade total de produtos distintos</para>
         /// </summary>
         public decimal QuantidadeTotal { get; set; }
+
+        #region Bloco "Total do IBS/CBS/IS" (NT 2026.010, item 4.1)
+
+        /// <summary>Valor da CBS (vCBS, W56).</summary>
+        public double? ValorCbs { get; set; }
+
+        /// <summary>Valor do IBS UF (vIBSUF, W41).</summary>
+        public double? ValorIbsUF { get; set; }
+
+        /// <summary>Valor do IBS Município (vIBSMun, W46).</summary>
+        public double? ValorIbsMun { get; set; }
+
+        /// <summary>Valor do Imposto Seletivo (vIS, W33).</summary>
+        public double? ValorIS { get; set; }
+
+        /// <summary>Valor do IBS monofásico (vIBSMono, W58). Só com o grupo gMono.</summary>
+        public double? ValorIbsMono { get; set; }
+
+        /// <summary>Valor da CBS monofásica (vCBSMono, W59). Só com o grupo gMono.</summary>
+        public double? ValorCbsMono { get; set; }
+
+        /// <summary>Valor do IBS monofásico por retenção (vIBSMonoReten, W59a). Só com o grupo gMono.</summary>
+        public double? ValorIbsMonoReten { get; set; }
+
+        /// <summary>Valor da CBS monofásica por retenção (vCBSMonoReten, W59b). Só com o grupo gMono.</summary>
+        public double? ValorCbsMonoReten { get; set; }
+
+        /// <summary>A nota tem totais da Reforma Tributária (IBSCBSTot ou ISTot).</summary>
+        public bool PossuiTotaisReformaTributaria =>
+            ValorCbs.HasValue || ValorIbsUF.HasValue || ValorIbsMun.HasValue || ValorIS.HasValue || PossuiMonofasia;
+
+        /// <summary>
+        /// A nota tem tributação monofásica nos totais. Valor maior que zero, e não só a presença do gMono: o
+        /// emissor sai com o gMono zerado em toda nota com IBS/CBS, e a NT 2026.010 (4.4) condiciona a
+        /// exibição à existência da informação.
+        /// </summary>
+        public bool PossuiMonofasia =>
+            ValorIbsMono > 0 || ValorCbsMono > 0 || PossuiMonofasiaRetencao;
+
+        /// <summary>Há tributação monofásica sujeita a retenção (vIBSMonoReten/vCBSMonoReten maior que zero).</summary>
+        public bool PossuiMonofasiaRetencao => ValorIbsMonoReten > 0 || ValorCbsMonoReten > 0;
+
+        #endregion
     }
 }

@@ -514,8 +514,11 @@ namespace DanfeSharp.Modelo
                         {
                             produto.ValorIpi = ipi.vIPI;
                             produto.AliquotaIpi = ipi.pIPI;
+                            produto.BaseIpi = ipi.vBC;
                         }
                     }
+
+                    ReformaTributariaViewModelMapper.Mapear(produto, imposto);
                 }
 
                 model.Produtos.Add(produto);
@@ -535,6 +538,7 @@ namespace DanfeSharp.Modelo
             }
 
             model.CalculoImposto = CriarCalculoImpostoViewModel(infNfe.total.ICMSTot);
+            ReformaTributariaViewModelMapper.MapearTotais(model.CalculoImposto, infNfe.total);
 
             var issqnTotal = infNfe.total.ISSQNtot;
 

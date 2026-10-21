@@ -167,6 +167,56 @@ namespace DanfeSharp.Modelo
         /// </summary>
         public int? NumeroItemReferenciado { get; set; }
 
+        /// <summary>
+        /// <para>Base de cálculo do IPI</para>
+        /// <para>Tag IPITrib/vBC</para>
+        /// </summary>
+        public double? BaseIpi { get; set; }
+
+        #region Reforma Tributária (NT 2026.010, item 4.3)
+
+        /// <summary>Código de Classificação Tributária do IBS/CBS (cClassTrib, UB14).</summary>
+        public String ClassificacaoTributaria { get; set; }
+
+        /// <summary>Base de cálculo do IBS/CBS (gIBSCBS/vBC, UB16).</summary>
+        public double? BaseIbsCbs { get; set; }
+
+        /// <summary>Alíquota do IBS UF impressa: a efetiva (gRed/pAliqEfet) quando houver redução; senão pIBSUF.</summary>
+        public double? AliquotaIbsUF { get; set; }
+
+        /// <summary>Valor do IBS UF (vIBSUF, UB35).</summary>
+        public double? ValorIbsUF { get; set; }
+
+        /// <summary>Alíquota do IBS Município impressa: a efetiva quando houver redução; senão pIBSMun.</summary>
+        public double? AliquotaIbsMun { get; set; }
+
+        /// <summary>Valor do IBS Município (vIBSMun, UB54).</summary>
+        public double? ValorIbsMun { get; set; }
+
+        /// <summary>Alíquota da CBS impressa: a efetiva quando houver redução; senão pCBS.</summary>
+        public double? AliquotaCbs { get; set; }
+
+        /// <summary>Valor da CBS (vCBS, UB67).</summary>
+        public double? ValorCbs { get; set; }
+
+        /// <summary>Base de cálculo do Imposto Seletivo (vBCIS, UB05).</summary>
+        public double? BaseIS { get; set; }
+
+        /// <summary>Alíquota do Imposto Seletivo (pIS, UB06).</summary>
+        public double? AliquotaIS { get; set; }
+
+        /// <summary>Valor do Imposto Seletivo (vIS, UB11).</summary>
+        public double? ValorIS { get; set; }
+
+        /// <summary>O item tem informação da Reforma Tributária para o DANFE (IBS/CBS ou IS).</summary>
+        public Boolean PossuiReformaTributaria =>
+            !String.IsNullOrWhiteSpace(ClassificacaoTributaria) || BaseIbsCbs.HasValue || BaseIS.HasValue || ValorIS.HasValue;
+
+        /// <summary>O item tem o grupo ICMS (Nota de Crédito/Débito do RTC pode vir só com IBS/CBS).</summary>
+        public Boolean PossuiIcms => !String.IsNullOrEmpty(Cst) || !String.IsNullOrEmpty(Csosn);
+
+        #endregion
+
         public ProdutoViewModel()
         {
             AliquotaIpi = null;

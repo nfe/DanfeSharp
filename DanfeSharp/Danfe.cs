@@ -72,6 +72,11 @@ namespace DanfeSharp
                 AdicionarBloco<BlocoFormaPagamento>();
 
             AdicionarBloco<BlocoCalculoImposto>(ViewModel.Orientacao == Orientacao.Paisagem ? EstiloPadrao : CriarEstilo(4.75F));
+
+            // NT 2026.010 (item 4.1): "Total do IBS/CBS/IS" logo após o bloco do ICMS/IPI, só na nota com RTC.
+            if (ViewModel.UsarLeiauteReformaTributaria)
+                AdicionarBloco<BlocoCalculoIbsCbsIs>(ViewModel.Orientacao == Orientacao.Paisagem ? EstiloPadrao : CriarEstilo(4.75F));
+
             AdicionarBloco<BlocoTransportador>();
             AdicionarBloco<BlocoDadosAdicionais>(CriarEstilo(tFonteCampoConteudo: 8));
 

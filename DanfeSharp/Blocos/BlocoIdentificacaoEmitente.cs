@@ -45,11 +45,24 @@ namespace DanfeSharp.Blocos
                 .ComCampo("Protocolo de autorização", ViewModel.ProtocoloAutorizacao, AlinhamentoHorizontal.Centro)
                 .ComLarguras(0, 46.5F);
 
-            AdicionarLinhaCampos()
-                .ComCampo("Inscrição Estadual", ViewModel.Emitente.Ie, AlinhamentoHorizontal.Centro)
+            var linhaInscricoes = AdicionarLinhaCampos()
+                .ComCampo("Inscrição Estadual", ViewModel.Emitente.Ie, AlinhamentoHorizontal.Centro);
+
+            // NT 2026.010 (item 4.2): Código do Regime Tributário no quadro do emitente. O "Tipo de Regime de
+            // Apuração do IBS e da CBS" ainda não tem tag publicada: campo reservado, não impresso (item 4.4).
+            if (ViewModel.UsarLeiauteReformaTributaria)
+                linhaInscricoes.ComCampo("Código do Regime Tributário", Formatador.FormatarCrt(ViewModel.Emitente.CRT), AlinhamentoHorizontal.Centro);
+
+            linhaInscricoes
                 .ComCampo("Inscrição Estadual do Subst. Tributário", ViewModel.Emitente.IeSt, AlinhamentoHorizontal.Centro)
-                .ComCampo("Cnpj", Formatador.FormatarCnpj(ViewModel.Emitente.CnpjCpf), AlinhamentoHorizontal.Centro)
-                .ComLargurasIguais();
+                .ComCampo("Cnpj", Formatador.FormatarCnpj(ViewModel.Emitente.CnpjCpf), AlinhamentoHorizontal.Centro);
+
+            // Com o CRT são 4 campos: larguras pelo tamanho do rótulo/conteúdo, para o rótulo da IE ST não invadir
+            // o do CNPJ e o "2 - SIMPLES NACIONAL - EXC. SUBLIMITE" caber sem ficar abaixo da fonte mínima.
+            if (ViewModel.UsarLeiauteReformaTributaria)
+                linhaInscricoes.ComLarguras(18F, 30F, 28F, 0);
+            else
+                linhaInscricoes.ComLargurasIguais();
 
         }
 
