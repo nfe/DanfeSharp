@@ -638,6 +638,10 @@ namespace DanfeSharp.Modelo
                 }
             }
 
+            // QR Code do grupo ZX, quando o XML o traz: impresso só no leiaute da Reforma Tributária (NT 2026.010,
+            // itens 4.4 e 4.5).
+            model.QrCode = nfe.infNFeSupl?.qrCode;
+
             return model;
         }
 
