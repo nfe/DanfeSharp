@@ -1,10 +1,9 @@
-using DanfeSharp.Modelo;
+﻿using DanfeSharp.Modelo;
 using org.pdfclown.documents;
 using org.pdfclown.documents.contents.composition;
 using System;
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
+using org.pdfclown.documents.contents.xObjects;
 
 namespace DanfeSharp.Blocos.SimplificadoTipo2
 {
@@ -20,29 +19,16 @@ namespace DanfeSharp.Blocos.SimplificadoTipo2
         // centralização na largura de 280 pt.
         private const float TamanhoQrCode = 120;
 
-        private static readonly ImageCodecInfo JpegEncoder = ObterJpegEncoder();
-
-        private static Bitmap GerarQrCodeOuFalhar(string qrCode)
+        private static XObject GerarQrCodeOuFalhar(string qrCode, Document context)
         {
             try
             {
-                return GerarQrCode.GerarQRCode(qrCode);
+                return GerarQrCode.GerarXObject(qrCode, context);
             }
             catch (Exception ex)
             {
                 throw new InvalidOperationException("Falha ao gerar o QR Code da Divisão V a partir do conteúdo de DanfeViewModel.QrCode.", ex);
             }
-        }
-
-        private static ImageCodecInfo ObterJpegEncoder()
-        {
-            foreach (var codec in ImageCodecInfo.GetImageEncoders())
-            {
-                if (codec.FormatID == ImageFormat.Jpeg.Guid)
-                    return codec;
-            }
-
-            return null;
         }
 
         public BlocoQrCodeT2(DanfeViewModel viewModel, Estilo estilo, PrimitiveComposer primitiveComposer, float y, Document context) : base(estilo)
@@ -60,20 +46,8 @@ namespace DanfeSharp.Blocos.SimplificadoTipo2
             primitiveComposer.ShowText("CONSULTA VIA LEITOR DE QR CODE", new PointF(140, Y_NFC), XAlignmentEnum.Center, YAlignmentEnum.Top, 0);
             Y_NFC += 10;
 
-            using (var result = new MemoryStream())
-            {                
-                using (var bitmap = GerarQrCodeOuFalhar(viewModel.QrCode))
-                using (var encoderParams = new EncoderParameters(1))
-                {
-                    encoderParams.Param[0] = new EncoderParameter(Encoder.Quality, 100L);
-                    bitmap.Save(result, JpegEncoder, encoderParams);
-                }
-                result.Position = 0;
-
-                var image = org.pdfclown.documents.contents.entities.Image.Get(result);
-                var imageXObject = image.ToXObject(context);
-                primitiveComposer.ShowXObject(imageXObject, new PointF(140, Y_NFC), new SizeF(TamanhoQrCode, TamanhoQrCode), XAlignmentEnum.Center, YAlignmentEnum.Top, 0);
-            }
+            var imageXObject = GerarQrCodeOuFalhar(viewModel.QrCode, context);
+            primitiveComposer.ShowXObject(imageXObject, new PointF(140, Y_NFC), new SizeF(TamanhoQrCode, TamanhoQrCode), XAlignmentEnum.Center, YAlignmentEnum.Top, 0);
 
             Y_NFC += TamanhoQrCode + 10;
 

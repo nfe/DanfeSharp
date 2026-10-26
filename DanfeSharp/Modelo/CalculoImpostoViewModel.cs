@@ -125,6 +125,32 @@
         /// </summary>
         public decimal QuantidadeTotal { get; set; }
 
+        #region Linhas condicionadas do "Total do ICMS/IPI" (NT 2026.010, item 4.4)
+
+        /// <summary>Valor total do FCP retido por ST (vFCPST, W06a).</summary>
+        public double? ValorFcpSt { get; set; }
+
+        /// <summary>Quantidade tributada do ICMS monofásico próprio (qBCMono, W06b.1).</summary>
+        public double? QuantidadeBcIcmsMono { get; set; }
+
+        /// <summary>Valor total do ICMS monofásico próprio (vICMSMono, W06c).</summary>
+        public double? ValorIcmsMono { get; set; }
+
+        /// <summary>Quantidade tributada do ICMS monofásico sujeito a retenção (qBCMonoReten, W06c.1).</summary>
+        public double? QuantidadeBcIcmsMonoReten { get; set; }
+
+        /// <summary>Valor total do ICMS monofásico sujeito a retenção (vICMSMonoReten, W06d).</summary>
+        public double? ValorIcmsMonoReten { get; set; }
+
+        /// <summary>A nota tem FCP, FCP-ST ou DIFAL a exibir (valor maior que zero).</summary>
+        public bool PossuiFcpOuDifal =>
+            ValorFcp > 0 || ValorFcpSt > 0 || vICMSUFDest > 0 || vFCPUFDest > 0;
+
+        /// <summary>A nota tem ICMS monofásico a exibir (valor maior que zero).</summary>
+        public bool PossuiIcmsMonofasico => ValorIcmsMono > 0 || ValorIcmsMonoReten > 0;
+
+        #endregion
+
         #region Bloco "Total do IBS/CBS/IS" (NT 2026.010, item 4.1)
 
         /// <summary>Valor da CBS (vCBS, W56).</summary>

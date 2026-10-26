@@ -642,6 +642,24 @@ namespace DanfeSharp.Esquemas.NFe
         /// </summary>
         public double vST { get; set; }
 
+        /// <summary>Valor total do FCP da UF de destino (vFCPUFDest, W04c).</summary>
+        public double? vFCPUFDest { get; set; }
+
+        /// <summary>Valor total do FCP retido por substituição tributária (vFCPST, W06a).</summary>
+        public double? vFCPST { get; set; }
+
+        /// <summary>Quantidade tributada do ICMS monofásico próprio (qBCMono, W06b.1).</summary>
+        public double? qBCMono { get; set; }
+
+        /// <summary>Valor total do ICMS monofásico próprio (vICMSMono, W06c).</summary>
+        public double? vICMSMono { get; set; }
+
+        /// <summary>Quantidade tributada do ICMS monofásico sujeito a retenção (qBCMonoReten, W06c.1).</summary>
+        public double? qBCMonoReten { get; set; }
+
+        /// <summary>Valor total do ICMS monofásico sujeito a retenção (vICMSMonoReten, W06d).</summary>
+        public double? vICMSMonoReten { get; set; }
+
         /// <summary>
         /// Valor Total dos produtos e serviços
         /// </summary>
