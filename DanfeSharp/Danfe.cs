@@ -17,6 +17,7 @@ namespace DanfeSharp
 
         internal BlocoCanhoto Canhoto { get; private set; }
         internal BlocoIdentificacaoEmitente IdentificacaoEmitente { get; private set; }
+        internal BlocoDadosAdicionais DadosAdicionais { get; private set; }
         internal List<BlocoEventoBase> Blocos { get; private set; }
 
         internal List<BlocoBase> _Blocos;
@@ -71,9 +72,24 @@ namespace DanfeSharp
             if (ViewModel.Pagamento != null && ViewModel.Pagamento.Any(p => p.DetalhePagamento != null && p.DetalhePagamento.Count > 0))
                 AdicionarBloco<BlocoFormaPagamento>();
 
-            AdicionarBloco<BlocoCalculoImposto>(ViewModel.Orientacao == Orientacao.Paisagem ? EstiloPadrao : CriarEstilo(4.75F));
+            var estiloTotais = ViewModel.Orientacao == Orientacao.Paisagem ? EstiloPadrao : CriarEstilo(4.75F);
+
+            // NT 2026.010: no leiaute da Reforma Tributária, os totais seguem o modelo de referência ("Total dos
+            // Produtos e Total da Nota", "Total do ICMS/IPI") e o "Total do IBS/CBS/IS" vem logo após o do ICMS/IPI
+            // (item 4.1).
+            if (ViewModel.UsarLeiauteReformaTributaria)
+            {
+                AdicionarBloco<BlocoTotaisNota>(estiloTotais);
+                AdicionarBloco<BlocoTotalIcmsIpi>(estiloTotais);
+                AdicionarBloco<BlocoCalculoIbsCbsIs>(estiloTotais);
+            }
+            else
+            {
+                AdicionarBloco<BlocoCalculoImposto>(estiloTotais);
+            }
+
             AdicionarBloco<BlocoTransportador>();
-            AdicionarBloco<BlocoDadosAdicionais>(CriarEstilo(tFonteCampoConteudo: 8));
+            DadosAdicionais = AdicionarBloco<BlocoDadosAdicionais>(CriarEstilo(tFonteCampoConteudo: 8));
 
             if(ViewModel.CalculoIssqn.Mostrar)
                 AdicionarBloco<BlocoCalculoIssqn>();
@@ -122,6 +138,18 @@ namespace DanfeSharp
             }
         }
 
+        /// <summary>
+        /// QR Code do leiaute da Reforma Tributária (NT 2026.010, itens 4.4 e 4.5): exibido só quando o XML traz o
+        /// infNFeSupl/qrCode. O leiaute atual não imprime QR Code.
+        /// </summary>
+        private org.pdfclown.documents.contents.xObjects.XObject CriarQrCode()
+        {
+            if (!ViewModel.UsarLeiauteReformaTributaria || String.IsNullOrWhiteSpace(ViewModel.QrCode))
+                return null;
+
+            return GerarQrCode.GerarXObject(ViewModel.QrCode, PdfDocument);
+        }
+
         private void AdicionarMetadata()
         {
             var info = PdfDocument.Information;
@@ -142,6 +170,7 @@ namespace DanfeSharp
             if (_FoiGerado) throw new InvalidOperationException("O Danfe já foi gerado.");
 
             IdentificacaoEmitente.Logo = _LogoObject;
+            DadosAdicionais.QrCode = CriarQrCode();
             var tabela = new TabelaProdutosServicos(ViewModel, EstiloPadrao);
 
             int paginasSemEspacoConsecutivas = 0;

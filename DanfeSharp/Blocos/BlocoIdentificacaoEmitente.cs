@@ -51,6 +51,15 @@ namespace DanfeSharp.Blocos
                 .ComCampo("Cnpj", Formatador.FormatarCnpj(ViewModel.Emitente.CnpjCpf), AlinhamentoHorizontal.Centro)
                 .ComLargurasIguais();
 
+            // NT 2026.010 (item 4.2): linha própria com o Código do Regime Tributário e a área reservada do "Tipo de
+            // Regime de Apuração do IBS e da CBS". Essa tag ainda não foi publicada: o campo sai vazio (item 4.4).
+            if (ViewModel.UsarLeiauteReformaTributaria)
+            {
+                AdicionarLinhaCampos()
+                    .ComCampo("Código do Regime Tributário", Formatador.FormatarCrt(ViewModel.Emitente.CRT))
+                    .ComCampo("Tipo de Regime de Apuração do IBS e da CBS", null)
+                    .ComLarguras(45F, 0);
+            }
         }
 
         public XObject Logo

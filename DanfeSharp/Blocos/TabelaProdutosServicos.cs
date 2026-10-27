@@ -24,6 +24,12 @@ namespace DanfeSharp.Blocos
             Tabela = new Tabela(Estilo);
             String cabecalho4 = ProdutoViewModel.CalcularCabecalhoColunaIcms(ViewModel.Produtos);
 
+            if (ViewModel.UsarLeiauteReformaTributaria)
+            {
+                AdicionarColunasReformaTributaria(cabecalho4, ac, ad, ae);
+                return;
+            }
+
             if (ViewModel.IsRetrato)
             { 
                 Tabela
@@ -87,6 +93,48 @@ namespace DanfeSharp.Blocos
                 };
 
                 Tabela.AdicionarLinha(linha);
+            }
+        }
+
+        /// <summary>
+        /// Quadro "Dados dos Produtos/Serviços" no leiaute da Reforma Tributária (NT 2026.010, item 4.3, modelo de
+        /// referência): NCM e cClassTrib na descrição, CST e CFOP numa célula, e as colunas de bases, alíquotas e
+        /// valores com dois tributos informados no XML por linha (ICMS, IBS UF, IBS Município, CBS, IS, IPI).
+        /// </summary>
+        private void AdicionarColunasReformaTributaria(String cabecalhoCst, AlinhamentoHorizontal ac, AlinhamentoHorizontal ad, AlinhamentoHorizontal ae)
+        {
+            var retrato = ViewModel.IsRetrato;
+
+            // As três colunas de tributos levam dois tributos por linha ("ICMS 1.000,00 / IBS/CBS 1.000,00"): a largura
+            // vem delas, e a descrição fica com o restante, como no modelo de referência da NT.
+            Tabela
+                .ComColuna(retrato ? 6F : 5F, ac, "CÓDIGO", "PRODUTO")
+                .ComColuna(0, ae, "DESCRIÇÃO DO PRODUTO / SERVIÇO")
+                .ComColuna(retrato ? 4.5F : 3.5F, ac, cabecalhoCst, "CFOP")
+                .ComColuna(retrato ? 5.5F : 4.5F, ad, "QTD.", "UN")
+                .ComColuna(retrato ? 6F : 5F, ad, "VALOR", "UNIT.")
+                .ComColuna(retrato ? 6.5F : 5.5F, ad, "VALOR", "TOTAL")
+                .ComColuna(retrato ? 18F : 14F, ad, "BASES DE", "CÁLCULO")
+                .ComColuna(retrato ? 16F : 12.5F, ad, "ALÍQUOTAS")
+                .ComColuna(retrato ? 18F : 14F, ad, "VALOR DOS", "TRIBUTOS");
+
+            Tabela.AjustarLarguraColunas();
+
+            foreach (var p in ViewModel.Produtos)
+            {
+                Tabela.AdicionarLinha(new List<String>
+                {
+                    p.Codigo,
+                    LinhasTributosReformaTributaria.Descricao(p),
+                    // CFOP é código: sem separador de milhar (o leiaute anterior ainda usa "N0", fora deste escopo).
+                    p.OCst + "\r\n" + p.Cfop.Formatar("0"),
+                    p.Quantidade.Formatar() + "\r\n" + p.Unidade,
+                    p.ValorUnitario.Formatar(),
+                    p.ValorTotal.Formatar(),
+                    String.Join("\r\n", LinhasTributosReformaTributaria.Bases(p)),
+                    String.Join("\r\n", LinhasTributosReformaTributaria.Aliquotas(p)),
+                    String.Join("\r\n", LinhasTributosReformaTributaria.Valores(p))
+                });
             }
         }
 

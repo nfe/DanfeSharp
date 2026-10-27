@@ -248,7 +248,13 @@ namespace DanfeSharp.Modelo
                 ValorTotalNota = i.vNF,
                 ValorFcp = i.vFCP,
                 vICMSUFDest = i.vICMSUFDest,
-                vICMSUFRemet = i.vICMSUFRemet
+                vICMSUFRemet = i.vICMSUFRemet,
+                vFCPUFDest = (decimal?)i.vFCPUFDest,
+                ValorFcpSt = i.vFCPST,
+                QuantidadeBcIcmsMono = i.qBCMono,
+                ValorIcmsMono = i.vICMSMono,
+                QuantidadeBcIcmsMonoReten = i.qBCMonoReten,
+                ValorIcmsMonoReten = i.vICMSMonoReten
             };
         }
 
@@ -514,8 +520,11 @@ namespace DanfeSharp.Modelo
                         {
                             produto.ValorIpi = ipi.vIPI;
                             produto.AliquotaIpi = ipi.pIPI;
+                            produto.BaseIpi = ipi.vBC;
                         }
                     }
+
+                    ReformaTributariaViewModelMapper.Mapear(produto, imposto);
                 }
 
                 model.Produtos.Add(produto);
@@ -535,6 +544,7 @@ namespace DanfeSharp.Modelo
             }
 
             model.CalculoImposto = CriarCalculoImpostoViewModel(infNfe.total.ICMSTot);
+            ReformaTributariaViewModelMapper.MapearTotais(model.CalculoImposto, infNfe.total);
 
             var issqnTotal = infNfe.total.ISSQNtot;
 
@@ -627,6 +637,10 @@ namespace DanfeSharp.Modelo
                     model.Pagamento.Add(pagamento);
                 }
             }
+
+            // QR Code do grupo ZX, quando o XML o traz: impresso só no leiaute da Reforma Tributária (NT 2026.010,
+            // itens 4.4 e 4.5).
+            model.QrCode = nfe.infNFeSupl?.qrCode;
 
             return model;
         }

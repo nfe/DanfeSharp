@@ -124,5 +124,74 @@
         /// <para>Quantidade total de produtos distintos</para>
         /// </summary>
         public decimal QuantidadeTotal { get; set; }
+
+        #region Linhas condicionadas do "Total do ICMS/IPI" (NT 2026.010, item 4.4)
+
+        /// <summary>Valor total do FCP retido por ST (vFCPST, W06a).</summary>
+        public double? ValorFcpSt { get; set; }
+
+        /// <summary>Quantidade tributada do ICMS monofásico próprio (qBCMono, W06b.1).</summary>
+        public double? QuantidadeBcIcmsMono { get; set; }
+
+        /// <summary>Valor total do ICMS monofásico próprio (vICMSMono, W06c).</summary>
+        public double? ValorIcmsMono { get; set; }
+
+        /// <summary>Quantidade tributada do ICMS monofásico sujeito a retenção (qBCMonoReten, W06c.1).</summary>
+        public double? QuantidadeBcIcmsMonoReten { get; set; }
+
+        /// <summary>Valor total do ICMS monofásico sujeito a retenção (vICMSMonoReten, W06d).</summary>
+        public double? ValorIcmsMonoReten { get; set; }
+
+        /// <summary>A nota tem FCP, FCP-ST ou DIFAL a exibir (valor maior que zero).</summary>
+        public bool PossuiFcpOuDifal =>
+            ValorFcp > 0 || ValorFcpSt > 0 || vICMSUFDest > 0 || vFCPUFDest > 0;
+
+        /// <summary>A nota tem ICMS monofásico a exibir (valor maior que zero).</summary>
+        public bool PossuiIcmsMonofasico => ValorIcmsMono > 0 || ValorIcmsMonoReten > 0;
+
+        #endregion
+
+        #region Bloco "Total do IBS/CBS/IS" (NT 2026.010, item 4.1)
+
+        /// <summary>Valor da CBS (vCBS, W56).</summary>
+        public double? ValorCbs { get; set; }
+
+        /// <summary>Valor do IBS UF (vIBSUF, W41).</summary>
+        public double? ValorIbsUF { get; set; }
+
+        /// <summary>Valor do IBS Município (vIBSMun, W46).</summary>
+        public double? ValorIbsMun { get; set; }
+
+        /// <summary>Valor do Imposto Seletivo (vIS, W33).</summary>
+        public double? ValorIS { get; set; }
+
+        /// <summary>Valor do IBS monofásico (vIBSMono, W58). Só com o grupo gMono.</summary>
+        public double? ValorIbsMono { get; set; }
+
+        /// <summary>Valor da CBS monofásica (vCBSMono, W59). Só com o grupo gMono.</summary>
+        public double? ValorCbsMono { get; set; }
+
+        /// <summary>Valor do IBS monofásico por retenção (vIBSMonoReten, W59a). Só com o grupo gMono.</summary>
+        public double? ValorIbsMonoReten { get; set; }
+
+        /// <summary>Valor da CBS monofásica por retenção (vCBSMonoReten, W59b). Só com o grupo gMono.</summary>
+        public double? ValorCbsMonoReten { get; set; }
+
+        /// <summary>A nota tem totais da Reforma Tributária (IBSCBSTot ou ISTot).</summary>
+        public bool PossuiTotaisReformaTributaria =>
+            ValorCbs.HasValue || ValorIbsUF.HasValue || ValorIbsMun.HasValue || ValorIS.HasValue || PossuiMonofasia;
+
+        /// <summary>
+        /// A nota tem tributação monofásica nos totais. Valor maior que zero, e não só a presença do gMono: o
+        /// emissor sai com o gMono zerado em toda nota com IBS/CBS, e a NT 2026.010 (4.4) condiciona a
+        /// exibição à existência da informação.
+        /// </summary>
+        public bool PossuiMonofasia =>
+            ValorIbsMono > 0 || ValorCbsMono > 0 || PossuiMonofasiaRetencao;
+
+        /// <summary>Há tributação monofásica sujeita a retenção (vIBSMonoReten/vCBSMonoReten maior que zero).</summary>
+        public bool PossuiMonofasiaRetencao => ValorIbsMonoReten > 0 || ValorCbsMonoReten > 0;
+
+        #endregion
     }
 }

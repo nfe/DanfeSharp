@@ -485,6 +485,14 @@ namespace DanfeSharp.Modelo
         }
 
         public Boolean IsRetrato => Orientacao == Orientacao.Retrato;
+
+        /// <summary>
+        /// Usa o leiaute da Reforma Tributária (NT 2026.010): bloco "Total do IBS/CBS/IS", CRT no quadro do emitente
+        /// e tributos do IBS/CBS/IS nos itens. Decisão do consumidor (vigência da NT no fuso da UF, regra de negócio);
+        /// a biblioteca só renderiza. Padrão: leiaute anterior.
+        /// </summary>
+        public Boolean UsarLeiauteReformaTributaria { get; set; }
+
         public Boolean IsPaisagem => Orientacao == Orientacao.Paisagem;
     }
 }

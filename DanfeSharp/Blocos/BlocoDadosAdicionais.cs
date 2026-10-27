@@ -13,6 +13,11 @@ namespace DanfeSharp.Blocos
         private Campo _cReservadoFisco;
         public const float InfComplementaresLarguraPorcentagem = 75;
 
+        /// <summary>Altura mínima com o QR Code, para ele sair com pelo menos 25 mm de lado.</summary>
+        public const float AlturaMinimaComQrCode = 30;
+
+        private readonly QuadroQrCode _cQrCode;
+
         public BlocoDadosAdicionais(DanfeViewModel viewModel, Estilo estilo) : base(viewModel, estilo)
         {
             _cInfComplementares = new CampoMultilinha("Informações Complementares", ViewModel.TextoAdicional(), estilo);
@@ -20,8 +25,19 @@ namespace DanfeSharp.Blocos
 
             _Linha = new FlexibleLine() { Height = _cInfComplementares.Height }
             .ComElemento(_cInfComplementares)
-            .ComElemento(_cReservadoFisco)
-            .ComLarguras(InfComplementaresLarguraPorcentagem, 0);
+            .ComElemento(_cReservadoFisco);
+
+            // NT 2026.010 (itens 4.4 e 4.5): quadro do QR Code ao lado dos dados adicionais, só no leiaute da
+            // Reforma Tributária e com o qrCode no XML.
+            if (ViewModel.UsarLeiauteReformaTributaria && !String.IsNullOrWhiteSpace(ViewModel.QrCode))
+            {
+                _cQrCode = new QuadroQrCode(estilo);
+                _Linha.ComElemento(_cQrCode).ComLarguras(60, 0, 15);
+            }
+            else
+            {
+                _Linha.ComLarguras(InfComplementaresLarguraPorcentagem, 0);
+            }
                         
             MainVerticalStack.Add(_Linha);           
         }
@@ -37,9 +53,19 @@ namespace DanfeSharp.Blocos
                 {
                     _Linha.Width = value;
                     _Linha.Posicionar();
-                    _cInfComplementares.Height = AlturaMinima;
+                    _cInfComplementares.Height = _cQrCode == null ? AlturaMinima : AlturaMinimaComQrCode;
                     _Linha.Height = _cInfComplementares.Height;
                 }
+            }
+        }
+
+        /// <summary>QR Code já convertido para o PDF; atribuído pelo <see cref="Danfe" /> antes de gerar.</summary>
+        public org.pdfclown.documents.contents.xObjects.XObject QrCode
+        {
+            set
+            {
+                if (_cQrCode != null)
+                    _cQrCode.QrCode = value;
             }
         }
 

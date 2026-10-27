@@ -212,6 +212,22 @@ namespace DanfeSharp
 
         public static string FormatarNumeroNF(string numero) => InternalRegexReplace(numero, FormatoNumeroNF, "$1.$2.$3");
 
+        /// <summary>
+        /// Código do Regime Tributário (CRT, C21) com a descrição, como no modelo da NT 2026.010 ("3 - REGIME NORMAL").
+        /// Código desconhecido sai como veio, sem descrição inventada.
+        /// </summary>
+        public static String FormatarCrt(String crt)
+        {
+            switch (crt?.Trim())
+            {
+                case "1": return "1 - SIMPLES NACIONAL";
+                case "2": return "2 - SIMPLES NACIONAL - EXC. SUBLIMITE";
+                case "3": return "3 - REGIME NORMAL";
+                case "4": return "4 - SIMPLES NACIONAL - MEI";
+                default: return crt?.Trim();
+            }
+        }
+
         public static String Formatar(this Double number, String formato = FormatoMoeda)
         {
             return number.ToString(formato, Cultura);
