@@ -148,6 +148,41 @@ namespace DanfeSharp.Test
             Assert.IsTrue(string.IsNullOrEmpty(detPag.xPag));
         }
 
+        // === tPag 23, 24 e 91 (Informe Técnico 2024.002 v1.11) ===
+
+        [DataTestMethod]
+        [DataRow("23", 23, "Pagamento Instantâneo (PIX) automático", DisplayName = "tPag 23 - PIX automático")]
+        [DataRow("24", 24, "TEF Book Transfer", DisplayName = "tPag 24 - TEF Book Transfer")]
+        [DataRow("91", 91, "Pagamento Posterior", DisplayName = "tPag 91 - Pagamento Posterior")]
+        public void Schema_XmlComTPagNovo_DeserializaEDescreve(string tPag, int valor, string descricao)
+        {
+            // Antes, o XmlSerializer lançava InvalidOperationException para esses tPag
+            // e o DANFE inteiro deixava de ser gerado.
+            var xml = @"<?xml version='1.0'?>
+                <detPag>
+                    <tPag>" + tPag + @"</tPag>
+                    <vPag>100.00</vPag>
+                </detPag>";
+
+            var detPag = DeserializarDetPag(xml);
+
+            Assert.AreEqual(valor, (int)detPag.tPag);
+            Assert.AreEqual(descricao, ((FormaPagamentoVm)detPag.tPag).FormaPagamentoToString());
+        }
+
+        [TestMethod]
+        public void Enums_ViewModelESchema_TemOsMesmosValores()
+        {
+            // DanfeViewModelCreator converte um enum no outro por cast; um valor que
+            // exista só no schema vira um número sem descrição no DANFE.
+            var vm = System.Linq.Enumerable.Cast<int>(System.Enum.GetValues(typeof(FormaPagamentoVm)));
+            var schema = System.Linq.Enumerable.Cast<int>(System.Enum.GetValues(typeof(FormaPagamentoSchema)));
+
+            CollectionAssert.AreEquivalent(
+                System.Linq.Enumerable.ToList(schema),
+                System.Linq.Enumerable.ToList(vm));
+        }
+
         // === DetalheViewModel.Descricao ===
 
         [TestMethod]
