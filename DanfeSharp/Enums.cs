@@ -173,11 +173,30 @@ namespace DanfeSharp
         [XmlEnum("22")] fpPagamentoEletronicoNaoInformado = 22,
 
         /// <summary>
+        /// 23 - Pagamento Instantâneo (PIX) automático (Informe Técnico 2024.002 v1.11)
+        /// </summary>
+        [Description("Pagamento Instantâneo (PIX) automático")]
+        [XmlEnum("23")] fpPagamentoInstantaneoPIXAutomatico = 23,
+
+        /// <summary>
+        /// 24 - TEF "Book Transfer" (Informe Técnico 2024.002 v1.11)
+        /// </summary>
+        [Description("TEF Book Transfer")]
+        [XmlEnum("24")] fpTefBookTransfer = 24,
+
+        /// <summary>
         /// 90 - Sem pagamento
         /// </summary>
         [Description("Sem pagamento")]
         [XmlEnum("90")]
         fpSemPagamento = 90,
+
+        /// <summary>
+        /// 91 - Pagamento Posterior
+        /// </summary>
+        [Description("Pagamento Posterior")]
+        [XmlEnum("91")]
+        fpPagamentoPosterior = 91,
 
         /// <summary>
         /// 99 - Outros
