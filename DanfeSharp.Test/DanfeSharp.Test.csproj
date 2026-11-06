@@ -59,6 +59,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Barcode128CTests.cs" />
     <Compile Include="DanfeXmlTests.cs" />
     <Compile Include="Extentions.cs" />
     <Compile Include="FabricaFake.cs" />
