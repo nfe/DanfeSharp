@@ -3,8 +3,6 @@ using org.pdfclown.documents;
 using org.pdfclown.documents.contents.composition;
 using System;
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
 
 namespace DanfeSharp.Blocos.NFC
 {
@@ -14,17 +12,12 @@ namespace DanfeSharp.Blocos.NFC
         {
             Y_NFC = y + 10;
 
-            var result = new MemoryStream();
             primitiveComposer.BeginLocalState();
             primitiveComposer.SetFont(estilo.FonteCampoConteudo.FonteInterna, estilo.FonteCampoConteudo.Tamanho);
             primitiveComposer.ShowText("CONSULTA VIA LEITOR DE QR CODE", new PointF(140, Y_NFC), XAlignmentEnum.Center, YAlignmentEnum.Top, 0);
             Y_NFC += 10;
 
-            var bitmap = GerarQrCode.GerarQRCode(viewModel.QrCode);
-            bitmap.Save(result, ImageFormat.Jpeg);
-            result.Position = 0;
-            org.pdfclown.documents.contents.entities.Image image = org.pdfclown.documents.contents.entities.Image.Get(result);
-            org.pdfclown.documents.contents.xObjects.XObject imageXObject = image.ToXObject(context);
+            org.pdfclown.documents.contents.xObjects.XObject imageXObject = GerarQrCode.GerarXObject(viewModel.QrCode, context);
             primitiveComposer.ShowXObject(imageXObject, new PointF(140, Y_NFC), new SizeF(150, 150), XAlignmentEnum.Center, YAlignmentEnum.Top, 0);
             Y_NFC += 160;
 
